@@ -1,0 +1,19 @@
+{
+  "name": "liver-cancer-research-assistant-free",
+  "version": "1.0.0",
+  "description": "Educational liver cancer research assistant running entirely on free tiers: Google Gemini, PubMed, ClinicalTrials.gov, Render.",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "express-rate-limit": "^7.4.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "license": "MIT"
+}
