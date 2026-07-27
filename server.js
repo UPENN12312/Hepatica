@@ -458,7 +458,7 @@ app.get("/api/health", (req, res) => {
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Liver Cancer Research Assistant (free stack) on port ${PORT}`);
+  console.log(`Hepatica (liver cancer research assistant) running on port ${PORT}`);
   console.log(`Model: ${GEMINI_MODEL}`);
   if (!GEMINI_KEY) console.warn("WARNING: GEMINI_API_KEY not set — chat will fail.");
 });
