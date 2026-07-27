@@ -341,6 +341,53 @@
   .colophon p:last-child { margin-bottom: 0; }
   .colophon em { font-style: italic; }
 
+  /* ---------- Toolbar ---------- */
+  .toolbar {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+  }
+  .tool {
+    font-family: var(--sans);
+    font-size: 12.5px;
+    font-weight: 500;
+    color: var(--ink-mid);
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 7px;
+    padding: 7px 12px;
+    cursor: pointer;
+    transition: border-color .18s ease, color .18s ease;
+  }
+  .tool:hover { border-color: var(--anchor); color: var(--anchor); }
+  .tool:focus-visible { outline: 2px solid var(--anchor); outline-offset: 2px; }
+  .tool[hidden] { display: none; }
+  .saved-note { font-size: 12px; color: var(--ink-soft); font-family: var(--sans); }
+
+  /* ---------- Citation markers ---------- */
+  .ref {
+    display: inline-block;
+    font-family: var(--sans);
+    font-size: 10.5px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    color: var(--anchor);
+    background: var(--anchor-wash);
+    border-radius: 4px;
+    padding: 1px 5px;
+    margin: 0 1px;
+    vertical-align: 1px;
+    text-decoration: none;
+  }
+  .ref:hover { background: var(--anchor); color: var(--surface); }
+
+  .cite:target, .cite.flash {
+    background: var(--anchor-wash);
+    border-radius: 6px;
+  }
+
   @media (max-width: 560px) {
     .page { padding: 0 17px 80px; }
     .masthead { padding-top: 38px; }
@@ -390,6 +437,12 @@
     general terms where you can.
   </div>
 
+  <div class="toolbar">
+    <button class="tool" type="button" id="paste-report">Paste a report or lab result</button>
+    <button class="tool" type="button" id="clear-saved" hidden>Clear saved conversation</button>
+    <span class="saved-note" id="saved-note"></span>
+  </div>
+
   <div class="starters" id="starters">
     <div class="section-label">Somewhere to start</div>
     <div class="slips">
@@ -417,9 +470,14 @@
     <p>Research is pulled live from PubMed (National Library of Medicine) and ClinicalTrials.gov
     each time you ask. Answers are written by Google Gemini and can be wrong — check anything
     that matters against the linked source or with a clinician.</p>
-    <p>Nothing is saved on the server. This conversation lives only in your browser and
-    disappears when you close the tab. The site runs on free infrastructure, so there is a
-    limit on how many questions it can answer each day.</p>
+    <p>Nothing is sent to or stored on this server. Your conversation is saved only in this
+    browser, on this device, so you can come back to it — clear it any time with the button at
+    the top. The site runs on free infrastructure, so there is a limit on how many questions it
+    can answer each day.</p>
+
+    <p>Population statistics come from the NCI SEER Program and the American Cancer Society.
+    Survival figures describe large groups of people diagnosed years ago and cannot predict any
+    individual outcome.</p>
     <p>Named for <em>Hepatica</em>, a woodland flower that blooms before anything else in spring.
     Its leaves were once thought to resemble the liver.</p>
   </footer>
@@ -433,6 +491,7 @@
   const sendBtn  = document.getElementById("send");
   const starters = document.getElementById("starters");
   let history = [];
+  let turns = [];
   let busy = false;
 
   function escapeHtml(s) {
@@ -481,6 +540,7 @@
       .replace(/(^|[\s(])\*([^*\n]+)\*(?=[\s.,;:!?)]|$)/g, "$1<em>$2</em>")
       .replace(/`([^`]+)`/g, "<code>$1</code>")
       .replace(/(https?:\/\/[^\s)<]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>')
+      .replace(/\[(\d{1,2})\]/g, '<a class="ref" href="#src-$1" data-ref="$1">$1</a>')
       .replace(/\*/g, "");
   }
 
@@ -512,6 +572,7 @@
       sources.forEach((s, i) => {
         const row = document.createElement("div");
         row.className = "cite";
+        row.id = "src-" + (i + 1);
         const meta = s.type === "trial"
           ? "Clinical trial" + (s.phase && s.phase !== "N/A" ? " · " + escapeHtml(s.phase) : "")
           : [s.journal, s.pubdate].filter(Boolean).map(escapeHtml).join(" · ");
@@ -559,6 +620,9 @@
         history.push({ role: "user", content: question });
         history.push({ role: "assistant", content: data.reply });
         if (history.length > 8) history = history.slice(-8);
+        turns.push({ q: question, a: data.reply, sources: data.sources || [] });
+        if (turns.length > 30) turns = turns.slice(-30);
+        save();
       }
     } catch (err) {
       renderFailure(pending, "Couldn't reach the server. Check your connection and try again.");
@@ -569,10 +633,93 @@
     input.focus();
   }
 
+  /* ---------- Saving to this device ---------- */
+
+  const STORE_KEY = "hepatica.conversation.v1";
+  const clearBtn  = document.getElementById("clear-saved");
+  const savedNote = document.getElementById("saved-note");
+
+  function save() {
+    try {
+      localStorage.setItem(STORE_KEY, JSON.stringify({
+        savedAt: Date.now(),
+        turns: turns
+      }));
+      reflectSavedState();
+    } catch (e) { /* storage may be full or blocked; not fatal */ }
+  }
+
+  function reflectSavedState() {
+    const has = turns.length > 0;
+    clearBtn.hidden = !has;
+    savedNote.textContent = has ? "Saved on this device" : "";
+  }
+
+  function restore() {
+    let raw;
+    try { raw = localStorage.getItem(STORE_KEY); } catch (e) { return; }
+    if (!raw) return;
+    let data;
+    try { data = JSON.parse(raw); } catch (e) { return; }
+    if (!data || !Array.isArray(data.turns) || !data.turns.length) return;
+
+    starters.style.display = "none";
+    for (const t of data.turns) {
+      addQuestion(t.q);
+      const el = document.createElement("section");
+      el.className = "turn";
+      thread.appendChild(el);
+      renderAnswer(el, t.a, t.sources || []);
+      history.push({ role: "user", content: t.q });
+      history.push({ role: "assistant", content: t.a });
+    }
+    turns = data.turns;
+    if (history.length > 8) history = history.slice(-8);
+    reflectSavedState();
+  }
+
+  clearBtn.addEventListener("click", () => {
+    if (!confirm("Clear this saved conversation from this device?")) return;
+    try { localStorage.removeItem(STORE_KEY); } catch (e) {}
+    thread.innerHTML = "";
+    history = [];
+    turns = [];
+    starters.style.display = "";
+    reflectSavedState();
+  });
+
+  /* ---------- Paste a report ---------- */
+
+  document.getElementById("paste-report").addEventListener("click", () => {
+    input.value =
+      "I have a report I don't understand. Please explain what these terms mean, " +
+      "without telling me what my results mean for me:\n\n";
+    input.focus();
+    input.setSelectionRange(input.value.length, input.value.length);
+    resize();
+    input.scrollIntoView({ behavior: "smooth", block: "center" });
+  });
+
+  /* ---------- Citation jumps ---------- */
+
+  thread.addEventListener("click", e => {
+    const ref = e.target.closest(".ref");
+    if (!ref) return;
+    e.preventDefault();
+    const turn = ref.closest(".turn");
+    const target = turn && turn.querySelector("#src-" + ref.dataset.ref);
+    if (!target) return;
+    target.scrollIntoView({ behavior: "smooth", block: "center" });
+    target.classList.add("flash");
+    setTimeout(() => target.classList.remove("flash"), 1400);
+  });
+
   form.addEventListener("submit", e => { e.preventDefault(); ask(input.value.trim()); });
   document.querySelectorAll(".slip").forEach(slip => {
     slip.addEventListener("click", () => ask(slip.textContent.trim()));
   });
+
+  restore();
 
   function resize() {
     input.style.height = "auto";
