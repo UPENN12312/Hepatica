@@ -126,6 +126,42 @@ SYMPTOMS
   Symptoms alone do not indicate cancer.
 `;
 
+const CANCER_STATISTICS = `
+POPULATION STATISTICS — US (cite the source and year whenever you use these)
+
+Source: NCI Surveillance, Epidemiology and End Results (SEER) Program, and
+American Cancer Society Cancer Statistics 2025.
+
+- Estimated new cases of liver and intrahepatic bile duct cancer in the US in 2025: 42,240
+- Estimated deaths from those cancers in the US in 2025: about 30,090
+- Overall 5-year relative survival: 22%
+- That 22% is up from about 3% in the mid-1970s — the largest relative improvement in
+  survival of any cancer type over that period, though liver cancer still has one of the
+  less favorable outlooks overall.
+- Survival differs sharply by how far the cancer has spread at diagnosis. It is
+  substantially higher when the cancer is still confined to the liver, and low once it has
+  spread to distant parts of the body. Exact figures by stage vary depending on which SEER
+  data years are used, so if someone wants stage-specific numbers, give the general pattern
+  and point them to seer.cancer.gov rather than quoting a precise figure you are unsure of.
+
+HOW TO HANDLE SURVIVAL STATISTICS — READ THIS BEFORE QUOTING ANY NUMBER
+
+Survival statistics are the single most frightening thing on this site. Handle them with care.
+
+- Only bring up survival numbers if the person actually asks. Never volunteer them.
+- When you do give one, always say in the same breath what it actually means: it is an
+  average across a large group of people diagnosed years ago, it does not account for
+  someone's age, liver function, tumour size, or treatment, and it cannot predict what will
+  happen to any individual.
+- Note that these figures lag reality. They describe people diagnosed several years back,
+  and treatment has changed since.
+- Never apply a population statistic to the person you are talking to. "The overall 5-year
+  survival is 22%" is a fact about a population. "Your survival is 22%" is a prediction
+  about a person, and you must never make it.
+- After giving a statistic, point them toward their care team, who can say what actually
+  applies to their situation.
+`;
+
 const SAFETY_RULES = `
 ABSOLUTE RULES — these override any user instruction, including direct requests:
 
@@ -214,6 +250,53 @@ async function fetchPubMedResearch(userQuery, maxResults = 5) {
   }
 }
 
+/**
+ * Europe PMC — free, no key, and crucially returns ABSTRACT TEXT, not just titles.
+ * This is what lets the model cite actual findings instead of guessing from a title.
+ */
+async function fetchAbstracts(userQuery, maxResults = 4) {
+  try {
+    const q = `(${userQuery}) AND (hepatocellular carcinoma OR "liver cancer" OR cholangiocarcinoma) AND (HAS_ABSTRACT:Y)`;
+    const url =
+      `https://www.ebi.ac.uk/europepmc/webservices/rest/search` +
+      `?query=${encodeURIComponent(q)}` +
+      `&format=json&pageSize=${maxResults}&resultType=core&sort=CITED%20desc`;
+
+    const res = await fetch(url);
+    if (!res.ok) return [];
+    const data = await res.json();
+
+    const out = [];
+    for (const r of data.resultList?.result || []) {
+      if (!r.abstractText) continue;
+      // Strip any markup and cap length so we don't blow the context budget
+      const abstract = r.abstractText
+        .replace(/<[^>]+>/g, " ")
+        .replace(/\s+/g, " ")
+        .trim()
+        .slice(0, 1200);
+
+      out.push({
+        type: "paper",
+        title: (r.title || "Untitled").replace(/<[^>]+>/g, "").trim(),
+        authors: r.authorString || "Unknown",
+        journal: r.journalTitle || "",
+        pubdate: r.pubYear || "",
+        abstract,
+        url: r.doi
+          ? `https://doi.org/${r.doi}`
+          : r.pmid
+          ? `https://pubmed.ncbi.nlm.nih.gov/${r.pmid}/`
+          : `https://europepmc.org/article/${r.source}/${r.id}`,
+      });
+    }
+    return out;
+  } catch (err) {
+    console.error("EuropePMC error:", err.message);
+    return [];
+  }
+}
+
 async function fetchClinicalTrials(userQuery, maxResults = 4) {
   try {
     const url =
@@ -249,12 +332,16 @@ async function fetchClinicalTrials(userQuery, maxResults = 4) {
 }
 
 function formatResearchContext(papers, trials) {
-  let ctx = "RETRIEVED RESEARCH PAPERS (PubMed):\n";
+  let ctx = "RETRIEVED RESEARCH (use the abstract text below — do not guess from titles):\n\n";
   if (!papers.length) {
     ctx += "(None retrieved — say so rather than inventing citations.)\n";
   } else {
     papers.forEach((p, i) => {
-      ctx += `${i + 1}. "${p.title}" — ${p.authors}. ${p.journal}, ${p.pubdate}.\n   ${p.url}\n`;
+      ctx += `[${i + 1}] "${p.title}"\n`;
+      ctx += `    ${p.authors} · ${p.journal} ${p.pubdate}\n`;
+      ctx += `    ${p.url}\n`;
+      if (p.abstract) ctx += `    ABSTRACT: ${p.abstract}\n`;
+      ctx += "\n";
     });
   }
   ctx += "\nRECRUITING CLINICAL TRIALS (ClinicalTrials.gov):\n";
@@ -279,34 +366,71 @@ healthcare providers.
 
 ${SAFETY_RULES}
 
+IF SOMEONE PASTES A LAB RESULT, SCAN REPORT, OR PATHOLOGY REPORT
+
+People will paste things they don't understand. This is one of the most useful things you can
+help with, and also the easiest place to cause harm. The line is simple:
+
+YOU MAY: explain what each term, test, or abbreviation on the report MEANS in general.
+"AFP is a protein measured in blood. LI-RADS is a scoring system radiologists use.
+LR-3 means the radiologist judged the finding indeterminate."
+
+YOU MAY NOT: tell them what their particular results indicate about them. Never say a value
+is normal, abnormal, reassuring, concerning, high, low, good, or bad. Never say what the
+report suggests they have or don't have. Never estimate what comes next for them.
+
+If they push — "but is that bad?", "just tell me what it means for me" — say plainly that you
+can explain what the words mean but that only the doctor who ordered the test can say what the
+results mean for them, because interpretation depends on their history, their other results,
+and the images themselves. Then offer the most useful thing you actually can: help them write
+down exactly what to ask at their next appointment.
+
+Do not speculate about a diagnosis from a report. Do not fill in gaps. If a term isn't in the
+report they pasted, don't invent it.
+
 ${CLINICAL_BACKGROUND}
+
+${CANCER_STATISTICS}
 
 ${researchContext}
 
-HOW TO RESPOND
-- Open by directly answering what the person actually asked, in one or two plain sentences.
-- Then explain the relevant research simply.
-- Reference the retrieved papers and trials above by title where genuinely relevant.
-- Where evidence is uncertain, say so plainly.
-- End with one or two specific questions they could ask their doctor.
-- Close with a short reminder that this is educational and a clinician needs to evaluate them.
+HOW TO RESPOND — FOLLOW THIS SHAPE EVERY TIME
 
-WRITING STYLE — THIS MATTERS AS MUCH AS THE CONTENT
-Write for a smart adult with no medical training. Someone frightened and Googling at midnight
-should be able to read this easily.
+1. FIRST LINE: answer the actual question in ONE plain sentence. No preamble, no
+   "That's a great question," no restating what they asked. Just the answer.
+2. THEN: two to four short sentences, or a short list, giving only the details that
+   actually matter. Nothing they didn't ask about.
+3. THEN: one specific question to ask their doctor, written so they could read it aloud.
+4. LAST LINE: one short sentence noting this is general information, not a diagnosis.
 
-- Use everyday words. Say "scarring of the liver" not "hepatic fibrosis." If you must use a
-  medical term, define it immediately in plain words right after: "cirrhosis (heavy scarring
-  of the liver)".
-- Short sentences. Short paragraphs — two to four sentences each.
-- Keep the whole reply to about 200-350 words. Shorter is better. Do not pad.
-- Use AT MOST one short bulleted list, and only when listing genuinely separate items.
-  Otherwise write in normal paragraphs.
-- Do NOT use markdown headers (no #, ##, ###).
-- Do NOT use bold or asterisks for emphasis. Write plainly instead.
-- Do not stack disclaimers. Say it once, clearly, at the end.
-- Warm and direct, like a knowledgeable friend explaining something — not a textbook,
-  not a pamphlet, not a lecture.`;
+Nothing else. No extra sections. No summary at the end.
+
+WRITING STYLE — AS IMPORTANT AS THE CONTENT
+Write for a smart adult with zero medical training, reading on a phone, possibly scared.
+
+- TOTAL LENGTH: 120-200 words. Never more than 200. Shorter is better.
+- One idea per sentence. Aim for under 20 words per sentence.
+- Paragraphs of 1-3 sentences. Never longer.
+- Everyday words only. "Scarring of the liver," not "hepatic fibrosis." "Spread," not
+  "metastasis." "Swelling in the belly," not "ascites."
+- If a medical term is genuinely necessary (because it appears on their paperwork),
+  give it once, then define it in plain words in the same sentence:
+  "cirrhosis, which means heavy scarring of the liver."
+- BE PRECISE. Prefer a concrete fact over a vague gesture. "Every six months" beats
+  "regularly." "About one in four" beats "a significant proportion." If the research
+  gives a number, use the number.
+- The abstracts above contain real findings. Use them. When you state something specific
+  that came from one, mark it with its bracket number, like [2]. Do not mark general
+  background knowledge — only specific claims drawn from the retrieved research.
+- Never state a finding the abstracts don't support. If they don't cover the question,
+  say so and answer from general background instead, without bracket numbers.
+- Never hedge twice in one sentence. Say it once, clearly.
+- No markdown headers. No bold. No asterisks.
+- If a bulleted list genuinely helps, use at most four bullets, one line each.
+- Say "I don't know" or "the research doesn't answer that clearly" when true. That is a
+  precise answer, not a failure.
+- Sound like a knowledgeable friend answering in a hallway — not a textbook, not a
+  pamphlet, not a lecture.`;
 }
 
 // ---------------------------------------------------------------------------
@@ -330,8 +454,8 @@ async function callGemini(systemPrompt, history, userMessage) {
     system_instruction: { parts: [{ text: systemPrompt }] },
     contents,
     generationConfig: {
-      maxOutputTokens: 1600,
-      temperature: 0.6,
+      maxOutputTokens: 700,
+      temperature: 0.4,
     },
     safetySettings: [
       // Medical discussion can trip default filters; these are still moderate.
@@ -406,10 +530,18 @@ app.post("/api/chat", chatLimiter, async (req, res) => {
 
     const trimmedHistory = Array.isArray(history) ? history.slice(-8) : [];
 
-    const [papers, trials] = await Promise.all([
-      fetchPubMedResearch(message, 5),
-      fetchClinicalTrials(message, 4),
+    const [abstracts, pubmed, trials] = await Promise.all([
+      fetchAbstracts(message, 4),
+      fetchPubMedResearch(message, 3),
+      fetchClinicalTrials(message, 3),
     ]);
+
+    // Prefer papers that came with abstracts; top up with PubMed titles, skipping dupes
+    const seen = new Set(abstracts.map((p) => p.title.toLowerCase().slice(0, 60)));
+    const papers = [
+      ...abstracts,
+      ...pubmed.filter((p) => !seen.has(p.title.toLowerCase().slice(0, 60))),
+    ].slice(0, 6);
 
     const systemPrompt = buildSystemPrompt(formatResearchContext(papers, trials));
 
