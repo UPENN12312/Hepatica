@@ -25,7 +25,7 @@ const GEMINI_KEY = process.env.GEMINI_API_KEY;
 
 // Free-tier eligible model. If Google retires this name, swap it here —
 // check current free models at https://ai.google.dev/gemini-api/docs/models
-const GEMINI_MODEL = process.env.GEMINI_MODEL || "gemini-2.5-flash";
+const GEMINI_MODEL = process.env.GEMINI_MODEL || "gemini-flash-latest";
 
 // ---------------------------------------------------------------------------
 // Rate limiting — Gemini free tier is ~15 requests/min and ~1500/day per
