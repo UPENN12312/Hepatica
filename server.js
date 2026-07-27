@@ -306,7 +306,9 @@ STYLE
 // Gemini API call
 // ---------------------------------------------------------------------------
 async function callGemini(systemPrompt, history, userMessage) {
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_KEY}`;
+  // Pass the key as a header, not ?key= — required for newer "AQ." format
+  // auth keys, and works fine for older "AIza" keys too.
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`;
 
   // Gemini uses "model" where Anthropic/OpenAI use "assistant"
   const contents = [
@@ -333,7 +335,10 @@ async function callGemini(systemPrompt, history, userMessage) {
 
   const res = await fetch(url, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      "x-goog-api-key": GEMINI_KEY,
+    },
     body: JSON.stringify(body),
   });
 
@@ -408,11 +413,6 @@ app.post("/api/chat", chatLimiter, async (req, res) => {
   } catch (err) {
     console.error("Chat error:", err.message);
 
-    if (err.status === 400 || err.status === 403) {
-      return res.status(500).json({
-        error: "The API key appears to be invalid. Check GEMINI_API_KEY in your settings.",
-      });
-    }
     if (err.status === 429) {
       return res.status(503).json({
         error:
@@ -426,7 +426,16 @@ app.post("/api/chat", chatLimiter, async (req, res) => {
         sources: [],
       });
     }
-    res.status(500).json({ error: "Something went wrong. Please try again." });
+
+    // Show the real error so problems are diagnosable instead of guesswork.
+    // Once the app is working and public, set HIDE_ERRORS=true in your
+    // environment variables to go back to a friendly generic message.
+    if (process.env.HIDE_ERRORS === "true") {
+      return res.status(500).json({ error: "Something went wrong. Please try again." });
+    }
+    res.status(500).json({
+      error: "Error details (for debugging): " + err.message,
+    });
   }
 });
 
