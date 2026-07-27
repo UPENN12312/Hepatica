@@ -3,275 +3,565 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Liver Cancer Research Assistant</title>
-<meta name="description" content="An educational tool that explains what published liver cancer research says. Not a diagnostic tool.">
+<title>Hepatica — Liver Cancer Research, in Plain Language</title>
+<meta name="description" content="Plain-language answers about liver cancer drawn from published medical research. An educational tool, not a diagnostic one.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #f6f7f5;
-    --card: #ffffff;
-    --ink: #1f2421;
-    --ink-soft: #5c645f;
-    --line: #e2e5e1;
-    --accent: #2f6b4f;
-    --accent-soft: #eaf2ed;
-    --warn-bg: #fdf6e3;
-    --warn-line: #e8d9a8;
-    --warn-ink: #6b5518;
+    --ground:      #F4F3F8;
+    --surface:     #FFFFFF;
+    --surface-sunk:#EAE8F2;
+    --ink:         #1C1A2E;
+    --ink-mid:     #4E4A66;
+    --ink-soft:    #7C7891;
+    --rule:        #E3E1EC;
+    --rule-strong: #CBC7DC;
+    --anchor:      #4F4593;
+    --anchor-deep: #382F6E;
+    --anchor-wash: #EDEBF8;
+    --petal:       #7D71C4;
+    --caution-bg:  #FBF4E6;
+    --caution-rule:#E7D8B4;
+    --caution-ink: #6E5720;
+    --alert-bg:    #FBECEF;
+    --alert-rule:  #E9C2CC;
+    --alert-ink:   #8B2F47;
+    --serif: "Newsreader", Georgia, serif;
+    --sans:  "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
   }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ground:      #131221;
+      --surface:     #1C1A2E;
+      --surface-sunk:#171626;
+      --ink:         #E8E6F2;
+      --ink-mid:     #ADA8C4;
+      --ink-soft:    #817CA0;
+      --rule:        #2C2942;
+      --rule-strong: #3D3959;
+      --anchor:      #A79DE8;
+      --anchor-deep: #C3BCF3;
+      --anchor-wash: #232040;
+      --petal:       #9C90DC;
+      --caution-bg:  #241E10;
+      --caution-rule:#463A22;
+      --caution-ink: #DBC189;
+      --alert-bg:    #2B1520;
+      --alert-rule:  #4C2537;
+      --alert-ink:   #E9A0B4;
+    }
+  }
+
   * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+
   body {
     margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, sans-serif;
-    background: var(--bg);
+    background: var(--ground);
     color: var(--ink);
+    font-family: var(--sans);
+    font-size: 16px;
     line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
   }
-  .wrap { max-width: 780px; margin: 0 auto; padding: 24px 18px 60px; }
 
-  header { padding: 12px 0 20px; }
-  header h1 { font-size: 24px; margin: 0 0 4px; font-weight: 600; }
-  header p { margin: 0; color: var(--ink-soft); font-size: 15px; }
+  .page { max-width: 700px; margin: 0 auto; padding: 0 22px 96px; }
 
-  .disclaimer {
-    background: var(--warn-bg);
-    border: 1px solid var(--warn-line);
-    color: var(--warn-ink);
+  /* ---------- Masthead ---------- */
+
+  .masthead {
+    padding: 54px 0 30px;
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: 26px;
+  }
+
+  .wordmark {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    margin-bottom: 8px;
+  }
+
+  .mark { flex-shrink: 0; display: block; }
+
+  .name {
+    font-family: var(--serif);
+    font-optical-sizing: auto;
+    font-size: clamp(34px, 7vw, 46px);
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    margin: 0;
+    color: var(--ink);
+  }
+
+  .descriptor {
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--anchor);
+    margin: 0 0 18px 45px;
+  }
+
+  .standfirst {
+    font-family: var(--serif);
+    font-size: 18.5px;
+    font-weight: 300;
+    line-height: 1.55;
+    color: var(--ink-mid);
+    margin: 0;
+    max-width: 54ch;
+  }
+
+  /* ---------- Notices ---------- */
+
+  .notice {
     border-radius: 10px;
-    padding: 14px 16px;
+    padding: 15px 18px;
     font-size: 14px;
-    margin: 16px 0 22px;
+    line-height: 1.6;
+    margin-bottom: 14px;
   }
-  .disclaimer strong { display: block; margin-bottom: 4px; }
+  .notice strong { font-weight: 600; }
 
-  .privacy {
-    background: #eef2f6;
-    border: 1px solid #d5dee6;
-    color: #3d4d5c;
-    border-radius: 10px;
-    padding: 12px 15px;
-    font-size: 13.5px;
-    margin: -8px 0 22px;
+  .notice--caution {
+    background: var(--caution-bg);
+    border: 1px solid var(--caution-rule);
+    color: var(--caution-ink);
   }
-  .privacy strong { font-weight: 600; }
-
-  .starters { margin-bottom: 20px; }
-  .starters-label {
-    font-size: 13px; color: var(--ink-soft);
-    text-transform: uppercase; letter-spacing: .04em; margin-bottom: 8px;
+  .notice--quiet {
+    background: transparent;
+    border: 1px solid var(--rule);
+    color: var(--ink-soft);
+    font-size: 13px;
   }
-  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
-  .chip {
-    background: var(--card); border: 1px solid var(--line);
-    border-radius: 20px; padding: 7px 14px; font-size: 13.5px;
-    cursor: pointer; color: var(--ink); transition: all .15s;
+
+  /* ---------- Starters ---------- */
+
+  .starters { margin-top: 34px; }
+
+  .section-label {
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 14px;
   }
-  .chip:hover { border-color: var(--accent); background: var(--accent-soft); }
 
-  #chat { display: flex; flex-direction: column; gap: 16px; margin-bottom: 24px; }
-  .msg { padding: 14px 17px; border-radius: 14px; font-size: 15.5px; }
-  .msg.user {
-    background: var(--accent-soft); border: 1px solid #d3e4d9;
-    align-self: flex-end; max-width: 85%; white-space: pre-wrap;
+  .slips { display: grid; gap: 8px; }
+
+  .slip {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-left: 2px solid var(--rule-strong);
+    border-radius: 0 8px 8px 0;
+    padding: 13px 16px;
+    font-family: var(--serif);
+    font-size: 16.5px;
+    line-height: 1.4;
+    color: var(--ink);
+    cursor: pointer;
+    transition: border-color .18s ease, transform .18s ease, background .18s ease;
   }
-  .msg.bot { background: var(--card); border: 1px solid var(--line); }
-  .msg.bot h3 { font-size: 16px; margin: 14px 0 6px; }
-  .msg.bot ul { margin: 8px 0; padding-left: 20px; }
-  .msg.bot li { margin-bottom: 5px; }
-  .msg.bot p { margin: 0 0 10px; }
-  .msg.bot p:last-child { margin-bottom: 0; }
-  .msg.error { background: #fdecec; border-color: #f3c9c9; color: #8a2b2b; }
-
-  .sources {
-    margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--line);
-    font-size: 13px; color: var(--ink-soft);
+  .slip:hover {
+    border-left-color: var(--anchor);
+    background: var(--anchor-wash);
+    transform: translateX(2px);
   }
-  .sources-title { font-weight: 600; margin-bottom: 6px; }
-  .sources a { color: var(--accent); text-decoration: none; }
-  .sources a:hover { text-decoration: underline; }
-  .sources div { margin-bottom: 4px; }
+  .slip:focus-visible { outline: 2px solid var(--anchor); outline-offset: 2px; }
 
-  .thinking { color: var(--ink-soft); font-style: italic; }
+  /* ---------- Conversation ---------- */
 
-  form { display: flex; gap: 10px; align-items: flex-end; }
+  #thread { margin-top: 8px; }
+  .turn { margin-bottom: 30px; }
+
+  @keyframes rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: no-preference) { .turn { animation: rise .32s ease-out both; } }
+
+  .turn--asked .q {
+    font-family: var(--serif);
+    font-size: 20px;
+    line-height: 1.35;
+    color: var(--ink);
+    padding-left: 15px;
+    border-left: 2px solid var(--anchor);
+    margin: 0;
+  }
+
+  .answer {
+    font-family: var(--serif);
+    font-size: 17.5px;
+    line-height: 1.68;
+    color: var(--ink);
+  }
+  .answer p { margin: 0 0 15px; }
+  .answer p:last-child { margin-bottom: 0; }
+  .answer ul, .answer ol { margin: 15px 0; padding-left: 22px; }
+  .answer li { margin-bottom: 8px; }
+  .answer h3 {
+    font-family: var(--sans);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin: 24px 0 10px;
+  }
+  .answer strong { font-weight: 600; }
+  .answer a { color: var(--anchor); text-underline-offset: 2px; }
+  .answer code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: .88em;
+    background: var(--surface-sunk);
+    padding: 1px 5px;
+    border-radius: 4px;
+  }
+
+  /* ---------- Citations ---------- */
+
+  .citations { margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule); }
+  .cite {
+    display: grid;
+    grid-template-columns: 26px 1fr;
+    gap: 4px;
+    margin-bottom: 9px;
+    font-family: var(--sans);
+    font-size: 13px;
+    line-height: 1.45;
+  }
+  .cite-n { font-variant-numeric: tabular-nums; color: var(--ink-soft); font-size: 11px; padding-top: 2px; }
+  .cite a { color: var(--ink-mid); text-decoration: none; border-bottom: 1px solid var(--rule-strong); }
+  .cite a:hover { color: var(--anchor); border-bottom-color: var(--anchor); }
+  .cite-meta { color: var(--ink-soft); font-size: 12px; }
+
+  /* ---------- States ---------- */
+
+  .thinking {
+    font-family: var(--sans);
+    font-size: 14px;
+    color: var(--ink-soft);
+    display: flex;
+    align-items: center;
+    gap: 9px;
+  }
+  .pulse { width: 6px; height: 6px; border-radius: 50%; background: var(--anchor); }
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes breathe { 0%,100% { opacity: .3 } 50% { opacity: 1 } }
+    .pulse { animation: breathe 1.4s ease-in-out infinite; }
+  }
+
+  .failed {
+    background: var(--alert-bg);
+    border: 1px solid var(--alert-rule);
+    color: var(--alert-ink);
+    border-radius: 8px;
+    padding: 13px 16px;
+    font-family: var(--sans);
+    font-size: 14px;
+    line-height: 1.55;
+  }
+
+  /* ---------- Composer ---------- */
+
+  .composer {
+    position: sticky;
+    bottom: 0;
+    background: linear-gradient(to bottom, transparent, var(--ground) 22%);
+    padding: 22px 0 16px;
+    margin-top: 34px;
+  }
+  .composer-inner {
+    display: flex;
+    gap: 9px;
+    align-items: flex-end;
+    background: var(--surface);
+    border: 1px solid var(--rule-strong);
+    border-radius: 12px;
+    padding: 7px 7px 7px 15px;
+    transition: border-color .18s ease;
+  }
+  .composer-inner:focus-within { border-color: var(--anchor); }
+
   textarea {
-    flex: 1; padding: 13px 15px; border-radius: 10px;
-    border: 1px solid var(--line); font-size: 15.5px;
-    font-family: inherit; resize: none; background: var(--card);
-    color: var(--ink); min-height: 54px; max-height: 200px;
+    flex: 1;
+    border: 0;
+    background: transparent;
+    color: var(--ink);
+    font-family: var(--serif);
+    font-size: 16.5px;
+    line-height: 1.5;
+    padding: 9px 0;
+    resize: none;
+    min-height: 42px;
+    max-height: 190px;
   }
-  textarea:focus { outline: none; border-color: var(--accent); }
-  button {
-    padding: 15px 24px; border-radius: 10px; border: none;
-    background: var(--accent); color: #fff; font-size: 15px;
-    font-weight: 500; cursor: pointer; transition: opacity .15s;
-  }
-  button:hover:not(:disabled) { opacity: .9; }
-  button:disabled { opacity: .45; cursor: not-allowed; }
+  textarea:focus { outline: none; }
+  textarea::placeholder { color: var(--ink-soft); }
 
-  footer {
-    margin-top: 32px; padding-top: 18px; border-top: 1px solid var(--line);
-    font-size: 12.5px; color: var(--ink-soft);
+  button.send {
+    flex-shrink: 0;
+    border: 0;
+    background: var(--anchor);
+    color: #fff;
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 500;
+    padding: 11px 19px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background .18s ease, opacity .18s ease;
   }
+  button.send:hover:not(:disabled) { background: var(--anchor-deep); }
+  button.send:disabled { opacity: .4; cursor: default; }
+  button.send:focus-visible { outline: 2px solid var(--anchor); outline-offset: 2px; }
+  @media (prefers-color-scheme: dark) { button.send { color: #14121F; } }
+
+  /* ---------- Colophon ---------- */
+
+  .colophon {
+    margin-top: 44px;
+    padding-top: 20px;
+    border-top: 1px solid var(--rule);
+    font-family: var(--sans);
+    font-size: 12.5px;
+    line-height: 1.65;
+    color: var(--ink-soft);
+  }
+  .colophon p { margin: 0 0 8px; }
+  .colophon p:last-child { margin-bottom: 0; }
+  .colophon em { font-style: italic; }
+
   @media (max-width: 560px) {
-    .msg.user { max-width: 92%; }
-    header h1 { font-size: 21px; }
+    .page { padding: 0 17px 80px; }
+    .masthead { padding-top: 38px; }
+    .descriptor { margin-left: 0; }
+    .turn--asked .q { font-size: 18px; }
+    .answer { font-size: 16.5px; }
   }
 </style>
 </head>
 <body>
-<div class="wrap">
+<div class="page">
 
-  <header>
-    <h1>Liver Cancer Research Assistant</h1>
-    <p>Understand what published research says — grounded in PubMed and ClinicalTrials.gov.</p>
+  <header class="masthead">
+    <div class="wordmark">
+      <svg class="mark" width="34" height="34" viewBox="0 0 34 34" aria-hidden="true">
+        <g fill="none" stroke="var(--petal)" stroke-width="1.3">
+          <ellipse cx="17" cy="8.6"  rx="3.5" ry="6"/>
+          <ellipse cx="17" cy="25.4" rx="3.5" ry="6"/>
+          <ellipse cx="8.6"  cy="17" rx="6" ry="3.5"/>
+          <ellipse cx="25.4" cy="17" rx="6" ry="3.5"/>
+          <ellipse cx="11.1" cy="11.1" rx="3.5" ry="6" transform="rotate(45 11.1 11.1)"/>
+          <ellipse cx="22.9" cy="22.9" rx="3.5" ry="6" transform="rotate(45 22.9 22.9)"/>
+          <ellipse cx="22.9" cy="11.1" rx="3.5" ry="6" transform="rotate(-45 22.9 11.1)"/>
+          <ellipse cx="11.1" cy="22.9" rx="3.5" ry="6" transform="rotate(-45 11.1 22.9)"/>
+        </g>
+        <circle cx="17" cy="17" r="2.4" fill="var(--anchor)"/>
+      </svg>
+      <h1 class="name">Hepatica</h1>
+    </div>
+    <p class="descriptor">Liver cancer research, in plain language</p>
+    <p class="standfirst">
+      Straight answers about liver cancer, drawn from published medical research —
+      so you can walk into an appointment knowing what to ask.
+    </p>
   </header>
 
-  <div class="disclaimer">
-    <strong>This is an educational tool, not a diagnostic one.</strong>
-    It cannot tell you whether you have liver cancer, and it will not try to. It explains what
-    the medical literature says so you can have a better-informed conversation with a doctor.
-    If you have symptoms or a specific concern, please see a healthcare provider. For urgent
-    symptoms — jaundice, vomiting blood, black stools, confusion, or severe abdominal pain —
-    seek care right away.
+  <div class="notice notice--caution">
+    <strong>Hepatica explains research. It cannot tell you whether you have liver cancer.</strong><br>
+    No tool can do that without an exam, imaging, and lab work. If something is worrying you,
+    see a healthcare provider. For jaundice, vomiting blood, black stools, confusion, or severe
+    abdominal pain, seek care right away.
   </div>
 
-  <div class="privacy">
-    <strong>Privacy note:</strong> this site runs on Google's free AI tier, which means what
-    you type may be used by Google to improve their models. Please don't enter your name,
-    contact details, or anything you wouldn't want shared. Ask in general terms where you can.
+  <div class="notice notice--quiet">
+    <strong>Privacy:</strong> this site runs on Google's free AI tier, so what you type may be
+    used by Google to improve their models. Leave out your name and contact details, and ask in
+    general terms where you can.
   </div>
 
-  <div class="starters">
-    <div class="starters-label">Try asking</div>
-    <div class="chips">
-      <button class="chip" type="button">What are the main risk factors for liver cancer?</button>
-      <button class="chip" type="button">Who is recommended for HCC surveillance?</button>
-      <button class="chip" type="button">What does an AFP blood test actually measure?</button>
-      <button class="chip" type="button">What is LI-RADS on a liver MRI report?</button>
-      <button class="chip" type="button">How does cirrhosis relate to liver cancer risk?</button>
-      <button class="chip" type="button">What trials are recruiting for HCC right now?</button>
-      <button class="chip" type="button">What questions should I ask my hepatologist?</button>
+  <div class="starters" id="starters">
+    <div class="section-label">Somewhere to start</div>
+    <div class="slips">
+      <button class="slip" type="button">What raises the risk of liver cancer?</button>
+      <button class="slip" type="button">Who should be screened, and how often?</button>
+      <button class="slip" type="button">What does an AFP blood test actually measure?</button>
+      <button class="slip" type="button">My scan report says LI-RADS. What does that mean?</button>
+      <button class="slip" type="button">How is cirrhosis connected to liver cancer?</button>
+      <button class="slip" type="button">What questions should I bring to my doctor?</button>
     </div>
   </div>
 
-  <div id="chat"></div>
+  <main id="thread"></main>
 
-  <form id="chat-form">
-    <textarea id="input" rows="2"
-      placeholder="Ask about liver cancer risk factors, surveillance, lab markers, imaging terms, or trials..."></textarea>
-    <button type="submit" id="send-btn">Send</button>
-  </form>
+  <div class="composer">
+    <form class="composer-inner" id="composer">
+      <textarea id="input" rows="1"
+        placeholder="Ask about risk factors, screening, test results, or terms you've read…"
+        aria-label="Your question"></textarea>
+      <button class="send" type="submit" id="send">Ask</button>
+    </form>
+  </div>
 
-  <footer>
-    Research retrieved live from PubMed (NCBI) and ClinicalTrials.gov. Responses are generated
-    by Google Gemini and may contain errors — verify anything important with a clinician or the
-    linked source. Nothing is stored on this server; conversations exist only in your browser.
-    This site runs on free-tier infrastructure and has a limited number of daily messages.
+  <footer class="colophon">
+    <p>Research is pulled live from PubMed (National Library of Medicine) and ClinicalTrials.gov
+    each time you ask. Answers are written by Google Gemini and can be wrong — check anything
+    that matters against the linked source or with a clinician.</p>
+    <p>Nothing is saved on the server. This conversation lives only in your browser and
+    disappears when you close the tab. The site runs on free infrastructure, so there is a
+    limit on how many questions it can answer each day.</p>
+    <p>Named for <em>Hepatica</em>, a woodland flower that blooms before anything else in spring.
+    Its leaves were once thought to resemble the liver.</p>
   </footer>
 
 </div>
 
 <script>
-  const chat = document.getElementById("chat");
-  const form = document.getElementById("chat-form");
-  const input = document.getElementById("input");
-  const sendBtn = document.getElementById("send-btn");
+  const thread   = document.getElementById("thread");
+  const form     = document.getElementById("composer");
+  const input    = document.getElementById("input");
+  const sendBtn  = document.getElementById("send");
+  const starters = document.getElementById("starters");
   let history = [];
   let busy = false;
 
-  // Minimal, safe markdown-ish rendering (escapes HTML first)
+  function escapeHtml(s) {
+    return String(s ?? "")
+      .replace(/&/g, "&amp;").replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  }
+
   function renderText(text) {
-    const esc = text
-      .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    const lines = esc.split("\n");
-    let html = "", inList = false;
-    for (let line of lines) {
+    const lines = escapeHtml(text).split("\n");
+    let html = "", listType = null;
+    const closeList = () => {
+      if (listType) { html += listType === "ol" ? "</ol>" : "</ul>"; listType = null; }
+    };
+
+    for (const line of lines) {
       const t = line.trim();
-      if (/^[-*]\s+/.test(t)) {
-        if (!inList) { html += "<ul>"; inList = true; }
-        html += "<li>" + inline(t.replace(/^[-*]\s+/, "")) + "</li>";
+      if (t === "") continue;
+
+      const bullet   = t.match(/^[-*•]\s+(.*)$/);
+      const numbered = t.match(/^\d+[.)]\s+(.*)$/);
+      const header   = t.match(/^#{1,6}\s+(.*)$/);
+
+      if (bullet) {
+        if (listType !== "ul") { closeList(); html += "<ul>"; listType = "ul"; }
+        html += "<li>" + inline(bullet[1]) + "</li>";
+      } else if (numbered) {
+        if (listType !== "ol") { closeList(); html += "<ol>"; listType = "ol"; }
+        html += "<li>" + inline(numbered[1]) + "</li>";
+      } else if (header) {
+        closeList();
+        html += "<h3>" + inline(header[1]) + "</h3>";
       } else {
-        if (inList) { html += "</ul>"; inList = false; }
-        if (t === "") continue;
-        if (/^#{1,4}\s+/.test(t)) html += "<h3>" + inline(t.replace(/^#{1,4}\s+/, "")) + "</h3>";
-        else html += "<p>" + inline(t) + "</p>";
+        closeList();
+        html += "<p>" + inline(t) + "</p>";
       }
     }
-    if (inList) html += "</ul>";
+    closeList();
     return html;
   }
+
   function inline(s) {
     return s
-      .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
-      .replace(/(https?:\/\/[^\s)]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>');
+      .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
+      .replace(/__([^_]+)__/g, "<strong>$1</strong>")
+      .replace(/(^|[\s(])\*([^*\n]+)\*(?=[\s.,;:!?)]|$)/g, "$1<em>$2</em>")
+      .replace(/`([^`]+)`/g, "<code>$1</code>")
+      .replace(/(https?:\/\/[^\s)<]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>')
+      .replace(/\*/g, "");
   }
 
-  function addMessage(role, text, sources) {
-    const div = document.createElement("div");
-    div.className = "msg " + role;
-    if (role === "user") {
-      div.textContent = text;
-    } else {
-      div.innerHTML = renderText(text);
-      if (sources && sources.length) {
-        const s = document.createElement("div");
-        s.className = "sources";
-        const papers = sources.filter(x => x.type === "paper");
-        const trials = sources.filter(x => x.type === "trial");
-        let h = '<div class="sources-title">Sources retrieved for this answer</div>';
-        papers.forEach(p => {
-          h += `<div>📄 <a href="${p.url}" target="_blank" rel="noopener">${escapeAttr(p.title)}</a> <span>(${escapeAttr(p.pubdate || "")})</span></div>`;
-        });
-        trials.forEach(t => {
-          h += `<div>🧪 <a href="${t.url}" target="_blank" rel="noopener">${escapeAttr(t.title)}</a> <span>(${escapeAttr(t.phase)})</span></div>`;
-        });
-        s.innerHTML = h;
-        div.appendChild(s);
-      }
+  function addQuestion(text) {
+    const el = document.createElement("section");
+    el.className = "turn turn--asked";
+    el.innerHTML = '<p class="q"></p>';
+    el.querySelector(".q").textContent = text;
+    thread.appendChild(el);
+    return el;
+  }
+
+  function addPending() {
+    const el = document.createElement("section");
+    el.className = "turn";
+    el.innerHTML = '<div class="thinking"><span class="pulse"></span>' +
+                   '<span>Searching the research…</span></div>';
+    thread.appendChild(el);
+    el.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    return el;
+  }
+
+  function renderAnswer(el, text, sources) {
+    el.innerHTML = '<div class="answer">' + renderText(text) + "</div>";
+    if (sources && sources.length) {
+      const box = document.createElement("div");
+      box.className = "citations";
+      box.innerHTML = '<div class="section-label">Sources for this answer</div>';
+      sources.forEach((s, i) => {
+        const row = document.createElement("div");
+        row.className = "cite";
+        const meta = s.type === "trial"
+          ? "Clinical trial" + (s.phase && s.phase !== "N/A" ? " · " + escapeHtml(s.phase) : "")
+          : [s.journal, s.pubdate].filter(Boolean).map(escapeHtml).join(" · ");
+        row.innerHTML =
+          '<span class="cite-n">' + (i + 1) + "</span>" +
+          '<span><a href="' + escapeHtml(s.url) + '" target="_blank" rel="noopener">' +
+          escapeHtml(s.title) + "</a>" +
+          (meta ? '<br><span class="cite-meta">' + meta + "</span>" : "") +
+          "</span>";
+        box.appendChild(row);
+      });
+      el.appendChild(box);
     }
-    chat.appendChild(div);
-    div.scrollIntoView({ behavior: "smooth", block: "nearest" });
-    return div;
-  }
-  function escapeAttr(s) {
-    return String(s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
   }
 
-  async function send(message) {
-    if (busy || !message.trim()) return;
+  function renderFailure(el, message) {
+    el.innerHTML = '<div class="failed"></div>';
+    el.querySelector(".failed").textContent = message;
+  }
+
+  async function ask(question) {
+    if (busy || !question.trim()) return;
     busy = true;
     sendBtn.disabled = true;
-    document.querySelector(".starters").style.display = "none";
+    starters.style.display = "none";
 
-    addMessage("user", message);
+    addQuestion(question);
     input.value = "";
-    autoGrow();
+    resize();
 
-    const loading = addMessage("bot", "Searching the research and analyzing…");
-    loading.classList.add("thinking");
+    const pending = addPending();
 
     try {
       const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message, history })
+        body: JSON.stringify({ message: question, history })
       });
       const data = await res.json();
-      loading.remove();
 
       if (data.error) {
-        const e = addMessage("bot", data.error);
-        e.classList.add("error");
+        renderFailure(pending, data.error);
       } else {
-        addMessage("bot", data.reply, data.sources);
-        history.push({ role: "user", content: message });
+        renderAnswer(pending, data.reply, data.sources);
+        history.push({ role: "user", content: question });
         history.push({ role: "assistant", content: data.reply });
         if (history.length > 8) history = history.slice(-8);
       }
     } catch (err) {
-      loading.remove();
-      const e = addMessage("bot", "Couldn't reach the server. Check your connection and try again.");
-      e.classList.add("error");
+      renderFailure(pending, "Couldn't reach the server. Check your connection and try again.");
     }
 
     busy = false;
@@ -279,17 +569,16 @@
     input.focus();
   }
 
-  form.addEventListener("submit", e => { e.preventDefault(); send(input.value.trim()); });
-
-  document.querySelectorAll(".chip").forEach(chip => {
-    chip.addEventListener("click", () => send(chip.textContent.trim()));
+  form.addEventListener("submit", e => { e.preventDefault(); ask(input.value.trim()); });
+  document.querySelectorAll(".slip").forEach(slip => {
+    slip.addEventListener("click", () => ask(slip.textContent.trim()));
   });
 
-  function autoGrow() {
+  function resize() {
     input.style.height = "auto";
-    input.style.height = Math.min(input.scrollHeight, 200) + "px";
+    input.style.height = Math.min(input.scrollHeight, 190) + "px";
   }
-  input.addEventListener("input", autoGrow);
+  input.addEventListener("input", resize);
   input.addEventListener("keydown", e => {
     if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); form.requestSubmit(); }
   });
