@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hepatica — Liver Cancer Research, in Plain Language</title>
+<title>Hepatica — Liver Cancer Questions, Answered Plainly</title>
 <meta name="description" content="Plain-language answers about liver cancer drawn from published medical research. An educational tool, not a diagnostic one.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -341,6 +341,71 @@
   .colophon p:last-child { margin-bottom: 0; }
   .colophon em { font-style: italic; }
 
+  /* ---------- Intake ---------- */
+  .intake {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 12px;
+    padding: 20px 20px 22px;
+    margin-bottom: 26px;
+  }
+  .intake-help {
+    font-family: var(--sans);
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    margin: -6px 0 18px;
+  }
+  .field { margin-bottom: 18px; }
+  .field-label {
+    display: block;
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink-mid);
+    margin-bottom: 9px;
+  }
+  .chips { display: flex; flex-wrap: wrap; gap: 7px; }
+  .chip {
+    font-family: var(--sans);
+    font-size: 13.5px;
+    color: var(--ink-mid);
+    background: transparent;
+    border: 1px solid var(--rule-strong);
+    border-radius: 20px;
+    padding: 7px 14px;
+    cursor: pointer;
+    transition: all .16s ease;
+  }
+  .chip:hover { border-color: var(--anchor); color: var(--anchor); }
+  .chip[aria-pressed="true"] {
+    background: var(--anchor);
+    border-color: var(--anchor);
+    color: #fff;
+  }
+  .chip:focus-visible { outline: 2px solid var(--anchor); outline-offset: 2px; }
+  @media (prefers-color-scheme: dark) {
+    .chip[aria-pressed="true"] { color: #14121F; }
+  }
+
+  button.primary {
+    width: 100%;
+    border: 0;
+    background: var(--anchor);
+    color: #fff;
+    font-family: var(--sans);
+    font-size: 15px;
+    font-weight: 500;
+    padding: 13px;
+    border-radius: 9px;
+    cursor: pointer;
+    margin-top: 4px;
+    transition: background .18s ease;
+  }
+  button.primary:hover { background: var(--anchor-deep); }
+  button.primary:focus-visible { outline: 2px solid var(--anchor); outline-offset: 2px; }
+  @media (prefers-color-scheme: dark) { button.primary { color: #14121F; } }
+
   /* ---------- Toolbar ---------- */
   .toolbar {
     display: flex;
@@ -417,10 +482,10 @@
       </svg>
       <h1 class="name">Hepatica</h1>
     </div>
-    <p class="descriptor">Liver cancer research, in plain language</p>
+    <p class="descriptor">Know what to ask — and how soon to ask it</p>
     <p class="standfirst">
-      Straight answers about liver cancer, drawn from published medical research —
-      so you can walk into an appointment knowing what to ask.
+      Tell Hepatica about your situation. It will explain what published guidelines
+      recommend for people like you, how soon to be seen, and exactly what to ask.
     </p>
   </header>
 
@@ -443,8 +508,42 @@
     <span class="saved-note" id="saved-note"></span>
   </div>
 
+  <section class="intake" id="intake">
+    <div class="section-label">Tell Hepatica about your situation</div>
+    <p class="intake-help">Optional, and nothing is sent anywhere until you press the button.
+    Pick anything that applies — it helps Hepatica tell you which guidelines are relevant.</p>
+
+    <div class="field">
+      <span class="field-label">Anything you've been diagnosed with</span>
+      <div class="chips" data-group="history">
+        <button class="chip" type="button" data-v="chronic hepatitis B">Hepatitis B</button>
+        <button class="chip" type="button" data-v="chronic hepatitis C">Hepatitis C</button>
+        <button class="chip" type="button" data-v="cirrhosis">Cirrhosis</button>
+        <button class="chip" type="button" data-v="fatty liver disease (MASLD)">Fatty liver</button>
+        <button class="chip" type="button" data-v="type 2 diabetes">Type 2 diabetes</button>
+        <button class="chip" type="button" data-v="a family history of liver cancer">Family history</button>
+        <button class="chip" type="button" data-v="a history of heavy alcohol use">Heavy alcohol use</button>
+      </div>
+    </div>
+
+    <div class="field">
+      <span class="field-label">Anything you're noticing</span>
+      <div class="chips" data-group="symptoms">
+        <button class="chip" type="button" data-v="yellowing of my eyes or skin">Yellow eyes or skin</button>
+        <button class="chip" type="button" data-v="pain in my upper right abdomen">Upper-right belly pain</button>
+        <button class="chip" type="button" data-v="unexplained weight loss">Weight loss</button>
+        <button class="chip" type="button" data-v="swelling in my abdomen">Belly swelling</button>
+        <button class="chip" type="button" data-v="feeling full very quickly when eating">Feeling full fast</button>
+        <button class="chip" type="button" data-v="unusual tiredness">Unusual tiredness</button>
+        <button class="chip" type="button" data-v="no symptoms at all">No symptoms</button>
+      </div>
+    </div>
+
+    <button class="primary" type="button" id="intake-go">What should I do next?</button>
+  </section>
+
   <div class="starters" id="starters">
-    <div class="section-label">Somewhere to start</div>
+    <div class="section-label">Or ask something directly</div>
     <div class="slips">
       <button class="slip" type="button">What raises the risk of liver cancer?</button>
       <button class="slip" type="button">Who should be screened, and how often?</button>
@@ -598,6 +697,7 @@
     busy = true;
     sendBtn.disabled = true;
     starters.style.display = "none";
+    intake.style.display = "none";
 
     addQuestion(question);
     input.value = "";
@@ -664,6 +764,7 @@
     if (!data || !Array.isArray(data.turns) || !data.turns.length) return;
 
     starters.style.display = "none";
+    intake.style.display = "none";
     for (const t of data.turns) {
       addQuestion(t.q);
       const el = document.createElement("section");
@@ -685,7 +786,64 @@
     history = [];
     turns = [];
     starters.style.display = "";
+    intake.style.display = "";
     reflectSavedState();
+  });
+
+  /* ---------- Intake ---------- */
+
+  const intake = document.getElementById("intake");
+
+  document.querySelectorAll(".chip").forEach(chip => {
+    chip.setAttribute("aria-pressed", "false");
+    chip.addEventListener("click", () => {
+      const on = chip.getAttribute("aria-pressed") === "true";
+      chip.setAttribute("aria-pressed", on ? "false" : "true");
+      // "No symptoms" is exclusive with the other symptom chips
+      if (!on && chip.dataset.v === "no symptoms at all") {
+        chip.closest(".chips").querySelectorAll(".chip").forEach(c => {
+          if (c !== chip) c.setAttribute("aria-pressed", "false");
+        });
+      } else if (!on && chip.closest(".chips").dataset.group === "symptoms") {
+        const none = chip.closest(".chips").querySelector('[data-v="no symptoms at all"]');
+        if (none) none.setAttribute("aria-pressed", "false");
+      }
+    });
+  });
+
+  function picked(group) {
+    return [...document.querySelectorAll(
+      '.chips[data-group="' + group + '"] .chip[aria-pressed="true"]'
+    )].map(c => c.dataset.v);
+  }
+
+  function joinList(items) {
+    if (items.length === 1) return items[0];
+    if (items.length === 2) return items[0] + " and " + items[1];
+    return items.slice(0, -1).join(", ") + ", and " + items[items.length - 1];
+  }
+
+  document.getElementById("intake-go").addEventListener("click", () => {
+    const history_ = picked("history");
+    const symptoms = picked("symptoms");
+
+    if (!history_.length && !symptoms.length) {
+      input.focus();
+      input.scrollIntoView({ behavior: "smooth", block: "center" });
+      return;
+    }
+
+    let q = "Here is my situation. ";
+    if (history_.length) q += "I have been diagnosed with " + joinList(history_) + ". ";
+    if (symptoms.length) {
+      q += symptoms.includes("no symptoms at all")
+        ? "I have no symptoms at the moment. "
+        : "I am noticing " + joinList(symptoms) + ". ";
+    }
+    q += "What do published guidelines recommend for someone in my situation, how soon " +
+         "should I be seen, and what exactly should I ask my doctor?";
+
+    ask(q);
   });
 
   /* ---------- Paste a report ---------- */
