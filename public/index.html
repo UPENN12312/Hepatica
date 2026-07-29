@@ -3,476 +3,242 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hepatica — Liver Cancer Questions, Answered Plainly</title>
-<meta name="description" content="Plain-language answers about liver cancer drawn from published medical research. An educational tool, not a diagnostic one.">
+<title>Hepatica — Liver Questions, Answered Plainly</title>
+<meta name="description" content="Understand your liver health questions: what guidelines recommend, how soon to be seen, and what to ask.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 34 34'%3E%3Cg fill='none' stroke='%237D71C4' stroke-width='1.6'%3E%3Cellipse cx='17' cy='8.6' rx='3.5' ry='6'/%3E%3Cellipse cx='17' cy='25.4' rx='3.5' ry='6'/%3E%3Cellipse cx='8.6' cy='17' rx='6' ry='3.5'/%3E%3Cellipse cx='25.4' cy='17' rx='6' ry='3.5'/%3E%3C/g%3E%3Ccircle cx='17' cy='17' r='2.6' fill='%234F4593'/%3E%3C/svg%3E">
+<meta property="og:title" content="Hepatica — liver questions, answered plainly">
+<meta property="og:description" content="What guidelines recommend for your situation, how soon to be seen, and what to ask. Educational, not diagnostic.">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<meta name="theme-color" content="#4F4593">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,300..600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --ground:      #F4F3F8;
-    --surface:     #FFFFFF;
-    --surface-sunk:#EAE8F2;
-    --ink:         #1C1A2E;
-    --ink-mid:     #4E4A66;
-    --ink-soft:    #7C7891;
-    --rule:        #E3E1EC;
-    --rule-strong: #CBC7DC;
-    --anchor:      #4F4593;
-    --anchor-deep: #382F6E;
-    --anchor-wash: #EDEBF8;
-    --petal:       #7D71C4;
-    --caution-bg:  #FBF4E6;
-    --caution-rule:#E7D8B4;
-    --caution-ink: #6E5720;
-    --alert-bg:    #FBECEF;
-    --alert-rule:  #E9C2CC;
-    --alert-ink:   #8B2F47;
-    --serif: "Newsreader", Georgia, serif;
-    --sans:  "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+    --ground:#F4F3F8; --surface:#FFF; --sunk:#EAE8F2;
+    --ink:#1C1A2E; --ink-mid:#4E4A66; --ink-soft:#7C7891;
+    --rule:#E3E1EC; --rule-2:#CBC7DC;
+    --anchor:#4F4593; --anchor-deep:#382F6E; --wash:#EDEBF8; --petal:#7D71C4;
+    --warn-bg:#FBF4E6; --warn-rule:#E7D8B4; --warn-ink:#6E5720;
+    --stop-bg:#FBECEF; --stop-rule:#E9C2CC; --stop-ink:#8B2F47;
+    --serif:"Newsreader",Georgia,serif; --sans:"Inter",-apple-system,sans-serif;
   }
+  @media (prefers-color-scheme:dark){:root{
+    --ground:#131221; --surface:#1C1A2E; --sunk:#171626;
+    --ink:#E8E6F2; --ink-mid:#ADA8C4; --ink-soft:#817CA0;
+    --rule:#2C2942; --rule-2:#3D3959;
+    --anchor:#A79DE8; --anchor-deep:#C3BCF3; --wash:#232040; --petal:#9C90DC;
+    --warn-bg:#241E10; --warn-rule:#463A22; --warn-ink:#DBC189;
+    --stop-bg:#2B1520; --stop-rule:#4C2537; --stop-ink:#E9A0B4;
+  }}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--sans);
+    font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+  .page{max-width:660px;margin:0 auto;padding:0 22px 90px}
 
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --ground:      #131221;
-      --surface:     #1C1A2E;
-      --surface-sunk:#171626;
-      --ink:         #E8E6F2;
-      --ink-mid:     #ADA8C4;
-      --ink-soft:    #817CA0;
-      --rule:        #2C2942;
-      --rule-strong: #3D3959;
-      --anchor:      #A79DE8;
-      --anchor-deep: #C3BCF3;
-      --anchor-wash: #232040;
-      --petal:       #9C90DC;
-      --caution-bg:  #241E10;
-      --caution-rule:#463A22;
-      --caution-ink: #DBC189;
-      --alert-bg:    #2B1520;
-      --alert-rule:  #4C2537;
-      --alert-ink:   #E9A0B4;
-    }
+  /* Masthead */
+  .top{padding:48px 0 22px}
+  .brand{display:flex;align-items:center;gap:11px;margin-bottom:6px}
+  h1{font-family:var(--serif);font-size:clamp(32px,7vw,42px);font-weight:400;
+    line-height:1;letter-spacing:-.02em;margin:0}
+  .tag{font-family:var(--sans);font-size:11px;font-weight:500;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--anchor);margin:0 0 0 45px}
+
+  /* Single compact notice */
+  .notice{background:var(--warn-bg);border:1px solid var(--warn-rule);color:var(--warn-ink);
+    border-radius:9px;padding:13px 16px;font-size:13.5px;line-height:1.55;margin:22px 0 26px}
+  .notice b{font-weight:600}
+  .notice details{margin-top:7px}
+  .notice summary{cursor:pointer;font-size:12.5px;opacity:.85}
+  .notice details p{margin:8px 0 0;font-size:12.5px;line-height:1.55}
+
+  /* Mode switcher */
+  .modes{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;
+    background:var(--sunk);padding:5px;border-radius:11px;margin-bottom:20px}
+  .mode{border:0;background:transparent;color:var(--ink-mid);font-family:var(--sans);
+    font-size:13.5px;font-weight:500;padding:10px 6px;border-radius:8px;cursor:pointer;
+    transition:background .16s,color .16s}
+  .mode:hover{color:var(--anchor)}
+  .mode[aria-selected="true"]{background:var(--surface);color:var(--ink);
+    box-shadow:0 1px 3px rgba(0,0,0,.06)}
+  .mode:focus-visible{outline:2px solid var(--anchor);outline-offset:2px}
+
+  .panel[hidden]{display:none}
+  .panel{margin-bottom:26px}
+  .lede{font-family:var(--serif);font-size:17px;color:var(--ink-mid);
+    margin:0 0 18px;line-height:1.5}
+
+  /* Chips */
+  .grp{margin-bottom:16px}
+  .grp-label{display:block;font-size:12.5px;font-weight:500;color:var(--ink-soft);
+    margin-bottom:8px}
+  .chips{display:flex;flex-wrap:wrap;gap:6px}
+  .chip{font-family:var(--sans);font-size:13.5px;color:var(--ink-mid);background:var(--surface);
+    border:1px solid var(--rule-2);border-radius:20px;padding:7px 14px;cursor:pointer;
+    transition:all .16s}
+  .chip:hover{border-color:var(--anchor);color:var(--anchor)}
+  .chip[aria-pressed="true"]{background:var(--anchor);border-color:var(--anchor);color:#fff}
+  .chip:focus-visible{outline:2px solid var(--anchor);outline-offset:2px}
+  @media(prefers-color-scheme:dark){.chip[aria-pressed="true"]{color:#14121F}}
+
+  /* Buttons */
+  .primary{width:100%;border:0;background:var(--anchor);color:#fff;font-family:var(--sans);
+    font-size:15px;font-weight:500;padding:13px;border-radius:9px;cursor:pointer;
+    transition:background .18s}
+  .primary:hover{background:var(--anchor-deep)}
+  .primary:focus-visible{outline:2px solid var(--anchor);outline-offset:2px}
+  @media(prefers-color-scheme:dark){.primary{color:#14121F}}
+
+  /* Calculator */
+  .calc-note{background:var(--wash);border-radius:8px;padding:11px 14px;font-size:12.5px;
+    line-height:1.55;color:var(--ink-mid);margin-bottom:18px}
+  .inputs{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:16px}
+  .inp label{display:block;font-size:12.5px;font-weight:500;color:var(--ink-soft);
+    margin-bottom:5px}
+  .inp .unit{font-weight:400;opacity:.75}
+  .inp input{width:100%;font-family:var(--sans);font-size:16px;color:var(--ink);
+    background:var(--surface);border:1px solid var(--rule-2);border-radius:8px;
+    padding:11px 12px}
+  .inp input:focus{outline:none;border-color:var(--anchor)}
+
+  .result{margin-top:18px;border-radius:10px;padding:16px 18px;display:none}
+  .result.show{display:block}
+  .result .score{font-family:var(--serif);font-size:30px;line-height:1;margin:0 0 4px}
+  .result .band{font-size:13px;font-weight:600;letter-spacing:.03em;text-transform:uppercase;
+    margin-bottom:10px}
+  .result p{font-size:14px;line-height:1.6;margin:0 0 9px}
+  .result p:last-child{margin-bottom:0}
+  .r-low{background:var(--wash);border:1px solid var(--rule-2)}
+  .r-mid{background:var(--warn-bg);border:1px solid var(--warn-rule);color:var(--warn-ink)}
+  .r-high{background:var(--stop-bg);border:1px solid var(--stop-rule);color:var(--stop-ink)}
+  .r-na{background:var(--sunk);border:1px solid var(--rule)}
+  .ask-about{margin-top:12px;font-size:13.5px}
+
+  /* Starters */
+  .slips{display:grid;gap:7px}
+  .slip{display:block;width:100%;text-align:left;background:var(--surface);
+    border:1px solid var(--rule);border-left:2px solid var(--rule-2);border-radius:0 8px 8px 0;
+    padding:12px 15px;font-family:var(--serif);font-size:16px;color:var(--ink);cursor:pointer;
+    transition:all .16s}
+  .slip:hover{border-left-color:var(--anchor);background:var(--wash);transform:translateX(2px)}
+  .slip:focus-visible{outline:2px solid var(--anchor);outline-offset:2px}
+
+  /* Thread */
+  .turn{margin-bottom:28px}
+  @keyframes rise{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  @media(prefers-reduced-motion:no-preference){.turn{animation:rise .3s ease-out both}}
+  .q{font-family:var(--serif);font-size:19px;line-height:1.35;padding-left:14px;
+    border-left:2px solid var(--anchor);margin:0}
+  .answer{font-family:var(--serif);font-size:17.5px;line-height:1.68}
+  .answer p{margin:0 0 14px}
+  .answer p:last-child{margin-bottom:0}
+  .answer ul,.answer ol{margin:14px 0;padding-left:21px}
+  .answer li{margin-bottom:7px}
+  .answer h3{font-family:var(--sans);font-size:12px;font-weight:500;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--ink-soft);margin:22px 0 9px}
+  .answer a{color:var(--anchor)}
+  .ref{display:inline-block;font-family:var(--sans);font-size:10.5px;font-weight:600;
+    color:var(--anchor);background:var(--wash);border-radius:4px;padding:1px 5px;margin:0 1px;
+    vertical-align:1px;text-decoration:none}
+  .ref:hover{background:var(--anchor);color:var(--surface)}
+
+  .cites{margin-top:20px;padding-top:14px;border-top:1px solid var(--rule)}
+  .cites-h{font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--ink-soft);margin-bottom:11px}
+  .cite{display:grid;grid-template-columns:24px 1fr;gap:4px;margin-bottom:8px;font-size:13px;
+    line-height:1.45;border-radius:6px}
+  .cite-n{color:var(--ink-soft);font-size:11px;padding-top:2px}
+  .cite a{color:var(--ink-mid);text-decoration:none;border-bottom:1px solid var(--rule-2)}
+  .cite a:hover{color:var(--anchor)}
+  .cite-m{color:var(--ink-soft);font-size:12px}
+  .cite.flash{background:var(--wash)}
+
+  .thinking{font-size:14px;color:var(--ink-soft);display:flex;align-items:center;gap:9px}
+  .pulse{width:6px;height:6px;border-radius:50%;background:var(--anchor)}
+  @media(prefers-reduced-motion:no-preference){
+    @keyframes breathe{0%,100%{opacity:.3}50%{opacity:1}}
+    .pulse{animation:breathe 1.4s ease-in-out infinite}}
+  .failed{background:var(--stop-bg);border:1px solid var(--stop-rule);color:var(--stop-ink);
+    border-radius:8px;padding:13px 16px;font-size:14px}
+
+  /* Composer */
+  .composer{position:sticky;bottom:0;
+    background:linear-gradient(to bottom,transparent,var(--ground) 22%);
+    padding:20px 0 14px;margin-top:30px}
+  .cbox{display:flex;gap:8px;align-items:flex-end;background:var(--surface);
+    border:1px solid var(--rule-2);border-radius:12px;padding:6px 6px 6px 14px;
+    transition:border-color .18s}
+  .cbox:focus-within{border-color:var(--anchor)}
+  textarea{flex:1;border:0;background:transparent;color:var(--ink);font-family:var(--serif);
+    font-size:16.5px;line-height:1.5;padding:9px 0;resize:none;min-height:42px;max-height:180px}
+  textarea:focus{outline:none}
+  textarea::placeholder{color:var(--ink-soft)}
+  .send{flex-shrink:0;border:0;background:var(--anchor);color:#fff;font-family:var(--sans);
+    font-size:14px;font-weight:500;padding:11px 18px;border-radius:8px;cursor:pointer}
+  .send:hover:not(:disabled){background:var(--anchor-deep)}
+  .send:disabled{opacity:.4;cursor:default}
+  @media(prefers-color-scheme:dark){.send{color:#14121F}}
+
+  .foot{margin-top:38px;padding-top:18px;border-top:1px solid var(--rule);
+    font-size:12.5px;line-height:1.6;color:var(--ink-soft)}
+  .foot p{margin:0 0 7px}
+  .foot button{background:none;border:0;color:var(--ink-soft);font-family:var(--sans);
+    font-size:12.5px;text-decoration:underline;cursor:pointer;padding:0}
+  .foot button:hover{color:var(--anchor)}
+
+  /* Print: strip the interface, keep the conversation */
+  @media print{
+    @page{margin:18mm}
+    body{background:#fff;color:#000;font-size:11pt}
+    .page{max-width:none;padding:0}
+    .modes,.panel,.composer,.notice details,.foot button,.actions{display:none!important}
+    .top{padding:0 0 12pt;border-bottom:1px solid #999}
+    .brand svg{width:26px;height:26px}
+    h1{font-size:20pt}
+    .tag{margin-left:37px;color:#444}
+    .notice{border:1px solid #999;background:#fff;color:#000;font-size:9.5pt;
+      page-break-inside:avoid}
+    .turn{page-break-inside:avoid;margin-bottom:16pt}
+    .q{font-size:13pt;border-left:2px solid #000}
+    .answer{font-size:11pt;line-height:1.5}
+    .ref{background:none;color:#000;padding:0}
+    .cites{border-top:1px solid #ccc}
+    .cite a{color:#000;border:0}
+    .cite a::after{content:" (" attr(href) ")";font-size:8pt;color:#555;word-break:break-all}
+    .foot{font-size:8.5pt;color:#444}
+    .print-header{display:block!important}
   }
+  .print-header{display:none}
 
-  * { box-sizing: border-box; }
-  html { -webkit-text-size-adjust: 100%; }
+  /* Action bar */
+  .actions{display:flex;gap:8px;flex-wrap:wrap;margin:-8px 0 20px}
+  .action{font-family:var(--sans);font-size:12.5px;font-weight:500;color:var(--ink-mid);
+    background:var(--surface);border:1px solid var(--rule);border-radius:7px;
+    padding:7px 12px;cursor:pointer;transition:all .16s}
+  .action:hover{border-color:var(--anchor);color:var(--anchor)}
+  .action:focus-visible{outline:2px solid var(--anchor);outline-offset:2px}
+  .actions[hidden]{display:none}
 
-  body {
-    margin: 0;
-    background: var(--ground);
-    color: var(--ink);
-    font-family: var(--sans);
-    font-size: 16px;
-    line-height: 1.6;
-    -webkit-font-smoothing: antialiased;
-  }
-
-  .page { max-width: 700px; margin: 0 auto; padding: 0 22px 96px; }
-
-  /* ---------- Masthead ---------- */
-
-  .masthead {
-    padding: 54px 0 30px;
-    border-bottom: 1px solid var(--rule);
-    margin-bottom: 26px;
-  }
-
-  .wordmark {
-    display: flex;
-    align-items: center;
-    gap: 11px;
-    margin-bottom: 8px;
-  }
-
-  .mark { flex-shrink: 0; display: block; }
-
-  .name {
-    font-family: var(--serif);
-    font-optical-sizing: auto;
-    font-size: clamp(34px, 7vw, 46px);
-    font-weight: 400;
-    line-height: 1;
-    letter-spacing: -0.02em;
-    margin: 0;
-    color: var(--ink);
-  }
-
-  .descriptor {
-    font-family: var(--sans);
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--anchor);
-    margin: 0 0 18px 45px;
-  }
-
-  .standfirst {
-    font-family: var(--serif);
-    font-size: 18.5px;
-    font-weight: 300;
-    line-height: 1.55;
-    color: var(--ink-mid);
-    margin: 0;
-    max-width: 54ch;
-  }
-
-  /* ---------- Notices ---------- */
-
-  .notice {
-    border-radius: 10px;
-    padding: 15px 18px;
-    font-size: 14px;
-    line-height: 1.6;
-    margin-bottom: 14px;
-  }
-  .notice strong { font-weight: 600; }
-
-  .notice--caution {
-    background: var(--caution-bg);
-    border: 1px solid var(--caution-rule);
-    color: var(--caution-ink);
-  }
-  .notice--quiet {
-    background: transparent;
-    border: 1px solid var(--rule);
-    color: var(--ink-soft);
-    font-size: 13px;
-  }
-
-  /* ---------- Starters ---------- */
-
-  .starters { margin-top: 34px; }
-
-  .section-label {
-    font-family: var(--sans);
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--ink-soft);
-    margin-bottom: 14px;
-  }
-
-  .slips { display: grid; gap: 8px; }
-
-  .slip {
-    display: block;
-    width: 100%;
-    text-align: left;
-    background: var(--surface);
-    border: 1px solid var(--rule);
-    border-left: 2px solid var(--rule-strong);
-    border-radius: 0 8px 8px 0;
-    padding: 13px 16px;
-    font-family: var(--serif);
-    font-size: 16.5px;
-    line-height: 1.4;
-    color: var(--ink);
-    cursor: pointer;
-    transition: border-color .18s ease, transform .18s ease, background .18s ease;
-  }
-  .slip:hover {
-    border-left-color: var(--anchor);
-    background: var(--anchor-wash);
-    transform: translateX(2px);
-  }
-  .slip:focus-visible { outline: 2px solid var(--anchor); outline-offset: 2px; }
-
-  /* ---------- Conversation ---------- */
-
-  #thread { margin-top: 8px; }
-  .turn { margin-bottom: 30px; }
-
-  @keyframes rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
-  @media (prefers-reduced-motion: no-preference) { .turn { animation: rise .32s ease-out both; } }
-
-  .turn--asked .q {
-    font-family: var(--serif);
-    font-size: 20px;
-    line-height: 1.35;
-    color: var(--ink);
-    padding-left: 15px;
-    border-left: 2px solid var(--anchor);
-    margin: 0;
-  }
-
-  .answer {
-    font-family: var(--serif);
-    font-size: 17.5px;
-    line-height: 1.68;
-    color: var(--ink);
-  }
-  .answer p { margin: 0 0 15px; }
-  .answer p:last-child { margin-bottom: 0; }
-  .answer ul, .answer ol { margin: 15px 0; padding-left: 22px; }
-  .answer li { margin-bottom: 8px; }
-  .answer h3 {
-    font-family: var(--sans);
-    font-size: 12px;
-    font-weight: 500;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--ink-soft);
-    margin: 24px 0 10px;
-  }
-  .answer strong { font-weight: 600; }
-  .answer a { color: var(--anchor); text-underline-offset: 2px; }
-  .answer code {
-    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-    font-size: .88em;
-    background: var(--surface-sunk);
-    padding: 1px 5px;
-    border-radius: 4px;
-  }
-
-  /* ---------- Citations ---------- */
-
-  .citations { margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule); }
-  .cite {
-    display: grid;
-    grid-template-columns: 26px 1fr;
-    gap: 4px;
-    margin-bottom: 9px;
-    font-family: var(--sans);
-    font-size: 13px;
-    line-height: 1.45;
-  }
-  .cite-n { font-variant-numeric: tabular-nums; color: var(--ink-soft); font-size: 11px; padding-top: 2px; }
-  .cite a { color: var(--ink-mid); text-decoration: none; border-bottom: 1px solid var(--rule-strong); }
-  .cite a:hover { color: var(--anchor); border-bottom-color: var(--anchor); }
-  .cite-meta { color: var(--ink-soft); font-size: 12px; }
-
-  /* ---------- States ---------- */
-
-  .thinking {
-    font-family: var(--sans);
-    font-size: 14px;
-    color: var(--ink-soft);
-    display: flex;
-    align-items: center;
-    gap: 9px;
-  }
-  .pulse { width: 6px; height: 6px; border-radius: 50%; background: var(--anchor); }
-  @media (prefers-reduced-motion: no-preference) {
-    @keyframes breathe { 0%,100% { opacity: .3 } 50% { opacity: 1 } }
-    .pulse { animation: breathe 1.4s ease-in-out infinite; }
-  }
-
-  .failed {
-    background: var(--alert-bg);
-    border: 1px solid var(--alert-rule);
-    color: var(--alert-ink);
-    border-radius: 8px;
-    padding: 13px 16px;
-    font-family: var(--sans);
-    font-size: 14px;
-    line-height: 1.55;
-  }
-
-  /* ---------- Composer ---------- */
-
-  .composer {
-    position: sticky;
-    bottom: 0;
-    background: linear-gradient(to bottom, transparent, var(--ground) 22%);
-    padding: 22px 0 16px;
-    margin-top: 34px;
-  }
-  .composer-inner {
-    display: flex;
-    gap: 9px;
-    align-items: flex-end;
-    background: var(--surface);
-    border: 1px solid var(--rule-strong);
-    border-radius: 12px;
-    padding: 7px 7px 7px 15px;
-    transition: border-color .18s ease;
-  }
-  .composer-inner:focus-within { border-color: var(--anchor); }
-
-  textarea {
-    flex: 1;
-    border: 0;
-    background: transparent;
-    color: var(--ink);
-    font-family: var(--serif);
-    font-size: 16.5px;
-    line-height: 1.5;
-    padding: 9px 0;
-    resize: none;
-    min-height: 42px;
-    max-height: 190px;
-  }
-  textarea:focus { outline: none; }
-  textarea::placeholder { color: var(--ink-soft); }
-
-  button.send {
-    flex-shrink: 0;
-    border: 0;
-    background: var(--anchor);
-    color: #fff;
-    font-family: var(--sans);
-    font-size: 14px;
-    font-weight: 500;
-    padding: 11px 19px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background .18s ease, opacity .18s ease;
-  }
-  button.send:hover:not(:disabled) { background: var(--anchor-deep); }
-  button.send:disabled { opacity: .4; cursor: default; }
-  button.send:focus-visible { outline: 2px solid var(--anchor); outline-offset: 2px; }
-  @media (prefers-color-scheme: dark) { button.send { color: #14121F; } }
-
-  /* ---------- Colophon ---------- */
-
-  .colophon {
-    margin-top: 44px;
-    padding-top: 20px;
-    border-top: 1px solid var(--rule);
-    font-family: var(--sans);
-    font-size: 12.5px;
-    line-height: 1.65;
-    color: var(--ink-soft);
-  }
-  .colophon p { margin: 0 0 8px; }
-  .colophon p:last-child { margin-bottom: 0; }
-  .colophon em { font-style: italic; }
-
-  /* ---------- Intake ---------- */
-  .intake {
-    background: var(--surface);
-    border: 1px solid var(--rule);
-    border-radius: 12px;
-    padding: 20px 20px 22px;
-    margin-bottom: 26px;
-  }
-  .intake-help {
-    font-family: var(--sans);
-    font-size: 13px;
-    line-height: 1.55;
-    color: var(--ink-soft);
-    margin: -6px 0 18px;
-  }
-  .field { margin-bottom: 18px; }
-  .field-label {
-    display: block;
-    font-family: var(--sans);
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--ink-mid);
-    margin-bottom: 9px;
-  }
-  .chips { display: flex; flex-wrap: wrap; gap: 7px; }
-  .chip {
-    font-family: var(--sans);
-    font-size: 13.5px;
-    color: var(--ink-mid);
-    background: transparent;
-    border: 1px solid var(--rule-strong);
-    border-radius: 20px;
-    padding: 7px 14px;
-    cursor: pointer;
-    transition: all .16s ease;
-  }
-  .chip:hover { border-color: var(--anchor); color: var(--anchor); }
-  .chip[aria-pressed="true"] {
-    background: var(--anchor);
-    border-color: var(--anchor);
-    color: #fff;
-  }
-  .chip:focus-visible { outline: 2px solid var(--anchor); outline-offset: 2px; }
-  @media (prefers-color-scheme: dark) {
-    .chip[aria-pressed="true"] { color: #14121F; }
-  }
-
-  button.primary {
-    width: 100%;
-    border: 0;
-    background: var(--anchor);
-    color: #fff;
-    font-family: var(--sans);
-    font-size: 15px;
-    font-weight: 500;
-    padding: 13px;
-    border-radius: 9px;
-    cursor: pointer;
-    margin-top: 4px;
-    transition: background .18s ease;
-  }
-  button.primary:hover { background: var(--anchor-deep); }
-  button.primary:focus-visible { outline: 2px solid var(--anchor); outline-offset: 2px; }
-  @media (prefers-color-scheme: dark) { button.primary { color: #14121F; } }
-
-  /* ---------- Toolbar ---------- */
-  .toolbar {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-    margin-bottom: 18px;
-    flex-wrap: wrap;
-  }
-  .tool {
-    font-family: var(--sans);
-    font-size: 12.5px;
-    font-weight: 500;
-    color: var(--ink-mid);
-    background: var(--surface);
-    border: 1px solid var(--rule);
-    border-radius: 7px;
-    padding: 7px 12px;
-    cursor: pointer;
-    transition: border-color .18s ease, color .18s ease;
-  }
-  .tool:hover { border-color: var(--anchor); color: var(--anchor); }
-  .tool:focus-visible { outline: 2px solid var(--anchor); outline-offset: 2px; }
-  .tool[hidden] { display: none; }
-  .saved-note { font-size: 12px; color: var(--ink-soft); font-family: var(--sans); }
-
-  /* ---------- Citation markers ---------- */
-  .ref {
-    display: inline-block;
-    font-family: var(--sans);
-    font-size: 10.5px;
-    font-weight: 600;
-    font-variant-numeric: tabular-nums;
-    color: var(--anchor);
-    background: var(--anchor-wash);
-    border-radius: 4px;
-    padding: 1px 5px;
-    margin: 0 1px;
-    vertical-align: 1px;
-    text-decoration: none;
-  }
-  .ref:hover { background: var(--anchor); color: var(--surface); }
-
-  .cite:target, .cite.flash {
-    background: var(--anchor-wash);
-    border-radius: 6px;
-  }
-
-  @media (max-width: 560px) {
-    .page { padding: 0 17px 80px; }
-    .masthead { padding-top: 38px; }
-    .descriptor { margin-left: 0; }
-    .turn--asked .q { font-size: 18px; }
-    .answer { font-size: 16.5px; }
+  @media(max-width:560px){
+    .page{padding:0 16px 76px}
+    .top{padding-top:34px}
+    .tag{margin-left:0}
+    .inputs{grid-template-columns:1fr}
+    .q{font-size:18px}.answer{font-size:16.5px}
+    .mode{font-size:12.5px;padding:9px 4px}
   }
 </style>
 </head>
 <body>
 <div class="page">
 
-  <header class="masthead">
-    <div class="wordmark">
-      <svg class="mark" width="34" height="34" viewBox="0 0 34 34" aria-hidden="true">
+  <header class="top">
+    <div class="brand">
+      <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true">
         <g fill="none" stroke="var(--petal)" stroke-width="1.3">
-          <ellipse cx="17" cy="8.6"  rx="3.5" ry="6"/>
-          <ellipse cx="17" cy="25.4" rx="3.5" ry="6"/>
-          <ellipse cx="8.6"  cy="17" rx="6" ry="3.5"/>
-          <ellipse cx="25.4" cy="17" rx="6" ry="3.5"/>
+          <ellipse cx="17" cy="8.6" rx="3.5" ry="6"/><ellipse cx="17" cy="25.4" rx="3.5" ry="6"/>
+          <ellipse cx="8.6" cy="17" rx="6" ry="3.5"/><ellipse cx="25.4" cy="17" rx="6" ry="3.5"/>
           <ellipse cx="11.1" cy="11.1" rx="3.5" ry="6" transform="rotate(45 11.1 11.1)"/>
           <ellipse cx="22.9" cy="22.9" rx="3.5" ry="6" transform="rotate(45 22.9 22.9)"/>
           <ellipse cx="22.9" cy="11.1" rx="3.5" ry="6" transform="rotate(-45 22.9 11.1)"/>
@@ -480,413 +246,437 @@
         </g>
         <circle cx="17" cy="17" r="2.4" fill="var(--anchor)"/>
       </svg>
-      <h1 class="name">Hepatica</h1>
+      <h1>Hepatica</h1>
     </div>
-    <p class="descriptor">Know what to ask — and how soon to ask it</p>
-    <p class="standfirst">
-      Tell Hepatica about your situation. It will explain what published guidelines
-      recommend for people like you, how soon to be seen, and exactly what to ask.
-    </p>
+    <p class="tag">Know what to ask — and how soon</p>
   </header>
 
-  <div class="notice notice--caution">
-    <strong>Hepatica explains research. It cannot tell you whether you have liver cancer.</strong><br>
-    No tool can do that without an exam, imaging, and lab work. If something is worrying you,
-    see a healthcare provider. For jaundice, vomiting blood, black stools, confusion, or severe
-    abdominal pain, seek care right away.
+  <div class="notice">
+    <b>Hepatica cannot tell you whether you have cancer.</b> Nothing can, without an exam,
+    scans, and lab work. It explains what guidelines recommend for people in your situation
+    and what to ask. If you have yellowing skin or eyes, are vomiting blood, have black
+    stools, are confused, or have severe belly pain — get care today.
+    <details>
+      <summary>About your privacy</summary>
+      <p>Questions you type go to Google's free AI tier, which may use them to improve their
+      models — so leave out your name and contact details. The blood-test calculator is
+      different: it runs entirely in your browser and those numbers are never sent anywhere.</p>
+    </details>
   </div>
 
-  <div class="notice notice--quiet">
-    <strong>Privacy:</strong> this site runs on Google's free AI tier, so what you type may be
-    used by Google to improve their models. Leave out your name and contact details, and ask in
-    general terms where you can.
+  <div class="modes" role="tablist">
+    <button class="mode" role="tab" id="m-situation" aria-selected="true">My situation</button>
+    <button class="mode" role="tab" id="m-bloods" aria-selected="false">My blood test</button>
+    <button class="mode" role="tab" id="m-ask" aria-selected="false">Ask anything</button>
   </div>
 
-  <div class="toolbar">
-    <button class="tool" type="button" id="paste-report">Paste a report or lab result</button>
-    <button class="tool" type="button" id="clear-saved" hidden>Clear saved conversation</button>
-    <span class="saved-note" id="saved-note"></span>
-  </div>
+  <!-- Situation -->
+  <section class="panel" id="p-situation">
+    <p class="lede">Tap whatever applies. Hepatica will tell you what guidelines recommend
+    for people in your situation, how soon to be seen, and what to ask.</p>
 
-  <section class="intake" id="intake">
-    <div class="section-label">Tell Hepatica about your situation</div>
-    <p class="intake-help">Optional, and nothing is sent anywhere until you press the button.
-    Pick anything that applies — it helps Hepatica tell you which guidelines are relevant.</p>
-
-    <div class="field">
-      <span class="field-label">Anything you've been diagnosed with</span>
+    <div class="grp">
+      <span class="grp-label">Diagnosed with</span>
       <div class="chips" data-group="history">
         <button class="chip" type="button" data-v="chronic hepatitis B">Hepatitis B</button>
         <button class="chip" type="button" data-v="chronic hepatitis C">Hepatitis C</button>
         <button class="chip" type="button" data-v="cirrhosis">Cirrhosis</button>
-        <button class="chip" type="button" data-v="fatty liver disease (MASLD)">Fatty liver</button>
-        <button class="chip" type="button" data-v="type 2 diabetes">Type 2 diabetes</button>
+        <button class="chip" type="button" data-v="fatty liver disease">Fatty liver</button>
+        <button class="chip" type="button" data-v="type 2 diabetes">Diabetes</button>
         <button class="chip" type="button" data-v="a family history of liver cancer">Family history</button>
-        <button class="chip" type="button" data-v="a history of heavy alcohol use">Heavy alcohol use</button>
+        <button class="chip" type="button" data-v="a history of heavy alcohol use">Heavy drinking</button>
       </div>
     </div>
 
-    <div class="field">
-      <span class="field-label">Anything you're noticing</span>
+    <div class="grp">
+      <span class="grp-label">Noticing</span>
       <div class="chips" data-group="symptoms">
-        <button class="chip" type="button" data-v="yellowing of my eyes or skin">Yellow eyes or skin</button>
-        <button class="chip" type="button" data-v="pain in my upper right abdomen">Upper-right belly pain</button>
+        <button class="chip" type="button" data-v="yellowing of my eyes or skin">Yellow eyes/skin</button>
+        <button class="chip" type="button" data-v="pain in my upper right abdomen">Right-side pain</button>
         <button class="chip" type="button" data-v="unexplained weight loss">Weight loss</button>
         <button class="chip" type="button" data-v="swelling in my abdomen">Belly swelling</button>
-        <button class="chip" type="button" data-v="feeling full very quickly when eating">Feeling full fast</button>
-        <button class="chip" type="button" data-v="unusual tiredness">Unusual tiredness</button>
-        <button class="chip" type="button" data-v="no symptoms at all">No symptoms</button>
+        <button class="chip" type="button" data-v="unusual tiredness">Tiredness</button>
+        <button class="chip" type="button" data-v="no symptoms at all">Nothing</button>
       </div>
     </div>
 
-    <button class="primary" type="button" id="intake-go">What should I do next?</button>
+    <button class="primary" type="button" id="go-situation">What should I do next?</button>
   </section>
 
-  <div class="starters" id="starters">
-    <div class="section-label">Or ask something directly</div>
-    <div class="slips">
-      <button class="slip" type="button">What raises the risk of liver cancer?</button>
-      <button class="slip" type="button">Who should be screened, and how often?</button>
-      <button class="slip" type="button">What does an AFP blood test actually measure?</button>
-      <button class="slip" type="button">My scan report says LI-RADS. What does that mean?</button>
-      <button class="slip" type="button">How is cirrhosis connected to liver cancer?</button>
-      <button class="slip" type="button">What questions should I bring to my doctor?</button>
+  <!-- Bloods / FIB-4 -->
+  <section class="panel" id="p-bloods" hidden>
+    <p class="lede">FIB-4 is a calculator doctors use to estimate liver scarring from four
+    numbers on a routine blood test. It does not look for cancer — it estimates scarring,
+    which is what decides whether someone qualifies for cancer screening.</p>
+
+    <div class="calc-note">
+      These numbers stay in your browser and are never sent anywhere — not to this site,
+      not to Google. Find them on a comprehensive metabolic panel and complete blood count.
     </div>
+
+    <div class="inputs">
+      <div class="inp"><label for="f-age">Age <span class="unit">years</span></label>
+        <input id="f-age" type="number" inputmode="numeric" min="18" max="110" placeholder="e.g. 54"></div>
+      <div class="inp"><label for="f-plt">Platelets <span class="unit">×10⁹/L</span></label>
+        <input id="f-plt" type="number" inputmode="decimal" min="10" max="900" placeholder="e.g. 180"></div>
+      <div class="inp"><label for="f-ast">AST <span class="unit">U/L</span></label>
+        <input id="f-ast" type="number" inputmode="decimal" min="1" max="1000" placeholder="e.g. 42"></div>
+      <div class="inp"><label for="f-alt">ALT <span class="unit">U/L</span></label>
+        <input id="f-alt" type="number" inputmode="decimal" min="1" max="1000" placeholder="e.g. 38"></div>
+    </div>
+
+    <button class="primary" type="button" id="go-fib4">Calculate FIB-4</button>
+    <div class="result" id="fib-result" role="status" aria-live="polite"></div>
+  </section>
+
+  <!-- Ask -->
+  <section class="panel" id="p-ask" hidden>
+    <p class="lede">Ask anything about liver cancer — risk, screening, test results,
+    words you've read on a report.</p>
+    <div class="slips">
+      <button class="slip" type="button">Who should be screened, and how often?</button>
+      <button class="slip" type="button">What does an AFP blood test measure?</button>
+      <button class="slip" type="button">My report says LI-RADS — what does that mean?</button>
+      <button class="slip" type="button">Help me explain a report I don't understand</button>
+    </div>
+  </section>
+
+  <div class="actions" id="actions" hidden>
+    <button class="action" type="button" id="act-print">Print for my appointment</button>
+    <button class="action" type="button" id="act-copy">Copy conversation</button>
+    <button class="action" type="button" id="act-new">Start over</button>
+  </div>
+
+  <div class="print-header">
+    <p style="font-size:9.5pt;color:#444;margin:0 0 10pt">
+      Printed from Hepatica. Educational information only — not a diagnosis.
+      Bring this to your appointment.</p>
   </div>
 
   <main id="thread"></main>
 
   <div class="composer">
-    <form class="composer-inner" id="composer">
-      <textarea id="input" rows="1"
-        placeholder="Ask about risk factors, screening, test results, or terms you've read…"
-        aria-label="Your question"></textarea>
+    <form class="cbox" id="composer">
+      <textarea id="input" rows="1" placeholder="Ask a question…" aria-label="Your question"></textarea>
       <button class="send" type="submit" id="send">Ask</button>
     </form>
   </div>
 
-  <footer class="colophon">
-    <p>Research is pulled live from PubMed (National Library of Medicine) and ClinicalTrials.gov
-    each time you ask. Answers are written by Google Gemini and can be wrong — check anything
-    that matters against the linked source or with a clinician.</p>
-    <p>Nothing is sent to or stored on this server. Your conversation is saved only in this
-    browser, on this device, so you can come back to it — clear it any time with the button at
-    the top. The site runs on free infrastructure, so there is a limit on how many questions it
-    can answer each day.</p>
-
-    <p>Population statistics come from the NCI SEER Program and the American Cancer Society.
-    Survival figures describe large groups of people diagnosed years ago and cannot predict any
-    individual outcome.</p>
-    <p>Named for <em>Hepatica</em>, a woodland flower that blooms before anything else in spring.
-    Its leaves were once thought to resemble the liver.</p>
+  <footer class="foot">
+    <p>Answers are written by AI from research pulled live from PubMed, Europe PMC and
+    ClinicalTrials.gov. They can be wrong — check anything important with a clinician.</p>
+    <p>Your conversation is saved only in this browser, on this device.</p>
+    <p>FIB-4 thresholds follow AASLD guidance. Statistics come from the NCI SEER Program.</p>
   </footer>
 
 </div>
 
 <script>
-  const thread   = document.getElementById("thread");
-  const form     = document.getElementById("composer");
-  const input    = document.getElementById("input");
-  const sendBtn  = document.getElementById("send");
-  const starters = document.getElementById("starters");
-  let history = [];
-  let turns = [];
-  let busy = false;
+const thread=document.getElementById("thread"),form=document.getElementById("composer"),
+      input=document.getElementById("input"),sendBtn=document.getElementById("send");
+let history=[],turns=[],busy=false;
 
-  function escapeHtml(s) {
-    return String(s ?? "")
-      .replace(/&/g, "&amp;").replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;").replace(/"/g, "&quot;");
-  }
-
-  function renderText(text) {
-    const lines = escapeHtml(text).split("\n");
-    let html = "", listType = null;
-    const closeList = () => {
-      if (listType) { html += listType === "ol" ? "</ol>" : "</ul>"; listType = null; }
-    };
-
-    for (const line of lines) {
-      const t = line.trim();
-      if (t === "") continue;
-
-      const bullet   = t.match(/^[-*•]\s+(.*)$/);
-      const numbered = t.match(/^\d+[.)]\s+(.*)$/);
-      const header   = t.match(/^#{1,6}\s+(.*)$/);
-
-      if (bullet) {
-        if (listType !== "ul") { closeList(); html += "<ul>"; listType = "ul"; }
-        html += "<li>" + inline(bullet[1]) + "</li>";
-      } else if (numbered) {
-        if (listType !== "ol") { closeList(); html += "<ol>"; listType = "ol"; }
-        html += "<li>" + inline(numbered[1]) + "</li>";
-      } else if (header) {
-        closeList();
-        html += "<h3>" + inline(header[1]) + "</h3>";
-      } else {
-        closeList();
-        html += "<p>" + inline(t) + "</p>";
-      }
-    }
-    closeList();
-    return html;
-  }
-
-  function inline(s) {
-    return s
-      .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
-      .replace(/__([^_]+)__/g, "<strong>$1</strong>")
-      .replace(/(^|[\s(])\*([^*\n]+)\*(?=[\s.,;:!?)]|$)/g, "$1<em>$2</em>")
-      .replace(/`([^`]+)`/g, "<code>$1</code>")
-      .replace(/(https?:\/\/[^\s)<]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>')
-      .replace(/\[(\d{1,2})\]/g, '<a class="ref" href="#src-$1" data-ref="$1">$1</a>')
-      .replace(/\*/g, "");
-  }
-
-  function addQuestion(text) {
-    const el = document.createElement("section");
-    el.className = "turn turn--asked";
-    el.innerHTML = '<p class="q"></p>';
-    el.querySelector(".q").textContent = text;
-    thread.appendChild(el);
-    return el;
-  }
-
-  function addPending() {
-    const el = document.createElement("section");
-    el.className = "turn";
-    el.innerHTML = '<div class="thinking"><span class="pulse"></span>' +
-                   '<span>Searching the research…</span></div>';
-    thread.appendChild(el);
-    el.scrollIntoView({ behavior: "smooth", block: "nearest" });
-    return el;
-  }
-
-  function renderAnswer(el, text, sources) {
-    el.innerHTML = '<div class="answer">' + renderText(text) + "</div>";
-    if (sources && sources.length) {
-      const box = document.createElement("div");
-      box.className = "citations";
-      box.innerHTML = '<div class="section-label">Sources for this answer</div>';
-      sources.forEach((s, i) => {
-        const row = document.createElement("div");
-        row.className = "cite";
-        row.id = "src-" + (i + 1);
-        const meta = s.type === "trial"
-          ? "Clinical trial" + (s.phase && s.phase !== "N/A" ? " · " + escapeHtml(s.phase) : "")
-          : [s.journal, s.pubdate].filter(Boolean).map(escapeHtml).join(" · ");
-        row.innerHTML =
-          '<span class="cite-n">' + (i + 1) + "</span>" +
-          '<span><a href="' + escapeHtml(s.url) + '" target="_blank" rel="noopener">' +
-          escapeHtml(s.title) + "</a>" +
-          (meta ? '<br><span class="cite-meta">' + meta + "</span>" : "") +
-          "</span>";
-        box.appendChild(row);
-      });
-      el.appendChild(box);
-    }
-  }
-
-  function renderFailure(el, message) {
-    el.innerHTML = '<div class="failed"></div>';
-    el.querySelector(".failed").textContent = message;
-  }
-
-  async function ask(question) {
-    if (busy || !question.trim()) return;
-    busy = true;
-    sendBtn.disabled = true;
-    starters.style.display = "none";
-    intake.style.display = "none";
-
-    addQuestion(question);
-    input.value = "";
-    resize();
-
-    const pending = addPending();
-
-    try {
-      const res = await fetch("/api/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: question, history })
-      });
-      const data = await res.json();
-
-      if (data.error) {
-        renderFailure(pending, data.error);
-      } else {
-        renderAnswer(pending, data.reply, data.sources);
-        history.push({ role: "user", content: question });
-        history.push({ role: "assistant", content: data.reply });
-        if (history.length > 8) history = history.slice(-8);
-        turns.push({ q: question, a: data.reply, sources: data.sources || [] });
-        if (turns.length > 30) turns = turns.slice(-30);
-        save();
-      }
-    } catch (err) {
-      renderFailure(pending, "Couldn't reach the server. Check your connection and try again.");
-    }
-
-    busy = false;
-    sendBtn.disabled = false;
-    input.focus();
-  }
-
-  /* ---------- Saving to this device ---------- */
-
-  const STORE_KEY = "hepatica.conversation.v1";
-  const clearBtn  = document.getElementById("clear-saved");
-  const savedNote = document.getElementById("saved-note");
-
-  function save() {
-    try {
-      localStorage.setItem(STORE_KEY, JSON.stringify({
-        savedAt: Date.now(),
-        turns: turns
-      }));
-      reflectSavedState();
-    } catch (e) { /* storage may be full or blocked; not fatal */ }
-  }
-
-  function reflectSavedState() {
-    const has = turns.length > 0;
-    clearBtn.hidden = !has;
-    savedNote.textContent = has ? "Saved on this device" : "";
-  }
-
-  function restore() {
-    let raw;
-    try { raw = localStorage.getItem(STORE_KEY); } catch (e) { return; }
-    if (!raw) return;
-    let data;
-    try { data = JSON.parse(raw); } catch (e) { return; }
-    if (!data || !Array.isArray(data.turns) || !data.turns.length) return;
-
-    starters.style.display = "none";
-    intake.style.display = "none";
-    for (const t of data.turns) {
-      addQuestion(t.q);
-      const el = document.createElement("section");
-      el.className = "turn";
-      thread.appendChild(el);
-      renderAnswer(el, t.a, t.sources || []);
-      history.push({ role: "user", content: t.q });
-      history.push({ role: "assistant", content: t.a });
-    }
-    turns = data.turns;
-    if (history.length > 8) history = history.slice(-8);
-    reflectSavedState();
-  }
-
-  clearBtn.addEventListener("click", () => {
-    if (!confirm("Clear this saved conversation from this device?")) return;
-    try { localStorage.removeItem(STORE_KEY); } catch (e) {}
-    thread.innerHTML = "";
-    history = [];
-    turns = [];
-    starters.style.display = "";
-    intake.style.display = "";
-    reflectSavedState();
+/* ---------- Mode switching ---------- */
+const MODES=[["m-situation","p-situation"],["m-bloods","p-bloods"],["m-ask","p-ask"]];
+function setMode(id){
+  MODES.forEach(([m,p])=>{
+    const on=m===id;
+    const tab=document.getElementById(m);
+    tab.setAttribute("aria-selected",on?"true":"false");
+    tab.setAttribute("tabindex",on?"0":"-1");
+    document.getElementById(p).hidden=!on;
   });
+}
+MODES.forEach(([m])=>document.getElementById(m).addEventListener("click",()=>setMode(m)));
+function hidePanels(){MODES.forEach(([,p])=>document.getElementById(p).hidden=true);
+  document.querySelector(".modes").style.display="none";}
+function showPanels(){document.querySelector(".modes").style.display="";setMode("m-situation");}
 
-  /* ---------- Intake ---------- */
+/* ---------- Rendering ---------- */
+function esc(s){return String(s??"").replace(/&/g,"&amp;").replace(/</g,"&lt;")
+  .replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
 
-  const intake = document.getElementById("intake");
-
-  document.querySelectorAll(".chip").forEach(chip => {
-    chip.setAttribute("aria-pressed", "false");
-    chip.addEventListener("click", () => {
-      const on = chip.getAttribute("aria-pressed") === "true";
-      chip.setAttribute("aria-pressed", on ? "false" : "true");
-      // "No symptoms" is exclusive with the other symptom chips
-      if (!on && chip.dataset.v === "no symptoms at all") {
-        chip.closest(".chips").querySelectorAll(".chip").forEach(c => {
-          if (c !== chip) c.setAttribute("aria-pressed", "false");
-        });
-      } else if (!on && chip.closest(".chips").dataset.group === "symptoms") {
-        const none = chip.closest(".chips").querySelector('[data-v="no symptoms at all"]');
-        if (none) none.setAttribute("aria-pressed", "false");
-      }
-    });
+function renderText(t){
+  const lines=esc(t).split("\n");let html="",lt=null;
+  const close=()=>{if(lt){html+=lt==="ol"?"</ol>":"</ul>";lt=null;}};
+  for(const line of lines){
+    const s=line.trim(); if(!s)continue;
+    const b=s.match(/^[-*•]\s+(.*)$/),n=s.match(/^\d+[.)]\s+(.*)$/),h=s.match(/^#{1,6}\s+(.*)$/);
+    if(b){if(lt!=="ul"){close();html+="<ul>";lt="ul";}html+="<li>"+inline(b[1])+"</li>";}
+    else if(n){if(lt!=="ol"){close();html+="<ol>";lt="ol";}html+="<li>"+inline(n[1])+"</li>";}
+    else if(h){close();html+="<h3>"+inline(h[1])+"</h3>";}
+    else{close();html+="<p>"+inline(s)+"</p>";}
+  }
+  close();return html;
+}
+function inline(s){
+  return s.replace(/\*\*([^*]+)\*\*/g,"<strong>$1</strong>")
+    .replace(/__([^_]+)__/g,"<strong>$1</strong>")
+    .replace(/`([^`]+)`/g,"<code>$1</code>")
+    .replace(/(https?:\/\/[^\s)<]+)/g,'<a href="$1" target="_blank" rel="noopener">$1</a>')
+    .replace(/\[(\d{1,2})\]/g,'<a class="ref" href="#" data-ref="$1">$1</a>')
+    .replace(/\*/g,"");
+}
+function addQ(t){const e=document.createElement("section");e.className="turn";
+  e.innerHTML='<p class="q"></p>';e.querySelector(".q").textContent=t;
+  thread.appendChild(e);return e;}
+function addPending(){const e=document.createElement("section");e.className="turn";
+  e.innerHTML='<div class="thinking"><span class="pulse"></span><span>Searching the research…</span></div>';
+  thread.appendChild(e);e.scrollIntoView({behavior:"smooth",block:"nearest"});return e;}
+function renderA(el,text,sources){
+  el.innerHTML='<div class="answer">'+renderText(text)+"</div>";
+  if(!sources||!sources.length)return;
+  const box=document.createElement("div");box.className="cites";
+  box.innerHTML='<div class="cites-h">Sources</div>';
+  sources.forEach((s,i)=>{
+    const r=document.createElement("div");r.className="cite";r.dataset.n=i+1;
+    const m=s.type==="trial"
+      ?"Clinical trial"+(s.phase&&s.phase!=="N/A"?" · "+esc(s.phase):"")
+      :[s.journal,s.pubdate].filter(Boolean).map(esc).join(" · ");
+    r.innerHTML='<span class="cite-n">'+(i+1)+'</span><span><a href="'+esc(s.url)+
+      '" target="_blank" rel="noopener">'+esc(s.title)+"</a>"+
+      (m?'<br><span class="cite-m">'+m+"</span>":"")+"</span>";
+    box.appendChild(r);
   });
+  el.appendChild(box);
+}
+function renderFail(el,msg){el.innerHTML='<div class="failed"></div>';
+  el.querySelector(".failed").textContent=msg;}
 
-  function picked(group) {
-    return [...document.querySelectorAll(
-      '.chips[data-group="' + group + '"] .chip[aria-pressed="true"]'
-    )].map(c => c.dataset.v);
+/* ---------- Asking ---------- */
+async function ask(q){
+  if(busy||!q.trim())return;
+  busy=true;sendBtn.disabled=true;hidePanels();
+  addQ(q);input.value="";resize();
+  const pending=addPending();
+  try{
+    const res=await fetch("/api/chat",{method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({message:q,history})});
+    const data=await res.json();
+    if(data.error){renderFail(pending,data.error);}
+    else{
+      renderA(pending,data.reply,data.sources);
+      history.push({role:"user",content:q});
+      history.push({role:"assistant",content:data.reply});
+      if(history.length>8)history=history.slice(-8);
+      turns.push({q,a:data.reply,sources:data.sources||[]});
+      if(turns.length>30)turns=turns.slice(-30);
+      save();reflectActions();
+    }
+  }catch(e){renderFail(pending,"Couldn't reach the server. Check your connection and try again.");}
+  busy=false;sendBtn.disabled=false;input.focus();
+}
+
+/* ---------- Chips ---------- */
+document.querySelectorAll(".chip").forEach(c=>{
+  c.setAttribute("aria-pressed","false");
+  c.addEventListener("click",()=>{
+    const on=c.getAttribute("aria-pressed")==="true";
+    c.setAttribute("aria-pressed",on?"false":"true");
+    const box=c.closest(".chips");
+    if(!on&&c.dataset.v==="no symptoms at all"){
+      box.querySelectorAll(".chip").forEach(o=>{if(o!==c)o.setAttribute("aria-pressed","false");});
+    }else if(!on&&box.dataset.group==="symptoms"){
+      const none=box.querySelector('[data-v="no symptoms at all"]');
+      if(none)none.setAttribute("aria-pressed","false");
+    }
+  });
+});
+function picked(g){return[...document.querySelectorAll(
+  '.chips[data-group="'+g+'"] .chip[aria-pressed="true"]')].map(c=>c.dataset.v);}
+function joinList(a){
+  if(a.length===1)return a[0];
+  if(a.length===2)return a[0]+" and "+a[1];
+  return a.slice(0,-1).join(", ")+", and "+a[a.length-1];
+}
+document.getElementById("go-situation").addEventListener("click",()=>{
+  const h=picked("history"),s=picked("symptoms");
+  if(!h.length&&!s.length){input.focus();return;}
+  let q="Here is my situation. ";
+  if(h.length)q+="I have been diagnosed with "+joinList(h)+". ";
+  if(s.length)q+=s.includes("no symptoms at all")?"I have no symptoms right now. "
+    :"I am noticing "+joinList(s)+". ";
+  q+="What do published guidelines recommend for someone in my situation, how soon should "+
+     "I be seen, and what exactly should I ask my doctor?";
+  ask(q);
+});
+
+/* ---------- FIB-4 (runs entirely in this browser) ---------- */
+document.getElementById("go-fib4").addEventListener("click",()=>{
+  const age=parseFloat(document.getElementById("f-age").value),
+        plt=parseFloat(document.getElementById("f-plt").value),
+        ast=parseFloat(document.getElementById("f-ast").value),
+        alt=parseFloat(document.getElementById("f-alt").value);
+  const box=document.getElementById("fib-result");
+
+  if(![age,plt,ast,alt].every(v=>Number.isFinite(v)&&v>0)){
+    box.className="result show r-na";
+    box.innerHTML="<p>Please fill in all four numbers.</p>";return;
   }
 
-  function joinList(items) {
-    if (items.length === 1) return items[0];
-    if (items.length === 2) return items[0] + " and " + items[1];
-    return items.slice(0, -1).join(", ") + ", and " + items[items.length - 1];
+  const score=(age*ast)/(plt*Math.sqrt(alt));
+  const v=score.toFixed(2);
+
+  // Reliability caveats per AASLD guidance
+  if(age<35){
+    box.className="result show r-na";
+    box.innerHTML='<p class="score">'+v+'</p><div class="band">Not reliable under 35</div>'+
+      "<p>FIB-4 is not accurate below age 35, so this number should not be used. A different "+
+      "test, such as elastography (a FibroScan), is the right next step if there is concern.</p>"+
+      '<p class="ask-about">Ask your doctor: “Given my age, should I have elastography rather '+
+      'than relying on FIB-4?”</p>';
+    return;
+  }
+  if(ast>300||alt>300||plt<50||plt>500){
+    box.className="result show r-na";
+    box.innerHTML='<p class="score">'+v+'</p><div class="band">May not be reliable</div>'+
+      "<p>One of your values is outside the range where FIB-4 performs well, so this score "+
+      "can be misleading. It also should not be used during an acute illness.</p>"+
+      '<p class="ask-about">Ask your doctor: “Are my liver numbers reliable enough right now '+
+      'to interpret a FIB-4 score?”</p>';
+    return;
   }
 
-  document.getElementById("intake-go").addEventListener("click", () => {
-    const history_ = picked("history");
-    const symptoms = picked("symptoms");
+  const lowCut=age>=65?2.0:1.3;
+  let cls,band,body;
+  if(score<lowCut){
+    cls="r-low";band="Advanced scarring unlikely";
+    body="Scores below "+lowCut.toFixed(1)+" make advanced liver scarring unlikely. This does "+
+      "not rule out liver disease and says nothing about cancer — it means this particular "+
+      "screening test did not flag scarring.";
+  }else if(score<=2.67){
+    cls="r-mid";band="Indeterminate — needs a second test";
+    body="Scores between "+lowCut.toFixed(1)+" and 2.67 fall in a grey zone that FIB-4 alone "+
+      "cannot settle. Guidelines recommend a follow-up test, usually elastography (FibroScan).";
+  }else{
+    cls="r-high";band="Advanced scarring possible";
+    body="Scores above 2.67 mean advanced scarring is possible and guidelines recommend "+
+      "referral to a liver specialist for confirmation. This is not a cancer result, and it "+
+      "is not a diagnosis — FIB-4 flags people who need a closer look, and many who screen "+
+      "high turn out not to have advanced scarring.";
+  }
 
-    if (!history_.length && !symptoms.length) {
-      input.focus();
-      input.scrollIntoView({ behavior: "smooth", block: "center" });
-      return;
+  box.className="result show "+cls;
+  box.innerHTML='<p class="score">'+v+'</p><div class="band">'+band+"</div><p>"+body+"</p>"+
+    "<p>This matters for cancer because people with advanced scarring or cirrhosis are the "+
+    "group guidelines recommend for twice-yearly liver cancer screening.</p>"+
+    '<p class="ask-about">Ask your doctor: “My FIB-4 is '+v+'. Should I have further fibrosis '+
+    'testing, and do I qualify for liver cancer surveillance?”</p>';
+
+  box.scrollIntoView({behavior:"smooth",block:"nearest"});
+});
+
+/* ---------- Saving ---------- */
+const KEY="hepatica.v2";
+function save(){try{localStorage.setItem(KEY,JSON.stringify({turns}));}catch(e){}}
+function restore(){
+  let raw;try{raw=localStorage.getItem(KEY);}catch(e){return;}
+  if(!raw)return;
+  let d;try{d=JSON.parse(raw);}catch(e){return;}
+  if(!d||!Array.isArray(d.turns)||!d.turns.length)return;
+  hidePanels();
+  for(const t of d.turns){
+    addQ(t.q);
+    const e=document.createElement("section");e.className="turn";thread.appendChild(e);
+    renderA(e,t.a,t.sources||[]);
+    history.push({role:"user",content:t.q});
+    history.push({role:"assistant",content:t.a});
+  }
+  turns=d.turns;
+  if(history.length>8)history=history.slice(-8);
+  reflectActions();
+}
+/* ---------- Action bar ---------- */
+const actions=document.getElementById("actions");
+function reflectActions(){actions.hidden=turns.length===0;}
+
+document.getElementById("act-new").addEventListener("click",()=>{
+  if(turns.length&&!confirm("Clear this conversation and start over?"))return;
+  try{localStorage.removeItem(KEY);}catch(e){}
+  thread.innerHTML="";history=[];turns=[];showPanels();reflectActions();
+  window.scrollTo({top:0,behavior:"smooth"});
+});
+
+document.getElementById("act-print").addEventListener("click",()=>window.print());
+
+document.getElementById("act-copy").addEventListener("click",async e=>{
+  const btn=e.currentTarget,original=btn.textContent;
+  const text=turns.map(t=>{
+    let block="Q: "+t.q+"\n\n"+t.a;
+    if(t.sources&&t.sources.length){
+      block+="\n\nSources:\n"+t.sources
+        .map((s,i)=>"  ["+(i+1)+"] "+s.title+" — "+s.url).join("\n");
     }
+    return block;
+  }).join("\n\n———\n\n")+
+  "\n\n———\nFrom Hepatica. Educational information only, not a diagnosis.";
 
-    let q = "Here is my situation. ";
-    if (history_.length) q += "I have been diagnosed with " + joinList(history_) + ". ";
-    if (symptoms.length) {
-      q += symptoms.includes("no symptoms at all")
-        ? "I have no symptoms at the moment. "
-        : "I am noticing " + joinList(symptoms) + ". ";
-    }
-    q += "What do published guidelines recommend for someone in my situation, how soon " +
-         "should I be seen, and what exactly should I ask my doctor?";
+  try{
+    await navigator.clipboard.writeText(text);
+    btn.textContent="Copied";
+  }catch(err){
+    // Clipboard API needs HTTPS and permission; fall back to a manual select
+    const ta=document.createElement("textarea");
+    ta.value=text;ta.style.position="fixed";ta.style.opacity="0";
+    document.body.appendChild(ta);ta.select();
+    try{document.execCommand("copy");btn.textContent="Copied";}
+    catch(e2){btn.textContent="Press Ctrl+C";ta.style.opacity="1";
+      setTimeout(()=>ta.remove(),8000);}
+    if(btn.textContent==="Copied")ta.remove();
+  }
+  setTimeout(()=>{btn.textContent=original;},1800);
+});
 
-    ask(q);
-  });
-
-  /* ---------- Paste a report ---------- */
-
-  document.getElementById("paste-report").addEventListener("click", () => {
-    input.value =
-      "I have a report I don't understand. Please explain what these terms mean, " +
-      "without telling me what my results mean for me:\n\n";
-    input.focus();
-    input.setSelectionRange(input.value.length, input.value.length);
-    resize();
-    input.scrollIntoView({ behavior: "smooth", block: "center" });
-  });
-
-  /* ---------- Citation jumps ---------- */
-
-  thread.addEventListener("click", e => {
-    const ref = e.target.closest(".ref");
-    if (!ref) return;
+/* ---------- Tab keyboard navigation ---------- */
+const tabIds=MODES.map(([m])=>m);
+tabIds.forEach((id,i)=>{
+  const el=document.getElementById(id);
+  el.setAttribute("tabindex", el.getAttribute("aria-selected")==="true"?"0":"-1");
+  el.addEventListener("keydown",e=>{
+    let next=null;
+    if(e.key==="ArrowRight")next=(i+1)%tabIds.length;
+    else if(e.key==="ArrowLeft")next=(i-1+tabIds.length)%tabIds.length;
+    else if(e.key==="Home")next=0;
+    else if(e.key==="End")next=tabIds.length-1;
+    if(next===null)return;
     e.preventDefault();
-    const turn = ref.closest(".turn");
-    const target = turn && turn.querySelector("#src-" + ref.dataset.ref);
-    if (!target) return;
-    target.scrollIntoView({ behavior: "smooth", block: "center" });
-    target.classList.add("flash");
-    setTimeout(() => target.classList.remove("flash"), 1400);
+    setMode(tabIds[next]);
+    document.getElementById(tabIds[next]).focus();
   });
+});
 
-  form.addEventListener("submit", e => { e.preventDefault(); ask(input.value.trim()); });
-  document.querySelectorAll(".slip").forEach(slip => {
-    slip.addEventListener("click", () => ask(slip.textContent.trim()));
+/* ---------- Citation jumps ---------- */
+thread.addEventListener("click",e=>{
+  const ref=e.target.closest(".ref");if(!ref)return;
+  e.preventDefault();
+  const turn=ref.closest(".turn");
+  const t=turn&&turn.querySelector('.cite[data-n="'+ref.dataset.ref+'"]');
+  if(!t)return;
+  t.scrollIntoView({behavior:"smooth",block:"center"});
+  t.classList.add("flash");setTimeout(()=>t.classList.remove("flash"),1400);
+});
+
+/* ---------- Composer ---------- */
+form.addEventListener("submit",e=>{e.preventDefault();ask(input.value.trim());});
+document.querySelectorAll(".slip").forEach(s=>{
+  s.addEventListener("click",()=>{
+    if(s.textContent.includes("explain a report")){
+      setMode("m-ask");
+      input.value="I have a report I don't understand. Please explain what these terms mean, "+
+        "without telling me what my results mean for me:\n\n";
+      input.focus();input.setSelectionRange(input.value.length,input.value.length);
+      resize();input.scrollIntoView({behavior:"smooth",block:"center"});
+    }else ask(s.textContent.trim());
   });
+});
+function resize(){input.style.height="auto";
+  input.style.height=Math.min(input.scrollHeight,180)+"px";}
+input.addEventListener("input",resize);
+input.addEventListener("keydown",e=>{
+  if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();form.requestSubmit();}});
 
-  restore();
-
-  function resize() {
-    input.style.height = "auto";
-    input.style.height = Math.min(input.scrollHeight, 190) + "px";
-  }
-  input.addEventListener("input", resize);
-  input.addEventListener("keydown", e => {
-    if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); form.requestSubmit(); }
-  });
+restore();
 </script>
 </body>
 </html>
