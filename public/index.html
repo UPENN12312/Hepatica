@@ -348,4 +348,710 @@
     .tag{margin-left:37px;color:#444}
     .notice{border:1px solid #999;background:#fff;color:#000;font-size:9.5pt;
       page-break-inside:avoid}
-    .turn{page-break-ins
+    .turn{page-break-inside:avoid;margin-bottom:16pt}
+    .q{font-size:13pt;border-left:2px solid #000}
+    .answer{font-size:11pt;line-height:1.5}
+    .ref{background:none;color:#000;padding:0}
+    .cites{border-top:1px solid #ccc}
+    .cite a{color:#000;border:0}
+    .cite a::after{content:" (" attr(href) ")";font-size:8pt;color:#555;word-break:break-all}
+    .foot{font-size:8.5pt;color:#444}
+    .print-header{display:block!important}
+    .turn-actions{display:none}
+  }
+  .print-header{display:none}
+
+  /* ================================================================
+     RESPONSIVE
+     ================================================================ */
+  @media(max-width:560px){
+    .page{padding:0 16px 76px}
+    .top{padding-top:30px}
+    .tag{margin-left:0}
+    .inputs{grid-template-columns:1fr}
+    .q{font-size:18px}.answer{font-size:16.5px}
+    .mode{font-size:12.5px;padding:9px 4px}
+    .scroll-bottom{right:14px;bottom:100px}
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="offline-banner" role="status" aria-live="polite">
+    You're offline. Some features may not work until your connection returns.
+  </div>
+
+  <header class="top">
+    <div>
+      <div class="brand">
+        <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true">
+          <g fill="none" stroke="var(--petal)" stroke-width="1.3">
+            <ellipse cx="17" cy="8.6" rx="3.5" ry="6"/><ellipse cx="17" cy="25.4" rx="3.5" ry="6"/>
+            <ellipse cx="8.6" cy="17" rx="6" ry="3.5"/><ellipse cx="25.4" cy="17" rx="6" ry="3.5"/>
+            <ellipse cx="11.1" cy="11.1" rx="3.5" ry="6" transform="rotate(45 11.1 11.1)"/>
+            <ellipse cx="22.9" cy="22.9" rx="3.5" ry="6" transform="rotate(45 22.9 22.9)"/>
+            <ellipse cx="22.9" cy="11.1" rx="3.5" ry="6" transform="rotate(-45 22.9 11.1)"/>
+            <ellipse cx="11.1" cy="22.9" rx="3.5" ry="6" transform="rotate(-45 11.1 22.9)"/>
+          </g>
+          <circle cx="17" cy="17" r="2.4" fill="var(--anchor)"/>
+        </svg>
+        <h1>Hepatica</h1>
+      </div>
+      <p class="tag">Know what to ask — and how soon</p>
+    </div>
+    <div class="themebar" role="group" aria-label="Theme">
+      <button type="button" data-theme="light" aria-pressed="false" title="Light">Light</button>
+      <button type="button" data-theme="auto" aria-pressed="true" title="Auto">Auto</button>
+      <button type="button" data-theme="dark" aria-pressed="false" title="Dark">Dark</button>
+    </div>
+  </header>
+
+  <div class="notice">
+    <b>Hepatica cannot tell you whether you have cancer.</b> Nothing can, without an exam,
+    scans, and lab work. It explains what guidelines recommend for people in your situation
+    and what to ask. If you have yellowing skin or eyes, are vomiting blood, have black
+    stools, are confused, or have severe belly pain — get care today.
+    <details>
+      <summary>About your privacy</summary>
+      <p>Questions you type go to Google's free AI tier, which may use them to improve their
+      models — so leave out your name and contact details. The blood-test calculator is
+      different: it runs entirely in your browser and those numbers are never sent anywhere.</p>
+    </details>
+  </div>
+
+  <div class="modes" role="tablist">
+    <button class="mode" role="tab" id="m-situation" aria-selected="true">My situation</button>
+    <button class="mode" role="tab" id="m-bloods" aria-selected="false">My blood test</button>
+    <button class="mode" role="tab" id="m-ask" aria-selected="false">Ask anything</button>
+  </div>
+
+  <!-- Situation -->
+  <section class="panel" id="p-situation">
+    <p class="lede">Tap whatever applies. Hepatica will tell you what guidelines recommend
+    for people in your situation, how soon to be seen, and what to ask.</p>
+
+    <div class="grp">
+      <span class="grp-label">Diagnosed with</span>
+      <div class="chips" data-group="history">
+        <button class="chip" type="button" data-v="chronic hepatitis B">Hepatitis B</button>
+        <button class="chip" type="button" data-v="chronic hepatitis C">Hepatitis C</button>
+        <button class="chip" type="button" data-v="cirrhosis">Cirrhosis</button>
+        <button class="chip" type="button" data-v="fatty liver disease">Fatty liver</button>
+        <button class="chip" type="button" data-v="type 2 diabetes">Diabetes</button>
+        <button class="chip" type="button" data-v="a family history of liver cancer">Family history</button>
+        <button class="chip" type="button" data-v="a history of heavy alcohol use">Heavy drinking</button>
+      </div>
+    </div>
+
+    <div class="grp">
+      <span class="grp-label">Noticing</span>
+      <div class="chips" data-group="symptoms">
+        <button class="chip" type="button" data-v="yellowing of my eyes or skin">Yellow eyes/skin</button>
+        <button class="chip" type="button" data-v="pain in my upper right abdomen">Right-side pain</button>
+        <button class="chip" type="button" data-v="unexplained weight loss">Weight loss</button>
+        <button class="chip" type="button" data-v="swelling in my abdomen">Belly swelling</button>
+        <button class="chip" type="button" data-v="unusual tiredness">Tiredness</button>
+        <button class="chip" type="button" data-v="no symptoms at all">Nothing</button>
+      </div>
+    </div>
+
+    <button class="primary" type="button" id="go-situation">What should I do next?</button>
+  </section>
+
+  <!-- Bloods / FIB-4 -->
+  <section class="panel" id="p-bloods" hidden>
+    <p class="lede">FIB-4 is a calculator doctors use to estimate liver scarring from four
+    numbers on a routine blood test. It does not look for cancer — it estimates scarring,
+    which is what decides whether someone qualifies for cancer screening.</p>
+
+    <div class="calc-note">
+      These numbers stay in your browser and are never sent anywhere — not to this site,
+      not to Google. Find them on a comprehensive metabolic panel and complete blood count.
+    </div>
+
+    <div class="inputs">
+      <div class="inp" id="wrap-age">
+        <label for="f-age">Age <span class="unit">years</span></label>
+        <input id="f-age" type="number" inputmode="numeric" min="18" max="110" placeholder="e.g. 54">
+        <div class="hint">Please enter a valid age (18–110)</div>
+      </div>
+      <div class="inp" id="wrap-plt">
+        <label for="f-plt">Platelets <span class="unit">×10⁹/L</span></label>
+        <input id="f-plt" type="number" inputmode="decimal" min="10" max="900" placeholder="e.g. 180">
+        <div class="hint">Please enter a valid platelet count (10–900)</div>
+      </div>
+      <div class="inp" id="wrap-ast">
+        <label for="f-ast">AST <span class="unit">U/L</span></label>
+        <input id="f-ast" type="number" inputmode="decimal" min="1" max="1000" placeholder="e.g. 42">
+        <div class="hint">Please enter a valid AST (1–1000)</div>
+      </div>
+      <div class="inp" id="wrap-alt">
+        <label for="f-alt">ALT <span class="unit">U/L</span></label>
+        <input id="f-alt" type="number" inputmode="decimal" min="1" max="1000" placeholder="e.g. 38">
+        <div class="hint">Please enter a valid ALT (1–1000)</div>
+      </div>
+    </div>
+
+    <button class="primary" type="button" id="go-fib4">Calculate FIB-4</button>
+    <div class="result" id="fib-result" role="status" aria-live="polite"></div>
+  </section>
+
+  <!-- Ask -->
+  <section class="panel" id="p-ask" hidden>
+    <p class="lede">Ask anything about liver cancer — risk, screening, test results,
+    words you've read on a report.</p>
+    <div class="slips">
+      <button class="slip" type="button">Who should be screened, and how often?</button>
+      <button class="slip" type="button">What does an AFP blood test measure?</button>
+      <button class="slip" type="button">My report says LI-RADS — what does that mean?</button>
+      <button class="slip" type="button">Help me explain a report I don't understand</button>
+    </div>
+  </section>
+
+  <div class="actions" id="actions" hidden>
+    <button class="action" type="button" id="act-print">Print for my appointment</button>
+    <button class="action" type="button" id="act-copy">Copy conversation</button>
+    <button class="action" type="button" id="act-new">Start over</button>
+  </div>
+
+  <div class="print-header">
+    <p style="font-size:9.5pt;color:#444;margin:0 0 10pt">
+      Printed from Hepatica. Educational information only — not a diagnosis.
+      Bring this to your appointment.</p>
+  </div>
+
+  <main id="thread" aria-live="polite" aria-atomic="false"></main>
+
+  <button class="scroll-bottom" id="scroll-bottom" aria-label="Scroll to bottom" title="Scroll to bottom">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+  </button>
+
+  <div class="composer">
+    <form class="cbox" id="composer">
+      <textarea id="input" rows="1" placeholder="Ask a question…" aria-label="Your question"></textarea>
+      <button class="send" type="submit" id="send">Ask</button>
+    </form>
+    <div class="composer-meta">
+      <span class="composer-hint"><kbd>/</kbd> to focus · <kbd>Ctrl</kbd>+<kbd>Enter</kbd> to send</span>
+      <span class="composer-hint" id="char-count" style="opacity:0">0 / 4000</span>
+    </div>
+  </div>
+
+  <footer class="foot">
+    <p>Answers are written by AI from research pulled live from PubMed, Europe PMC and
+    ClinicalTrials.gov. They can be wrong — check anything important with a clinician.</p>
+    <p>Your conversation is saved only in this browser, on this device.</p>
+    <p>FIB-4 thresholds follow AASLD guidance. Statistics come from the NCI SEER Program.</p>
+  </footer>
+
+</div>
+
+<script>
+/* ================================================================
+   SERVICE WORKER (offline shell)
+   ================================================================ */
+const swCode = `
+self.addEventListener('install', e => self.skipWaiting());
+self.addEventListener('activate', e => e.waitUntil(clients.claim()));
+self.addEventListener('fetch', e => {
+  e.respondWith(fetch(e.request).catch(() => {
+    if (e.request.mode === 'navigate') {
+      return new Response('<!DOCTYPE html><html><head><meta charset=utf-8><meta name=viewport content="width=device-width"><title>Offline</title><style>body{font-family:system-ui,sans-serif;max-width:500px;margin:60px auto;padding:0 20px;color:#333;text-align:center}</style></head><body><h1>You are offline</h1><p>Hepatica needs a connection to search the research and answer questions. Your saved conversation and the blood-test calculator are still available.</p></body></html>', {headers:{'Content-Type':'text/html'}});
+    }
+    return new Response('', {status:503, statusText:'Offline'});
+  }));
+});
+`;
+if ('serviceWorker' in navigator) {
+  const blob = new Blob([swCode], {type:'application/javascript'});
+  navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(()=>{});
+}
+
+/* ================================================================
+   THEME MANAGEMENT
+   ================================================================ */
+(function(){
+  const root = document.documentElement;
+  const buttons = document.querySelectorAll('.themebar button');
+  const saved = localStorage.getItem('hepatica.theme');
+  if (saved) root.setAttribute('data-theme', saved);
+
+  function setTheme(t){
+    root.setAttribute('data-theme', t);
+    localStorage.setItem('hepatica.theme', t);
+    buttons.forEach(b => b.setAttribute('aria-pressed', b.dataset.theme === t ? 'true' : 'false'));
+  }
+  buttons.forEach(b => b.addEventListener('click', () => setTheme(b.dataset.theme)));
+})();
+
+/* ================================================================
+   OFFLINE DETECTION
+   ================================================================ */
+function updateOnline(){
+  document.body.classList.toggle('offline', !navigator.onLine);
+}
+window.addEventListener('online', updateOnline);
+window.addEventListener('offline', updateOnline);
+updateOnline();
+
+/* ================================================================
+   STATE
+   ================================================================ */
+const thread=document.getElementById("thread"),form=document.getElementById("composer"),
+      input=document.getElementById("input"),sendBtn=document.getElementById("send"),
+      charCount=document.getElementById("char-count"),
+      scrollBtn=document.getElementById("scroll-bottom");
+let history=[],turns=[],busy=false;
+
+/* ================================================================
+   MODE SWITCHING
+   ================================================================ */
+const MODES=[["m-situation","p-situation"],["m-bloods","p-bloods"],["m-ask","p-ask"]];
+function setMode(id){
+  MODES.forEach(([m,p])=>{
+    const on=m===id;
+    const tab=document.getElementById(m);
+    tab.setAttribute("aria-selected",on?"true":"false");
+    tab.setAttribute("tabindex",on?"0":"-1");
+    document.getElementById(p).hidden=!on;
+  });
+  try{localStorage.setItem('hepatica.lastTab',id);}catch(e){}
+}
+MODES.forEach(([m])=>document.getElementById(m).addEventListener("click",()=>setMode(m)));
+function hidePanels(){MODES.forEach(([,p])=>document.getElementById(p).hidden=true);
+  document.querySelector(".modes").style.display="none";}
+function showPanels(){document.querySelector(".modes").style.display="";setMode("m-situation");}
+
+// Restore last tab
+(function(){
+  let last; try{last=localStorage.getItem('hepatica.lastTab');}catch(e){}
+  if(last&&MODES.some(([m])=>m===last))setMode(last);
+})();
+
+/* ================================================================
+   RENDERING UTILITIES
+   ================================================================ */
+function esc(s){return String(s??"").replace(/&/g,"&amp;").replace(/</g,"&lt;")
+  .replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
+
+function timeAgo(d){
+  const diff=Math.floor((Date.now()-d)/1000);
+  if(diff<60)return "just now";
+  if(diff<3600)return Math.floor(diff/60)+" min ago";
+  if(diff<86400)return Math.floor(diff/3600)+" hr ago";
+  return Math.floor(diff/86400)+" days ago";
+}
+
+function renderText(t){
+  const lines=esc(t).split("\n");let html="",lt=null;
+  const close=()=>{if(lt){html+=lt==="ol"?"</ol>":"</ul>";lt=null;}};
+  for(const line of lines){
+    const s=line.trim(); if(!s)continue;
+    const b=s.match(/^[-*•]\s+(.*)$/),n=s.match(/^\d+[.)]\s+(.*)$/),h=s.match(/^#{1,6}\s+(.*)$/);
+    if(b){if(lt!=="ul"){close();html+="<ul>";lt="ul";}html+="<li>"+inline(b[1])+"</li>";}
+    else if(n){if(lt!=="ol"){close();html+="<ol>";lt="ol";}html+="<li>"+inline(n[1])+"</li>";}
+    else if(h){close();html+="<h3>"+inline(h[1])+"</h3>";}
+    else{close();html+="<p>"+inline(s)+"</p>";}
+  }
+  close();return html;
+}
+function inline(s){
+  return s.replace(/\*\*([^*]+)\*\*/g,"<strong>$1</strong>")
+    .replace(/__([^_]+)__/g,"<strong>$1</strong>")
+    .replace(/`([^`]+)`/g,"<code>$1</code>")
+    .replace(/(https?:\/\/[^\s)<]+)/g,'<a href="$1" target="_blank" rel="noopener">$1</a>')
+    .replace(/\[(\d{1,2})\]/g,'<a class="ref" href="#" data-ref="$1">$1</a>')
+    .replace(/\*/g,"");
+}
+
+function addQ(t){
+  const e=document.createElement("section");e.className="turn";
+  const now=Date.now();
+  e.innerHTML='<div class="turn-header"><span class="turn-time">'+timeAgo(now)+'</span></div><p class="q"></p>';
+  e.querySelector(".q").textContent=t;
+  e.dataset.time=now;
+  thread.appendChild(e);return e;
+}
+
+function addPending(){
+  const e=document.createElement("section");e.className="turn";
+  e.innerHTML='<div class="turn-header"><span class="turn-time">just now</span></div><div class="thinking"><span class="pulse"></span><span>Searching the research…</span></div>';
+  thread.appendChild(e);e.scrollIntoView({behavior:"smooth",block:"nearest"});return e;
+}
+
+function renderA(el,text,sources){
+  el.innerHTML='<div class="turn-header"><span class="turn-time">just now</span></div><div class="answer">'+renderText(text)+"</div>";
+  if(!sources||!sources.length)return;
+  const box=document.createElement("div");box.className="cites";
+  box.innerHTML='<div class="cites-h" role="button" tabindex="0" aria-expanded="false">Sources <span style="opacity:.6">('+sources.length+')</span></div><div class="cites-body"></div>';
+  const body=box.querySelector('.cites-body');
+  sources.forEach((s,i)=>{
+    const r=document.createElement("div");r.className="cite";r.dataset.n=i+1;
+    const m=s.type==="trial"
+      ?"Clinical trial"+(s.phase&&s.phase!=="N/A"?" · "+esc(s.phase):"")
+      :[s.journal,s.pubdate].filter(Boolean).map(esc).join(" · ");
+    r.innerHTML='<span class="cite-n">'+(i+1)+'</span><span><a href="'+esc(s.url)+
+      '" target="_blank" rel="noopener">'+esc(s.title)+"</a>"+
+      (m?'<br><span class="cite-m">'+m+"</span>":"")+"</span>";
+    body.appendChild(r);
+  });
+  // Toggle
+  const h=box.querySelector('.cites-h');
+  h.addEventListener('click',()=>{
+    const open=box.classList.toggle('open');
+    h.setAttribute('aria-expanded',open?'true':'false');
+  });
+  h.addEventListener('keydown',e=>{
+    if(e.key==='Enter'||e.key===' '){e.preventDefault();h.click();}
+  });
+  el.appendChild(box);
+}
+
+function renderFail(el,msg,code){
+  el.innerHTML='<div class="turn-header"><span class="turn-time">just now</span></div><div class="failed"></div><div class="turn-actions"><button class="retry-btn">Try again</button></div>';
+  el.querySelector(".failed").textContent=msg;
+  if(code){const c=document.createElement('div');c.className='err-code';c.textContent='Code: '+code;el.querySelector('.failed').appendChild(c);}
+  el.querySelector('.retry-btn').addEventListener('click',()=>{
+    // Find the question from previous sibling
+    const prev=el.previousElementSibling;
+    if(prev&&prev.querySelector('.q')){
+      const q=prev.querySelector('.q').textContent;
+      el.remove();
+      ask(q);
+    }
+  });
+}
+
+/* ================================================================
+   ASKING
+   ================================================================ */
+async function ask(q){
+  if(busy||!q.trim())return;
+  busy=true;sendBtn.disabled=true;hidePanels();
+  addQ(q);input.value="";resize();updateCharCount();
+  const pending=addPending();
+  try{
+    const res=await fetch("/api/chat",{method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({message:q,history})});
+    const data=await res.json();
+    if(data.error){
+      renderFail(pending,data.error,data.code);
+    }else{
+      renderA(pending,data.reply,data.sources);
+      history.push({role:"user",content:q});
+      history.push({role:"assistant",content:data.reply});
+      if(history.length>8)history=history.slice(-8);
+      turns.push({q,a:data.reply,sources:data.sources||[],t:Date.now()});
+      if(turns.length>30)turns=turns.slice(-30);
+      save();reflectActions();
+    }
+  }catch(e){
+    const isOffline=!navigator.onLine;
+    renderFail(pending,isOffline?"You appear to be offline. Check your connection and try again.":"Couldn't reach the server. Check your connection and try again.", isOffline?"OFFLINE":"NETWORK");
+  }
+  busy=false;sendBtn.disabled=false;input.focus();
+}
+
+/* ================================================================
+   CHIPS
+   ================================================================ */
+document.querySelectorAll(".chip").forEach(c=>{
+  c.setAttribute("aria-pressed","false");
+  c.addEventListener("click",()=>{
+    const on=c.getAttribute("aria-pressed")==="true";
+    c.setAttribute("aria-pressed",on?"false":"true");
+    const box=c.closest(".chips");
+    if(!on&&c.dataset.v==="no symptoms at all"){
+      box.querySelectorAll(".chip").forEach(o=>{if(o!==c)o.setAttribute("aria-pressed","false");});
+    }else if(!on&&box.dataset.group==="symptoms"){
+      const none=box.querySelector('[data-v="no symptoms at all"]');
+      if(none)none.setAttribute("aria-pressed","false");
+    }
+  });
+});
+function picked(g){return[...document.querySelectorAll(
+  '.chips[data-group="'+g+'"] .chip[aria-pressed="true"]')].map(c=>c.dataset.v);}
+function joinList(a){
+  if(a.length===1)return a[0];
+  if(a.length===2)return a[0]+" and "+a[1];
+  return a.slice(0,-1).join(", ")+", and "+a[a.length-1];
+}
+document.getElementById("go-situation").addEventListener("click",()=>{
+  const h=picked("history"),s=picked("symptoms");
+  if(!h.length&&!s.length){input.focus();return;}
+  let q="Here is my situation. ";
+  if(h.length)q+="I have been diagnosed with "+joinList(h)+". ";
+  if(s.length)q+=s.includes("no symptoms at all")?"I have no symptoms right now. "
+    :"I am noticing "+joinList(s)+". ";
+  q+="What do published guidelines recommend for someone in my situation, how soon should "+
+     "I be seen, and what exactly should I ask my doctor?";
+  ask(q);
+});
+
+/* ================================================================
+   FIB-4 (browser-only)
+   ================================================================ */
+const fibInputs=['f-age','f-plt','f-ast','f-alt'];
+fibInputs.forEach(id=>{
+  const el=document.getElementById(id);
+  const wrap=document.getElementById('wrap-'+id.split('-')[1]);
+  el.addEventListener('input',()=>{
+    const v=parseFloat(el.value);
+    const min=parseFloat(el.min),max=parseFloat(el.max);
+    const bad=el.value!=='' && (!Number.isFinite(v)||v<min||v>max);
+    el.classList.toggle('invalid',bad);
+    wrap.classList.toggle('invalid',bad);
+  });
+});
+
+document.getElementById("go-fib4").addEventListener("click",()=>{
+  const age=parseFloat(document.getElementById("f-age").value),
+        plt=parseFloat(document.getElementById("f-plt").value),
+        ast=parseFloat(document.getElementById("f-ast").value),
+        alt=parseFloat(document.getElementById("f-alt").value);
+  const box=document.getElementById("fib-result");
+
+  if(![age,plt,ast,alt].every(v=>Number.isFinite(v)&&v>0)){
+    box.className="result show r-na";
+    box.innerHTML="<p>Please fill in all four numbers.</p>";return;
+  }
+
+  const score=(age*ast)/(plt*Math.sqrt(alt));
+  const v=score.toFixed(2);
+
+  if(age<35){
+    box.className="result show r-na";
+    box.innerHTML='<p class="score">'+v+'</p><div class="band">Not reliable under 35</div>'+
+      "<p>FIB-4 is not accurate below age 35, so this number should not be used. A different "+
+      "test, such as elastography (a FibroScan), is the right next step if there is concern.</p>"+
+      '<p class="ask-about">Ask your doctor: “Given my age, should I have elastography rather '+
+      'than relying on FIB-4?”</p>';
+    return;
+  }
+  if(ast>300||alt>300||plt<50||plt>500){
+    box.className="result show r-na";
+    box.innerHTML='<p class="score">'+v+'</p><div class="band">May not be reliable</div>'+
+      "<p>One of your values is outside the range where FIB-4 performs well, so this score "+
+      "can be misleading. It also should not be used during an acute illness.</p>"+
+      '<p class="ask-about">Ask your doctor: “Are my liver numbers reliable enough right now '+
+      'to interpret a FIB-4 score?”</p>';
+    return;
+  }
+
+  const lowCut=age>=65?2.0:1.3;
+  let cls,band,body;
+  if(score<lowCut){
+    cls="r-low";band="Advanced scarring unlikely";
+    body="Scores below "+lowCut.toFixed(1)+" make advanced liver scarring unlikely. This does "+
+      "not rule out liver disease and says nothing about cancer — it means this particular "+
+      "screening test did not flag scarring.";
+  }else if(score<=2.67){
+    cls="r-mid";band="Indeterminate — needs a second test";
+    body="Scores between "+lowCut.toFixed(1)+" and 2.67 fall in a grey zone that FIB-4 alone "+
+      "cannot settle. Guidelines recommend a follow-up test, usually elastography (FibroScan).";
+  }else{
+    cls="r-high";band="Advanced scarring possible";
+    body="Scores above 2.67 mean advanced scarring is possible and guidelines recommend "+
+      "referral to a liver specialist for confirmation. This is not a cancer result, and it "+
+      "is not a diagnosis — FIB-4 flags people who need a closer look, and many who screen "+
+      "high turn out not to have advanced scarring.";
+  }
+
+  box.className="result show "+cls;
+  box.innerHTML='<p class="score">'+v+'</p><div class="band">'+band+"</div><p>"+body+"</p>"+
+    "<p>This matters for cancer because people with advanced scarring or cirrhosis are the "+
+    "group guidelines recommend for twice-yearly liver cancer screening.</p>"+
+    '<p class="ask-about">Ask your doctor: “My FIB-4 is '+v+'. Should I have further fibrosis '+
+    'testing, and do I qualify for liver cancer surveillance?”</p>';
+
+  box.scrollIntoView({behavior:"smooth",block:"nearest"});
+});
+
+/* ================================================================
+   SAVING & RESTORE
+   ================================================================ */
+const KEY="hepatica.v2";
+function save(){try{localStorage.setItem(KEY,JSON.stringify({turns}));}catch(e){}}
+function restore(){
+  let raw;try{raw=localStorage.getItem(KEY);}catch(e){return;}
+  if(!raw)return;
+  let d;try{d=JSON.parse(raw);}catch(e){return;}
+  if(!d||!Array.isArray(d.turns)||!d.turns.length)return;
+  hidePanels();
+  for(const t of d.turns){
+    addQ(t.q);
+    const e=document.createElement("section");e.className="turn";thread.appendChild(e);
+    renderA(e,t.a,t.sources||[]);
+    // Restore timestamp if present
+    if(t.t){e.dataset.time=t.t;e.querySelector('.turn-time').textContent=timeAgo(t.t);}
+    history.push({role:"user",content:t.q});
+    history.push({role:"assistant",content:t.a});
+  }
+  turns=d.turns;
+  if(history.length>8)history=history.slice(-8);
+  reflectActions();
+}
+
+/* ================================================================
+   ACTION BAR
+   ================================================================ */
+const actions=document.getElementById("actions");
+function reflectActions(){actions.hidden=turns.length===0;}
+
+document.getElementById("act-new").addEventListener("click",()=>{
+  if(turns.length&&!confirm("Clear this conversation and start over?"))return;
+  try{localStorage.removeItem(KEY);}catch(e){}
+  thread.innerHTML="";history=[];turns=[];showPanels();reflectActions();
+  window.scrollTo({top:0,behavior:"smooth"});
+});
+
+document.getElementById("act-print").addEventListener("click",()=>window.print());
+
+document.getElementById("act-copy").addEventListener("click",async e=>{
+  const btn=e.currentTarget,original=btn.textContent;
+  const text=turns.map(t=>{
+    let block="Q: "+t.q+"\n\n"+t.a;
+    if(t.sources&&t.sources.length){
+      block+="\n\nSources:\n"+t.sources
+        .map((s,i)=>"  ["+(i+1)+"] "+s.title+" — "+s.url).join("\n");
+    }
+    return block;
+  }).join("\n\n———\n\n")+
+  "\n\n———\nFrom Hepatica. Educational information only, not a diagnosis.";
+
+  try{
+    await navigator.clipboard.writeText(text);
+    btn.textContent="Copied";
+  }catch(err){
+    const ta=document.createElement("textarea");
+    ta.value=text;ta.style.position="fixed";ta.style.opacity="0";
+    document.body.appendChild(ta);ta.select();
+    try{document.execCommand("copy");btn.textContent="Copied";}
+    catch(e2){btn.textContent="Press Ctrl+C";ta.style.opacity="1";
+      setTimeout(()=>ta.remove(),8000);}
+    if(btn.textContent==="Copied")ta.remove();
+  }
+  setTimeout(()=>{btn.textContent=original;},1800);
+});
+
+/* ================================================================
+   TAB KEYBOARD NAVIGATION
+   ================================================================ */
+const tabIds=MODES.map(([m])=>m);
+tabIds.forEach((id,i)=>{
+  const el=document.getElementById(id);
+  el.setAttribute("tabindex", el.getAttribute("aria-selected")==="true"?"0":"-1");
+  el.addEventListener("keydown",e=>{
+    let next=null;
+    if(e.key==="ArrowRight")next=(i+1)%tabIds.length;
+    else if(e.key==="ArrowLeft")next=(i-1+tabIds.length)%tabIds.length;
+    else if(e.key==="Home")next=0;
+    else if(e.key==="End")next=tabIds.length-1;
+    if(next===null)return;
+    e.preventDefault();
+    setMode(tabIds[next]);
+    document.getElementById(tabIds[next]).focus();
+  });
+});
+
+/* ================================================================
+   CITATION JUMPS
+   ================================================================ */
+thread.addEventListener("click",e=>{
+  const ref=e.target.closest(".ref");if(!ref)return;
+  e.preventDefault();
+  const turn=ref.closest(".turn");
+  const t=turn&&turn.querySelector('.cite[data-n="'+ref.dataset.ref+'"]');
+  if(!t)return;
+  t.scrollIntoView({behavior:"smooth",block:"center"});
+  t.classList.add("flash");setTimeout(()=>t.classList.remove("flash"),1400);
+});
+
+/* ================================================================
+   COMPOSER
+   ================================================================ */
+form.addEventListener("submit",e=>{e.preventDefault();ask(input.value.trim());});
+document.querySelectorAll(".slip").forEach(s=>{
+  s.addEventListener("click",()=>{
+    if(s.textContent.includes("explain a report")){
+      setMode("m-ask");
+      input.value="I have a report I don't understand. Please explain what these terms mean, "+
+        "without telling me what my results mean for me:\n\n";
+      input.focus();input.setSelectionRange(input.value.length,input.value.length);
+      resize();updateCharCount();input.scrollIntoView({behavior:"smooth",block:"center"});
+    }else ask(s.textContent.trim());
+  });
+});
+
+function resize(){input.style.height="auto";
+  input.style.height=Math.min(input.scrollHeight,180)+"px";}
+input.addEventListener("input",()=>{resize();updateCharCount();saveDraft();});
+input.addEventListener("keydown",e=>{
+  if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();form.requestSubmit();}
+});
+
+function updateCharCount(){
+  const len=input.value.length;
+  charCount.textContent=len+" / 4000";
+  charCount.style.opacity=len>0?"1":"0";
+  if(len>4000){charCount.style.color="var(--stop-ink)";}
+  else{charCount.style.color="var(--ink-soft)";}
+}
+
+/* Draft auto-save */
+function saveDraft(){try{localStorage.setItem('hepatica.draft',input.value);}catch(e){}}
+function loadDraft(){try{const d=localStorage.getItem('hepatica.draft');if(d){input.value=d;resize();updateCharCount();}}catch(e){}}
+loadDraft();
+
+/* ================================================================
+   KEYBOARD SHORTCUTS
+   ================================================================ */
+document.addEventListener('keydown',e=>{
+  // / to focus input (unless in input)
+  if(e.key==='/' && document.activeElement!==input && !e.ctrlKey && !e.metaKey){
+    e.preventDefault();input.focus();
+  }
+  // Esc to blur input
+  if(e.key==='Escape' && document.activeElement===input){
+    input.blur();
+  }
+});
+
+/* ================================================================
+   SCROLL-TO-BOTTOM BUTTON
+   ================================================================ */
+(function(){
+  let ticking=false;
+  function onScroll(){
+    const nearBottom=(window.innerHeight+window.scrollY)>=document.body.scrollHeight-200;
+    scrollBtn.classList.toggle('show',!nearBottom&&thread.children.length>0);
+    ticking=false;
+  }
+  window.addEventListener('scroll',()=>{if(!ticking){requestAnimationFrame(onScroll);ticking=true;}});
+  scrollBtn.addEventListener('click',()=>{
+    window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});
+  });
+})();
+
+/* ================================================================
+   UPDATE TIMESTAMPS PERIODICALLY
+   ================================================================ */
+setInterval(()=>{
+  document.querySelectorAll('.turn[data-time]').forEach(el=>{
+    const t=parseInt(el.dataset.time,10);
+    if(!t)return;
+    const span=el.querySelector('.turn-time');
+    if(span)span.textContent=timeAgo(t);
+  });
+},60000);
+
+/* ================================================================
+   INIT
+   ================================================================ */
+restore();
+</script>
+</body>
+</html>
+  
