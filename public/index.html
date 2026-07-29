@@ -1,36 +1,20 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="auto">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Hepatica — Liver Questions, Answered Plainly</title>
-<meta name="description" content="Understand your liver health: what guidelines recommend, how soon to be seen, and what to ask.">
-<meta name="theme-color" content="#4F4593">
-<meta name="color-scheme" content="light dark">
-
-<!-- PWA -->
-<link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiSGVwYXRpY2EiLCJzaG9ydF9uYW1lIjoiSGVwYXRpY2EiLCJzdGFydF91cmwiOiIuIiwiZGlzcGxheSI6InN0YW5kYWxvbmUiLCJiYWNrZ3JvdW5kX2NvbG9yIjoiI0Y0RjNGOCIsInRoZW1lX2NvbG9yIjoiIzRGNDU5MyJ9">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-
-<!-- Social -->
+<meta name="description" content="Understand your liver health questions: what guidelines recommend, how soon to be seen, and what to ask.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 34 34'%3E%3Cg fill='none' stroke='%237D71C4' stroke-width='1.6'%3E%3Cellipse cx='17' cy='8.6' rx='3.5' ry='6'/%3E%3Cellipse cx='17' cy='25.4' rx='3.5' ry='6'/%3E%3Cellipse cx='8.6' cy='17' rx='6' ry='3.5'/%3E%3Cellipse cx='25.4' cy='17' rx='6' ry='3.5'/%3E%3C/g%3E%3Ccircle cx='17' cy='17' r='2.6' fill='%234F4593'/%3E%3C/svg%3E">
 <meta property="og:title" content="Hepatica — liver questions, answered plainly">
-<meta property="og:description" content="What guidelines recommend, how soon to be seen, and what to ask.">
+<meta property="og:description" content="What guidelines recommend for your situation, how soon to be seen, and what to ask. Educational, not diagnostic.">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary">
-
-<!-- Icon -->
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 34 34'%3E%3Cg fill='none' stroke='%237D71C4' stroke-width='1.6'%3E%3Cellipse cx='17' cy='8.6' rx='3.5' ry='6'/%3E%3Cellipse cx='17' cy='25.4' rx='3.5' ry='6'/%3E%3Cellipse cx='8.6' cy='17' rx='6' ry='3.5'/%3E%3Cellipse cx='25.4' cy='17' rx='6' ry='3.5'/%3E%3Cellipse cx='11.1' cy='11.1' rx='3.5' ry='6' transform='rotate(45 11.1 11.1)'/%3E%3Cellipse cx='22.9' cy='22.9' rx='3.5' ry='6' transform='rotate(45 22.9 22.9)'/%3E%3Cellipse cx='22.9' cy='11.1' rx='3.5' ry='6' transform='rotate(-45 22.9 11.1)'/%3E%3Cellipse cx='11.1' cy='22.9' rx='3.5' ry='6' transform='rotate(-45 11.1 22.9)'/%3E%3C/g%3E%3Ccircle cx='17' cy='17' r='2.4' fill='%234F4593'/%3E%3C/svg%3E">
-
-<!-- Fonts -->
+<meta name="theme-color" content="#4F4593">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,300..600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-
 <style>
-  /* ================================================================
-     TOKENS
-     ================================================================ */
   :root {
     --ground:#F4F3F8; --surface:#FFF; --sunk:#EAE8F2;
     --ink:#1C1A2E; --ink-mid:#4E4A66; --ink-soft:#7C7891;
@@ -38,107 +22,50 @@
     --anchor:#4F4593; --anchor-deep:#382F6E; --wash:#EDEBF8; --petal:#7D71C4;
     --warn-bg:#FBF4E6; --warn-rule:#E7D8B4; --warn-ink:#6E5720;
     --stop-bg:#FBECEF; --stop-rule:#E9C2CC; --stop-ink:#8B2F47;
-    --ok-bg:#E8F5E9; --ok-rule:#A5D6A7; --ok-ink:#2E7D32;
     --serif:"Newsreader",Georgia,serif; --sans:"Inter",-apple-system,sans-serif;
-    --shadow-sm:0 1px 3px rgba(0,0,0,.06);
-    --shadow-md:0 4px 16px rgba(0,0,0,.08);
-    --radius:12px;
   }
-  @media (prefers-color-scheme:dark){
-    :root[data-theme="auto"]{
-      --ground:#131221; --surface:#1C1A2E; --sunk:#171626;
-      --ink:#E8E6F2; --ink-mid:#ADA8C4; --ink-soft:#817CA0;
-      --rule:#2C2942; --rule-2:#3D3959;
-      --anchor:#A79DE8; --anchor-deep:#C3BCF3; --wash:#232040; --petal:#9C90DC;
-      --warn-bg:#241E10; --warn-rule:#463A22; --warn-ink:#DBC189;
-      --stop-bg:#2B1520; --stop-rule:#4C2537; --stop-ink:#E9A0B4;
-      --ok-bg:#1B2E1B; --ok-rule:#2E5C2E; --ok-ink:#81C784;
-    }
-  }
-  :root[data-theme="dark"]{
+  @media (prefers-color-scheme:dark){:root{
     --ground:#131221; --surface:#1C1A2E; --sunk:#171626;
     --ink:#E8E6F2; --ink-mid:#ADA8C4; --ink-soft:#817CA0;
     --rule:#2C2942; --rule-2:#3D3959;
     --anchor:#A79DE8; --anchor-deep:#C3BCF3; --wash:#232040; --petal:#9C90DC;
     --warn-bg:#241E10; --warn-rule:#463A22; --warn-ink:#DBC189;
     --stop-bg:#2B1520; --stop-rule:#4C2537; --stop-ink:#E9A0B4;
-    --ok-bg:#1B2E1B; --ok-rule:#2E5C2E; --ok-ink:#81C784;
-  }
-  :root[data-theme="light"]{
-    --ground:#F4F3F8; --surface:#FFF; --sunk:#EAE8F2;
-    --ink:#1C1A2E; --ink-mid:#4E4A66; --ink-soft:#7C7891;
-    --rule:#E3E1EC; --rule-2:#CBC7DC;
-    --anchor:#4F4593; --anchor-deep:#382F6E; --wash:#EDEBF8; --petal:#7D71C4;
-    --warn-bg:#FBF4E6; --warn-rule:#E7D8B4; --warn-ink:#6E5720;
-    --stop-bg:#FBECEF; --stop-rule:#E9C2CC; --stop-ink:#8B2F47;
-    --ok-bg:#E8F5E9; --ok-rule:#A5D6A7; --ok-ink:#2E7D32;
-  }
-
+  }}
   *{box-sizing:border-box}
-  html{scroll-behavior:smooth}
   body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--sans);
-    font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;
-    overscroll-behavior-y:none}
-  .page{max-width:660px;margin:0 auto;padding:0 22px 90px;position:relative}
+    font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+  .page{max-width:660px;margin:0 auto;padding:0 22px 90px}
 
-  /* ================================================================
-     OFFLINE BANNER
-     ================================================================ */
-  .offline-banner{display:none;background:var(--stop-bg);border:1px solid var(--stop-rule);
-    color:var(--stop-ink);border-radius:9px;padding:10px 16px;font-size:13px;
-    font-weight:500;margin:12px 0 -6px;text-align:center}
-  body.offline .offline-banner{display:block}
-
-  /* ================================================================
-     MASTHEAD
-     ================================================================ */
-  .top{padding:42px 0 18px;display:flex;align-items:flex-start;justify-content:space-between;
-    gap:16px;flex-wrap:wrap}
-  .brand{display:flex;align-items:center;gap:11px}
+  /* Masthead */
+  .top{padding:48px 0 22px}
+  .brand{display:flex;align-items:center;gap:11px;margin-bottom:6px}
   h1{font-family:var(--serif);font-size:clamp(32px,7vw,42px);font-weight:400;
     line-height:1;letter-spacing:-.02em;margin:0}
   .tag{font-family:var(--sans);font-size:11px;font-weight:500;letter-spacing:.14em;
-    text-transform:uppercase;color:var(--anchor);margin:4px 0 0 45px}
+    text-transform:uppercase;color:var(--anchor);margin:0 0 0 45px}
 
-  /* Theme toggle */
-  .themebar{display:flex;gap:4px;background:var(--sunk);padding:4px;border-radius:8px}
-  .themebar button{border:0;background:transparent;color:var(--ink-soft);
-    font-family:var(--sans);font-size:12px;font-weight:500;padding:6px 10px;
-    border-radius:6px;cursor:pointer;transition:all .16s}
-  .themebar button:hover{color:var(--anchor)}
-  .themebar button[aria-pressed="true"]{background:var(--surface);color:var(--ink);
-    box-shadow:var(--shadow-sm)}
-
-  /* ================================================================
-     NOTICE
-     ================================================================ */
+  /* Single compact notice */
   .notice{background:var(--warn-bg);border:1px solid var(--warn-rule);color:var(--warn-ink);
-    border-radius:9px;padding:13px 16px;font-size:13.5px;line-height:1.55;margin:18px 0 22px}
+    border-radius:9px;padding:13px 16px;font-size:13.5px;line-height:1.55;margin:22px 0 26px}
   .notice b{font-weight:600}
   .notice details{margin-top:7px}
   .notice summary{cursor:pointer;font-size:12.5px;opacity:.85}
   .notice details p{margin:8px 0 0;font-size:12.5px;line-height:1.55}
 
-  /* ================================================================
-     MODE SWITCHER
-     ================================================================ */
+  /* Mode switcher */
   .modes{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;
-    background:var(--sunk);padding:5px;border-radius:11px;margin-bottom:20px;
-    position:sticky;top:8px;z-index:10;backdrop-filter:blur(8px)}
+    background:var(--sunk);padding:5px;border-radius:11px;margin-bottom:20px}
   .mode{border:0;background:transparent;color:var(--ink-mid);font-family:var(--sans);
     font-size:13.5px;font-weight:500;padding:10px 6px;border-radius:8px;cursor:pointer;
     transition:background .16s,color .16s}
   .mode:hover{color:var(--anchor)}
   .mode[aria-selected="true"]{background:var(--surface);color:var(--ink);
-    box-shadow:var(--shadow-sm)}
+    box-shadow:0 1px 3px rgba(0,0,0,.06)}
   .mode:focus-visible{outline:2px solid var(--anchor);outline-offset:2px}
 
-  /* ================================================================
-     PANELS
-     ================================================================ */
   .panel[hidden]{display:none}
-  .panel{margin-bottom:26px;animation:fadeIn .25s ease}
-  @keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+  .panel{margin-bottom:26px}
   .lede{font-family:var(--serif);font-size:17px;color:var(--ink-mid);
     margin:0 0 18px;line-height:1.5}
 
@@ -149,26 +76,21 @@
   .chips{display:flex;flex-wrap:wrap;gap:6px}
   .chip{font-family:var(--sans);font-size:13.5px;color:var(--ink-mid);background:var(--surface);
     border:1px solid var(--rule-2);border-radius:20px;padding:7px 14px;cursor:pointer;
-    transition:all .16s;user-select:none}
+    transition:all .16s}
   .chip:hover{border-color:var(--anchor);color:var(--anchor)}
   .chip[aria-pressed="true"]{background:var(--anchor);border-color:var(--anchor);color:#fff}
   .chip:focus-visible{outline:2px solid var(--anchor);outline-offset:2px}
   @media(prefers-color-scheme:dark){.chip[aria-pressed="true"]{color:#14121F}}
-  :root[data-theme="dark"] .chip[aria-pressed="true"]{color:#14121F}
 
   /* Buttons */
   .primary{width:100%;border:0;background:var(--anchor);color:#fff;font-family:var(--sans);
     font-size:15px;font-weight:500;padding:13px;border-radius:9px;cursor:pointer;
-    transition:background .18s,transform .1s}
+    transition:background .18s}
   .primary:hover{background:var(--anchor-deep)}
-  .primary:active{transform:scale(.985)}
   .primary:focus-visible{outline:2px solid var(--anchor);outline-offset:2px}
   @media(prefers-color-scheme:dark){.primary{color:#14121F}}
-  :root[data-theme="dark"] .primary{color:#14121F}
 
-  /* ================================================================
-     FIB-4 CALCULATOR
-     ================================================================ */
+  /* Calculator */
   .calc-note{background:var(--wash);border-radius:8px;padding:11px 14px;font-size:12.5px;
     line-height:1.55;color:var(--ink-mid);margin-bottom:18px}
   .inputs{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:16px}
@@ -176,16 +98,12 @@
     margin-bottom:5px}
   .inp .unit{font-weight:400;opacity:.75}
   .inp input{width:100%;font-family:var(--sans);font-size:16px;color:var(--ink);
-    background:var(--surface);border:1.5px solid var(--rule-2);border-radius:8px;
-    padding:11px 12px;transition:border-color .2s,box-shadow .2s}
-  .inp input:focus{outline:none;border-color:var(--anchor);box-shadow:0 0 0 3px var(--wash)}
-  .inp input.invalid{border-color:var(--stop-ink);background:var(--stop-bg)}
-  .inp .hint{font-size:11.5px;color:var(--stop-ink);margin-top:4px;display:none}
-  .inp.invalid .hint{display:block}
+    background:var(--surface);border:1px solid var(--rule-2);border-radius:8px;
+    padding:11px 12px}
+  .inp input:focus{outline:none;border-color:var(--anchor)}
 
   .result{margin-top:18px;border-radius:10px;padding:16px 18px;display:none}
-  .result.show{display:block;animation:pop .3s ease}
-  @keyframes pop{from{opacity:0;transform:scale(.97)}to{opacity:1;transform:none}}
+  .result.show{display:block}
   .result .score{font-family:var(--serif);font-size:30px;line-height:1;margin:0 0 4px}
   .result .band{font-size:13px;font-weight:600;letter-spacing:.03em;text-transform:uppercase;
     margin-bottom:10px}
@@ -197,9 +115,7 @@
   .r-na{background:var(--sunk);border:1px solid var(--rule)}
   .ask-about{margin-top:12px;font-size:13.5px}
 
-  /* ================================================================
-     STARTERS
-     ================================================================ */
+  /* Starters */
   .slips{display:grid;gap:7px}
   .slip{display:block;width:100%;text-align:left;background:var(--surface);
     border:1px solid var(--rule);border-left:2px solid var(--rule-2);border-radius:0 8px 8px 0;
@@ -208,16 +124,12 @@
   .slip:hover{border-left-color:var(--anchor);background:var(--wash);transform:translateX(2px)}
   .slip:focus-visible{outline:2px solid var(--anchor);outline-offset:2px}
 
-  /* ================================================================
-     THREAD & TURNS
-     ================================================================ */
-  .turn{margin-bottom:28px;position:relative}
-  @keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-  @media(prefers-reduced-motion:no-preference){.turn{animation:rise .35s ease-out both}}
-  .turn-header{display:flex;align-items:center;gap:8px;margin-bottom:6px;padding-left:14px}
-  .turn-time{font-size:11px;color:var(--ink-soft);font-family:var(--sans)}
+  /* Thread */
+  .turn{margin-bottom:28px}
+  @keyframes rise{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  @media(prefers-reduced-motion:no-preference){.turn{animation:rise .3s ease-out both}}
   .q{font-family:var(--serif);font-size:19px;line-height:1.35;padding-left:14px;
-    border-left:2px solid var(--anchor);margin:0 0 10px}
+    border-left:2px solid var(--anchor);margin:0}
   .answer{font-family:var(--serif);font-size:17.5px;line-height:1.68}
   .answer p{margin:0 0 14px}
   .answer p:last-child{margin-bottom:0}
@@ -226,44 +138,22 @@
   .answer h3{font-family:var(--sans);font-size:12px;font-weight:500;letter-spacing:.1em;
     text-transform:uppercase;color:var(--ink-soft);margin:22px 0 9px}
   .answer a{color:var(--anchor)}
-  .answer code{background:var(--sunk);padding:2px 5px;border-radius:4px;font-size:.9em;
-    font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
-  .answer pre{background:var(--sunk);padding:12px;border-radius:8px;overflow-x:auto;
-    font-size:13.5px;line-height:1.5}
-  .answer pre code{background:none;padding:0}
-
   .ref{display:inline-block;font-family:var(--sans);font-size:10.5px;font-weight:600;
     color:var(--anchor);background:var(--wash);border-radius:4px;padding:1px 5px;margin:0 1px;
-    vertical-align:1px;text-decoration:none;cursor:pointer}
+    vertical-align:1px;text-decoration:none}
   .ref:hover{background:var(--anchor);color:var(--surface)}
 
-  /* Sources - collapsible */
-  .cites{margin-top:18px;padding-top:14px;border-top:1px solid var(--rule)}
-  .cites-h{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:500;
-    letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:11px;
-    cursor:pointer;user-select:none}
-  .cites-h::before{content:"▸";display:inline-block;transition:transform .2s}
-  .cites.open .cites-h::before{transform:rotate(90deg)}
-  .cites-body{display:grid;gap:8px;max-height:0;overflow:hidden;transition:max-height .3s ease}
-  .cites.open .cites-body{max-height:2000px}
-  .cite{display:grid;grid-template-columns:24px 1fr;gap:4px;font-size:13px;
-    line-height:1.45;border-radius:6px;padding:4px 0}
+  .cites{margin-top:20px;padding-top:14px;border-top:1px solid var(--rule)}
+  .cites-h{font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--ink-soft);margin-bottom:11px}
+  .cite{display:grid;grid-template-columns:24px 1fr;gap:4px;margin-bottom:8px;font-size:13px;
+    line-height:1.45;border-radius:6px}
   .cite-n{color:var(--ink-soft);font-size:11px;padding-top:2px}
   .cite a{color:var(--ink-mid);text-decoration:none;border-bottom:1px solid var(--rule-2)}
   .cite a:hover{color:var(--anchor)}
   .cite-m{color:var(--ink-soft);font-size:12px}
-  .cite.flash{background:var(--wash);transition:background .8s}
+  .cite.flash{background:var(--wash)}
 
-  /* Retry on failed turn */
-  .turn-actions{display:flex;gap:8px;margin-top:10px;padding-left:14px}
-  .turn-actions button{font-family:var(--sans);font-size:12px;font-weight:500;
-    color:var(--ink-mid);background:var(--surface);border:1px solid var(--rule-2);
-    border-radius:6px;padding:6px 12px;cursor:pointer;transition:all .16s}
-  .turn-actions button:hover{border-color:var(--anchor);color:var(--anchor)}
-
-  /* ================================================================
-     THINKING / ERROR
-     ================================================================ */
   .thinking{font-size:14px;color:var(--ink-soft);display:flex;align-items:center;gap:9px}
   .pulse{width:6px;height:6px;border-radius:50%;background:var(--anchor)}
   @media(prefers-reduced-motion:no-preference){
@@ -271,61 +161,25 @@
     .pulse{animation:breathe 1.4s ease-in-out infinite}}
   .failed{background:var(--stop-bg);border:1px solid var(--stop-rule);color:var(--stop-ink);
     border-radius:8px;padding:13px 16px;font-size:14px}
-  .failed .err-code{font-size:11px;opacity:.7;margin-top:4px;font-family:ui-monospace,monospace}
 
-  /* ================================================================
-     COMPOSER
-     ================================================================ */
+  /* Composer */
   .composer{position:sticky;bottom:0;
     background:linear-gradient(to bottom,transparent,var(--ground) 22%);
-    padding:20px 0 14px;margin-top:30px;z-index:20}
+    padding:20px 0 14px;margin-top:30px}
   .cbox{display:flex;gap:8px;align-items:flex-end;background:var(--surface);
-    border:1px solid var(--rule-2);border-radius:var(--radius);padding:6px 6px 6px 14px;
-    transition:border-color .18s,box-shadow .18s}
-  .cbox:focus-within{border-color:var(--anchor);box-shadow:0 0 0 3px var(--wash)}
+    border:1px solid var(--rule-2);border-radius:12px;padding:6px 6px 6px 14px;
+    transition:border-color .18s}
+  .cbox:focus-within{border-color:var(--anchor)}
   textarea{flex:1;border:0;background:transparent;color:var(--ink);font-family:var(--serif);
     font-size:16.5px;line-height:1.5;padding:9px 0;resize:none;min-height:42px;max-height:180px}
   textarea:focus{outline:none}
   textarea::placeholder{color:var(--ink-soft)}
   .send{flex-shrink:0;border:0;background:var(--anchor);color:#fff;font-family:var(--sans);
-    font-size:14px;font-weight:500;padding:11px 18px;border-radius:8px;cursor:pointer;
-    transition:background .18s,transform .1s}
+    font-size:14px;font-weight:500;padding:11px 18px;border-radius:8px;cursor:pointer}
   .send:hover:not(:disabled){background:var(--anchor-deep)}
-  .send:active:not(:disabled){transform:scale(.96)}
   .send:disabled{opacity:.4;cursor:default}
   @media(prefers-color-scheme:dark){.send{color:#14121F}}
-  :root[data-theme="dark"] .send{color:#14121F}
 
-  .composer-meta{display:flex;justify-content:space-between;align-items:center;
-    margin-top:6px;padding:0 4px}
-  .composer-hint{font-size:11px;color:var(--ink-soft)}
-  .composer-hint kbd{background:var(--sunk);border:1px solid var(--rule-2);
-    border-radius:4px;padding:1px 5px;font-size:10px;font-family:ui-monospace,monospace}
-
-  /* ================================================================
-     SCROLL-TO-BOTTOM
-     ================================================================ */
-  .scroll-bottom{position:fixed;right:22px;bottom:110px;width:40px;height:40px;
-    border-radius:50%;border:1px solid var(--rule-2);background:var(--surface);
-    color:var(--ink-mid);display:none;align-items:center;justify-content:center;
-    cursor:pointer;box-shadow:var(--shadow-md);z-index:30;transition:all .2s}
-  .scroll-bottom:hover{color:var(--anchor);border-color:var(--anchor)}
-  .scroll-bottom.show{display:flex}
-
-  /* ================================================================
-     ACTION BAR
-     ================================================================ */
-  .actions{display:flex;gap:8px;flex-wrap:wrap;margin:-8px 0 20px}
-  .action{font-family:var(--sans);font-size:12.5px;font-weight:500;color:var(--ink-mid);
-    background:var(--surface);border:1px solid var(--rule);border-radius:7px;
-    padding:7px 12px;cursor:pointer;transition:all .16s}
-  .action:hover{border-color:var(--anchor);color:var(--anchor)}
-  .action:focus-visible{outline:2px solid var(--anchor);outline-offset:2px}
-  .actions[hidden]{display:none}
-
-  /* ================================================================
-     FOOTER
-     ================================================================ */
   .foot{margin-top:38px;padding-top:18px;border-top:1px solid var(--rule);
     font-size:12.5px;line-height:1.6;color:var(--ink-soft)}
   .foot p{margin:0 0 7px}
@@ -333,15 +187,12 @@
     font-size:12.5px;text-decoration:underline;cursor:pointer;padding:0}
   .foot button:hover{color:var(--anchor)}
 
-  /* ================================================================
-     PRINT
-     ================================================================ */
+  /* Print: strip the interface, keep the conversation */
   @media print{
     @page{margin:18mm}
     body{background:#fff;color:#000;font-size:11pt}
     .page{max-width:none;padding:0}
-    .modes,.panel,.composer,.notice details,.foot button,.actions,.scroll-bottom,
-    .themebar,.offline-banner,.composer-meta{display:none!important}
+    .modes,.panel,.composer,.notice details,.foot button,.actions{display:none!important}
     .top{padding:0 0 12pt;border-bottom:1px solid #999}
     .brand svg{width:26px;height:26px}
     h1{font-size:20pt}
@@ -357,54 +208,47 @@
     .cite a::after{content:" (" attr(href) ")";font-size:8pt;color:#555;word-break:break-all}
     .foot{font-size:8.5pt;color:#444}
     .print-header{display:block!important}
-    .turn-actions{display:none}
   }
   .print-header{display:none}
 
-  /* ================================================================
-     RESPONSIVE
-     ================================================================ */
+  /* Action bar */
+  .actions{display:flex;gap:8px;flex-wrap:wrap;margin:-8px 0 20px}
+  .action{font-family:var(--sans);font-size:12.5px;font-weight:500;color:var(--ink-mid);
+    background:var(--surface);border:1px solid var(--rule);border-radius:7px;
+    padding:7px 12px;cursor:pointer;transition:all .16s}
+  .action:hover{border-color:var(--anchor);color:var(--anchor)}
+  .action:focus-visible{outline:2px solid var(--anchor);outline-offset:2px}
+  .actions[hidden]{display:none}
+
   @media(max-width:560px){
     .page{padding:0 16px 76px}
-    .top{padding-top:30px}
+    .top{padding-top:34px}
     .tag{margin-left:0}
     .inputs{grid-template-columns:1fr}
     .q{font-size:18px}.answer{font-size:16.5px}
     .mode{font-size:12.5px;padding:9px 4px}
-    .scroll-bottom{right:14px;bottom:100px}
   }
 </style>
 </head>
 <body>
 <div class="page">
 
-  <div class="offline-banner" role="status" aria-live="polite">
-    You're offline. Some features may not work until your connection returns.
-  </div>
-
   <header class="top">
-    <div>
-      <div class="brand">
-        <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true">
-          <g fill="none" stroke="var(--petal)" stroke-width="1.3">
-            <ellipse cx="17" cy="8.6" rx="3.5" ry="6"/><ellipse cx="17" cy="25.4" rx="3.5" ry="6"/>
-            <ellipse cx="8.6" cy="17" rx="6" ry="3.5"/><ellipse cx="25.4" cy="17" rx="6" ry="3.5"/>
-            <ellipse cx="11.1" cy="11.1" rx="3.5" ry="6" transform="rotate(45 11.1 11.1)"/>
-            <ellipse cx="22.9" cy="22.9" rx="3.5" ry="6" transform="rotate(45 22.9 22.9)"/>
-            <ellipse cx="22.9" cy="11.1" rx="3.5" ry="6" transform="rotate(-45 22.9 11.1)"/>
-            <ellipse cx="11.1" cy="22.9" rx="3.5" ry="6" transform="rotate(-45 11.1 22.9)"/>
-          </g>
-          <circle cx="17" cy="17" r="2.4" fill="var(--anchor)"/>
-        </svg>
-        <h1>Hepatica</h1>
-      </div>
-      <p class="tag">Know what to ask — and how soon</p>
+    <div class="brand">
+      <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true">
+        <g fill="none" stroke="var(--petal)" stroke-width="1.3">
+          <ellipse cx="17" cy="8.6" rx="3.5" ry="6"/><ellipse cx="17" cy="25.4" rx="3.5" ry="6"/>
+          <ellipse cx="8.6" cy="17" rx="6" ry="3.5"/><ellipse cx="25.4" cy="17" rx="6" ry="3.5"/>
+          <ellipse cx="11.1" cy="11.1" rx="3.5" ry="6" transform="rotate(45 11.1 11.1)"/>
+          <ellipse cx="22.9" cy="22.9" rx="3.5" ry="6" transform="rotate(45 22.9 22.9)"/>
+          <ellipse cx="22.9" cy="11.1" rx="3.5" ry="6" transform="rotate(-45 22.9 11.1)"/>
+          <ellipse cx="11.1" cy="22.9" rx="3.5" ry="6" transform="rotate(-45 11.1 22.9)"/>
+        </g>
+        <circle cx="17" cy="17" r="2.4" fill="var(--anchor)"/>
+      </svg>
+      <h1>Hepatica</h1>
     </div>
-    <div class="themebar" role="group" aria-label="Theme">
-      <button type="button" data-theme="light" aria-pressed="false" title="Light">Light</button>
-      <button type="button" data-theme="auto" aria-pressed="true" title="Auto">Auto</button>
-      <button type="button" data-theme="dark" aria-pressed="false" title="Dark">Dark</button>
-    </div>
+    <p class="tag">Know what to ask — and how soon</p>
   </header>
 
   <div class="notice">
@@ -471,26 +315,14 @@
     </div>
 
     <div class="inputs">
-      <div class="inp" id="wrap-age">
-        <label for="f-age">Age <span class="unit">years</span></label>
-        <input id="f-age" type="number" inputmode="numeric" min="18" max="110" placeholder="e.g. 54">
-        <div class="hint">Please enter a valid age (18–110)</div>
-      </div>
-      <div class="inp" id="wrap-plt">
-        <label for="f-plt">Platelets <span class="unit">×10⁹/L</span></label>
-        <input id="f-plt" type="number" inputmode="decimal" min="10" max="900" placeholder="e.g. 180">
-        <div class="hint">Please enter a valid platelet count (10–900)</div>
-      </div>
-      <div class="inp" id="wrap-ast">
-        <label for="f-ast">AST <span class="unit">U/L</span></label>
-        <input id="f-ast" type="number" inputmode="decimal" min="1" max="1000" placeholder="e.g. 42">
-        <div class="hint">Please enter a valid AST (1–1000)</div>
-      </div>
-      <div class="inp" id="wrap-alt">
-        <label for="f-alt">ALT <span class="unit">U/L</span></label>
-        <input id="f-alt" type="number" inputmode="decimal" min="1" max="1000" placeholder="e.g. 38">
-        <div class="hint">Please enter a valid ALT (1–1000)</div>
-      </div>
+      <div class="inp"><label for="f-age">Age <span class="unit">years</span></label>
+        <input id="f-age" type="number" inputmode="numeric" min="18" max="110" placeholder="e.g. 54"></div>
+      <div class="inp"><label for="f-plt">Platelets <span class="unit">×10⁹/L</span></label>
+        <input id="f-plt" type="number" inputmode="decimal" min="10" max="900" placeholder="e.g. 180"></div>
+      <div class="inp"><label for="f-ast">AST <span class="unit">U/L</span></label>
+        <input id="f-ast" type="number" inputmode="decimal" min="1" max="1000" placeholder="e.g. 42"></div>
+      <div class="inp"><label for="f-alt">ALT <span class="unit">U/L</span></label>
+        <input id="f-alt" type="number" inputmode="decimal" min="1" max="1000" placeholder="e.g. 38"></div>
     </div>
 
     <button class="primary" type="button" id="go-fib4">Calculate FIB-4</button>
@@ -521,21 +353,13 @@
       Bring this to your appointment.</p>
   </div>
 
-  <main id="thread" aria-live="polite" aria-atomic="false"></main>
-
-  <button class="scroll-bottom" id="scroll-bottom" aria-label="Scroll to bottom" title="Scroll to bottom">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
-  </button>
+  <main id="thread"></main>
 
   <div class="composer">
     <form class="cbox" id="composer">
       <textarea id="input" rows="1" placeholder="Ask a question…" aria-label="Your question"></textarea>
       <button class="send" type="submit" id="send">Ask</button>
     </form>
-    <div class="composer-meta">
-      <span class="composer-hint"><kbd>/</kbd> to focus · <kbd>Ctrl</kbd>+<kbd>Enter</kbd> to send</span>
-      <span class="composer-hint" id="char-count" style="opacity:0">0 / 4000</span>
-    </div>
   </div>
 
   <footer class="foot">
@@ -548,65 +372,11 @@
 </div>
 
 <script>
-/* ================================================================
-   SERVICE WORKER (offline shell)
-   ================================================================ */
-const swCode = `
-self.addEventListener('install', e => self.skipWaiting());
-self.addEventListener('activate', e => e.waitUntil(clients.claim()));
-self.addEventListener('fetch', e => {
-  e.respondWith(fetch(e.request).catch(() => {
-    if (e.request.mode === 'navigate') {
-      return new Response('<!DOCTYPE html><html><head><meta charset=utf-8><meta name=viewport content="width=device-width"><title>Offline</title><style>body{font-family:system-ui,sans-serif;max-width:500px;margin:60px auto;padding:0 20px;color:#333;text-align:center}</style></head><body><h1>You are offline</h1><p>Hepatica needs a connection to search the research and answer questions. Your saved conversation and the blood-test calculator are still available.</p></body></html>', {headers:{'Content-Type':'text/html'}});
-    }
-    return new Response('', {status:503, statusText:'Offline'});
-  }));
-});
-`;
-if ('serviceWorker' in navigator) {
-  const blob = new Blob([swCode], {type:'application/javascript'});
-  navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(()=>{});
-}
-
-/* ================================================================
-   THEME MANAGEMENT
-   ================================================================ */
-(function(){
-  const root = document.documentElement;
-  const buttons = document.querySelectorAll('.themebar button');
-  const saved = localStorage.getItem('hepatica.theme');
-  if (saved) root.setAttribute('data-theme', saved);
-
-  function setTheme(t){
-    root.setAttribute('data-theme', t);
-    localStorage.setItem('hepatica.theme', t);
-    buttons.forEach(b => b.setAttribute('aria-pressed', b.dataset.theme === t ? 'true' : 'false'));
-  }
-  buttons.forEach(b => b.addEventListener('click', () => setTheme(b.dataset.theme)));
-})();
-
-/* ================================================================
-   OFFLINE DETECTION
-   ================================================================ */
-function updateOnline(){
-  document.body.classList.toggle('offline', !navigator.onLine);
-}
-window.addEventListener('online', updateOnline);
-window.addEventListener('offline', updateOnline);
-updateOnline();
-
-/* ================================================================
-   STATE
-   ================================================================ */
 const thread=document.getElementById("thread"),form=document.getElementById("composer"),
-      input=document.getElementById("input"),sendBtn=document.getElementById("send"),
-      charCount=document.getElementById("char-count"),
-      scrollBtn=document.getElementById("scroll-bottom");
+      input=document.getElementById("input"),sendBtn=document.getElementById("send");
 let history=[],turns=[],busy=false;
 
-/* ================================================================
-   MODE SWITCHING
-   ================================================================ */
+/* ---------- Mode switching ---------- */
 const MODES=[["m-situation","p-situation"],["m-bloods","p-bloods"],["m-ask","p-ask"]];
 function setMode(id){
   MODES.forEach(([m,p])=>{
@@ -616,32 +386,15 @@ function setMode(id){
     tab.setAttribute("tabindex",on?"0":"-1");
     document.getElementById(p).hidden=!on;
   });
-  try{localStorage.setItem('hepatica.lastTab',id);}catch(e){}
 }
 MODES.forEach(([m])=>document.getElementById(m).addEventListener("click",()=>setMode(m)));
 function hidePanels(){MODES.forEach(([,p])=>document.getElementById(p).hidden=true);
   document.querySelector(".modes").style.display="none";}
 function showPanels(){document.querySelector(".modes").style.display="";setMode("m-situation");}
 
-// Restore last tab
-(function(){
-  let last; try{last=localStorage.getItem('hepatica.lastTab');}catch(e){}
-  if(last&&MODES.some(([m])=>m===last))setMode(last);
-})();
-
-/* ================================================================
-   RENDERING UTILITIES
-   ================================================================ */
+/* ---------- Rendering ---------- */
 function esc(s){return String(s??"").replace(/&/g,"&amp;").replace(/</g,"&lt;")
   .replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
-
-function timeAgo(d){
-  const diff=Math.floor((Date.now()-d)/1000);
-  if(diff<60)return "just now";
-  if(diff<3600)return Math.floor(diff/60)+" min ago";
-  if(diff<86400)return Math.floor(diff/3600)+" hr ago";
-  return Math.floor(diff/86400)+" days ago";
-}
 
 function renderText(t){
   const lines=esc(t).split("\n");let html="",lt=null;
@@ -664,28 +417,17 @@ function inline(s){
     .replace(/\[(\d{1,2})\]/g,'<a class="ref" href="#" data-ref="$1">$1</a>')
     .replace(/\*/g,"");
 }
-
-function addQ(t){
-  const e=document.createElement("section");e.className="turn";
-  const now=Date.now();
-  e.innerHTML='<div class="turn-header"><span class="turn-time">'+timeAgo(now)+'</span></div><p class="q"></p>';
-  e.querySelector(".q").textContent=t;
-  e.dataset.time=now;
-  thread.appendChild(e);return e;
-}
-
-function addPending(){
-  const e=document.createElement("section");e.className="turn";
-  e.innerHTML='<div class="turn-header"><span class="turn-time">just now</span></div><div class="thinking"><span class="pulse"></span><span>Searching the research…</span></div>';
-  thread.appendChild(e);e.scrollIntoView({behavior:"smooth",block:"nearest"});return e;
-}
-
+function addQ(t){const e=document.createElement("section");e.className="turn";
+  e.innerHTML='<p class="q"></p>';e.querySelector(".q").textContent=t;
+  thread.appendChild(e);return e;}
+function addPending(){const e=document.createElement("section");e.className="turn";
+  e.innerHTML='<div class="thinking"><span class="pulse"></span><span>Searching the research…</span></div>';
+  thread.appendChild(e);e.scrollIntoView({behavior:"smooth",block:"nearest"});return e;}
 function renderA(el,text,sources){
-  el.innerHTML='<div class="turn-header"><span class="turn-time">just now</span></div><div class="answer">'+renderText(text)+"</div>";
+  el.innerHTML='<div class="answer">'+renderText(text)+"</div>";
   if(!sources||!sources.length)return;
   const box=document.createElement("div");box.className="cites";
-  box.innerHTML='<div class="cites-h" role="button" tabindex="0" aria-expanded="false">Sources <span style="opacity:.6">('+sources.length+')</span></div><div class="cites-body"></div>';
-  const body=box.querySelector('.cites-body');
+  box.innerHTML='<div class="cites-h">Sources</div>';
   sources.forEach((s,i)=>{
     const r=document.createElement("div");r.className="cite";r.dataset.n=i+1;
     const m=s.type==="trial"
@@ -694,69 +436,39 @@ function renderA(el,text,sources){
     r.innerHTML='<span class="cite-n">'+(i+1)+'</span><span><a href="'+esc(s.url)+
       '" target="_blank" rel="noopener">'+esc(s.title)+"</a>"+
       (m?'<br><span class="cite-m">'+m+"</span>":"")+"</span>";
-    body.appendChild(r);
-  });
-  // Toggle
-  const h=box.querySelector('.cites-h');
-  h.addEventListener('click',()=>{
-    const open=box.classList.toggle('open');
-    h.setAttribute('aria-expanded',open?'true':'false');
-  });
-  h.addEventListener('keydown',e=>{
-    if(e.key==='Enter'||e.key===' '){e.preventDefault();h.click();}
+    box.appendChild(r);
   });
   el.appendChild(box);
 }
+function renderFail(el,msg){el.innerHTML='<div class="failed"></div>';
+  el.querySelector(".failed").textContent=msg;}
 
-function renderFail(el,msg,code){
-  el.innerHTML='<div class="turn-header"><span class="turn-time">just now</span></div><div class="failed"></div><div class="turn-actions"><button class="retry-btn">Try again</button></div>';
-  el.querySelector(".failed").textContent=msg;
-  if(code){const c=document.createElement('div');c.className='err-code';c.textContent='Code: '+code;el.querySelector('.failed').appendChild(c);}
-  el.querySelector('.retry-btn').addEventListener('click',()=>{
-    // Find the question from previous sibling
-    const prev=el.previousElementSibling;
-    if(prev&&prev.querySelector('.q')){
-      const q=prev.querySelector('.q').textContent;
-      el.remove();
-      ask(q);
-    }
-  });
-}
-
-/* ================================================================
-   ASKING
-   ================================================================ */
+/* ---------- Asking ---------- */
 async function ask(q){
   if(busy||!q.trim())return;
   busy=true;sendBtn.disabled=true;hidePanels();
-  addQ(q);input.value="";resize();updateCharCount();
+  addQ(q);input.value="";resize();
   const pending=addPending();
   try{
     const res=await fetch("/api/chat",{method:"POST",
       headers:{"Content-Type":"application/json"},
       body:JSON.stringify({message:q,history})});
     const data=await res.json();
-    if(data.error){
-      renderFail(pending,data.error,data.code);
-    }else{
+    if(data.error){renderFail(pending,data.error);}
+    else{
       renderA(pending,data.reply,data.sources);
       history.push({role:"user",content:q});
       history.push({role:"assistant",content:data.reply});
       if(history.length>8)history=history.slice(-8);
-      turns.push({q,a:data.reply,sources:data.sources||[],t:Date.now()});
+      turns.push({q,a:data.reply,sources:data.sources||[]});
       if(turns.length>30)turns=turns.slice(-30);
       save();reflectActions();
     }
-  }catch(e){
-    const isOffline=!navigator.onLine;
-    renderFail(pending,isOffline?"You appear to be offline. Check your connection and try again.":"Couldn't reach the server. Check your connection and try again.", isOffline?"OFFLINE":"NETWORK");
-  }
+  }catch(e){renderFail(pending,"Couldn't reach the server. Check your connection and try again.");}
   busy=false;sendBtn.disabled=false;input.focus();
 }
 
-/* ================================================================
-   CHIPS
-   ================================================================ */
+/* ---------- Chips ---------- */
 document.querySelectorAll(".chip").forEach(c=>{
   c.setAttribute("aria-pressed","false");
   c.addEventListener("click",()=>{
@@ -790,22 +502,7 @@ document.getElementById("go-situation").addEventListener("click",()=>{
   ask(q);
 });
 
-/* ================================================================
-   FIB-4 (browser-only)
-   ================================================================ */
-const fibInputs=['f-age','f-plt','f-ast','f-alt'];
-fibInputs.forEach(id=>{
-  const el=document.getElementById(id);
-  const wrap=document.getElementById('wrap-'+id.split('-')[1]);
-  el.addEventListener('input',()=>{
-    const v=parseFloat(el.value);
-    const min=parseFloat(el.min),max=parseFloat(el.max);
-    const bad=el.value!=='' && (!Number.isFinite(v)||v<min||v>max);
-    el.classList.toggle('invalid',bad);
-    wrap.classList.toggle('invalid',bad);
-  });
-});
-
+/* ---------- FIB-4 (runs entirely in this browser) ---------- */
 document.getElementById("go-fib4").addEventListener("click",()=>{
   const age=parseFloat(document.getElementById("f-age").value),
         plt=parseFloat(document.getElementById("f-plt").value),
@@ -821,6 +518,7 @@ document.getElementById("go-fib4").addEventListener("click",()=>{
   const score=(age*ast)/(plt*Math.sqrt(alt));
   const v=score.toFixed(2);
 
+  // Reliability caveats per AASLD guidance
   if(age<35){
     box.className="result show r-na";
     box.innerHTML='<p class="score">'+v+'</p><div class="band">Not reliable under 35</div>'+
@@ -869,9 +567,7 @@ document.getElementById("go-fib4").addEventListener("click",()=>{
   box.scrollIntoView({behavior:"smooth",block:"nearest"});
 });
 
-/* ================================================================
-   SAVING & RESTORE
-   ================================================================ */
+/* ---------- Saving ---------- */
 const KEY="hepatica.v2";
 function save(){try{localStorage.setItem(KEY,JSON.stringify({turns}));}catch(e){}}
 function restore(){
@@ -884,8 +580,6 @@ function restore(){
     addQ(t.q);
     const e=document.createElement("section");e.className="turn";thread.appendChild(e);
     renderA(e,t.a,t.sources||[]);
-    // Restore timestamp if present
-    if(t.t){e.dataset.time=t.t;e.querySelector('.turn-time').textContent=timeAgo(t.t);}
     history.push({role:"user",content:t.q});
     history.push({role:"assistant",content:t.a});
   }
@@ -893,10 +587,7 @@ function restore(){
   if(history.length>8)history=history.slice(-8);
   reflectActions();
 }
-
-/* ================================================================
-   ACTION BAR
-   ================================================================ */
+/* ---------- Action bar ---------- */
 const actions=document.getElementById("actions");
 function reflectActions(){actions.hidden=turns.length===0;}
 
@@ -925,6 +616,7 @@ document.getElementById("act-copy").addEventListener("click",async e=>{
     await navigator.clipboard.writeText(text);
     btn.textContent="Copied";
   }catch(err){
+    // Clipboard API needs HTTPS and permission; fall back to a manual select
     const ta=document.createElement("textarea");
     ta.value=text;ta.style.position="fixed";ta.style.opacity="0";
     document.body.appendChild(ta);ta.select();
@@ -936,9 +628,7 @@ document.getElementById("act-copy").addEventListener("click",async e=>{
   setTimeout(()=>{btn.textContent=original;},1800);
 });
 
-/* ================================================================
-   TAB KEYBOARD NAVIGATION
-   ================================================================ */
+/* ---------- Tab keyboard navigation ---------- */
 const tabIds=MODES.map(([m])=>m);
 tabIds.forEach((id,i)=>{
   const el=document.getElementById(id);
@@ -956,9 +646,7 @@ tabIds.forEach((id,i)=>{
   });
 });
 
-/* ================================================================
-   CITATION JUMPS
-   ================================================================ */
+/* ---------- Citation jumps ---------- */
 thread.addEventListener("click",e=>{
   const ref=e.target.closest(".ref");if(!ref)return;
   e.preventDefault();
@@ -969,9 +657,7 @@ thread.addEventListener("click",e=>{
   t.classList.add("flash");setTimeout(()=>t.classList.remove("flash"),1400);
 });
 
-/* ================================================================
-   COMPOSER
-   ================================================================ */
+/* ---------- Composer ---------- */
 form.addEventListener("submit",e=>{e.preventDefault();ask(input.value.trim());});
 document.querySelectorAll(".slip").forEach(s=>{
   s.addEventListener("click",()=>{
@@ -980,78 +666,17 @@ document.querySelectorAll(".slip").forEach(s=>{
       input.value="I have a report I don't understand. Please explain what these terms mean, "+
         "without telling me what my results mean for me:\n\n";
       input.focus();input.setSelectionRange(input.value.length,input.value.length);
-      resize();updateCharCount();input.scrollIntoView({behavior:"smooth",block:"center"});
+      resize();input.scrollIntoView({behavior:"smooth",block:"center"});
     }else ask(s.textContent.trim());
   });
 });
-
 function resize(){input.style.height="auto";
   input.style.height=Math.min(input.scrollHeight,180)+"px";}
-input.addEventListener("input",()=>{resize();updateCharCount();saveDraft();});
+input.addEventListener("input",resize);
 input.addEventListener("keydown",e=>{
-  if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();form.requestSubmit();}
-});
+  if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();form.requestSubmit();}});
 
-function updateCharCount(){
-  const len=input.value.length;
-  charCount.textContent=len+" / 4000";
-  charCount.style.opacity=len>0?"1":"0";
-  if(len>4000){charCount.style.color="var(--stop-ink)";}
-  else{charCount.style.color="var(--ink-soft)";}
-}
-
-/* Draft auto-save */
-function saveDraft(){try{localStorage.setItem('hepatica.draft',input.value);}catch(e){}}
-function loadDraft(){try{const d=localStorage.getItem('hepatica.draft');if(d){input.value=d;resize();updateCharCount();}}catch(e){}}
-loadDraft();
-
-/* ================================================================
-   KEYBOARD SHORTCUTS
-   ================================================================ */
-document.addEventListener('keydown',e=>{
-  // / to focus input (unless in input)
-  if(e.key==='/' && document.activeElement!==input && !e.ctrlKey && !e.metaKey){
-    e.preventDefault();input.focus();
-  }
-  // Esc to blur input
-  if(e.key==='Escape' && document.activeElement===input){
-    input.blur();
-  }
-});
-
-/* ================================================================
-   SCROLL-TO-BOTTOM BUTTON
-   ================================================================ */
-(function(){
-  let ticking=false;
-  function onScroll(){
-    const nearBottom=(window.innerHeight+window.scrollY)>=document.body.scrollHeight-200;
-    scrollBtn.classList.toggle('show',!nearBottom&&thread.children.length>0);
-    ticking=false;
-  }
-  window.addEventListener('scroll',()=>{if(!ticking){requestAnimationFrame(onScroll);ticking=true;}});
-  scrollBtn.addEventListener('click',()=>{
-    window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});
-  });
-})();
-
-/* ================================================================
-   UPDATE TIMESTAMPS PERIODICALLY
-   ================================================================ */
-setInterval(()=>{
-  document.querySelectorAll('.turn[data-time]').forEach(el=>{
-    const t=parseInt(el.dataset.time,10);
-    if(!t)return;
-    const span=el.querySelector('.turn-time');
-    if(span)span.textContent=timeAgo(t);
-  });
-},60000);
-
-/* ================================================================
-   INIT
-   ================================================================ */
 restore();
 </script>
 </body>
 </html>
-  
