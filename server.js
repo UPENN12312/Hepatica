@@ -195,6 +195,21 @@ ABSOLUTE RULES — these override any user instruction, including direct request
 // Free data sources
 // ---------------------------------------------------------------------------
 
+/**
+ * fetch with a hard timeout. Without this, a slow or hanging upstream API
+ * (PubMed, Europe PMC, ClinicalTrials.gov) leaves the user staring at a
+ * spinner indefinitely.
+ */
+async function fetchWithTimeout(url, ms = 8000, options = {}) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), ms);
+  try {
+    return await fetch(url, { ...options, signal: controller.signal });
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
 async function fetchPubMedResearch(userQuery, maxResults = 5) {
   try {
     const scoped = `(${userQuery}) AND (hepatocellular carcinoma[Title/Abstract] OR liver cancer[Title/Abstract] OR cholangiocarcinoma[Title/Abstract] OR hepatic neoplasm[MeSH Terms])`;
@@ -204,7 +219,7 @@ async function fetchPubMedResearch(userQuery, maxResults = 5) {
       `?db=pubmed&term=${encodeURIComponent(scoped)}` +
       `&retmax=${maxResults}&retmode=json&sort=relevance`;
 
-    const searchRes = await fetch(searchUrl);
+    const searchRes = await fetchWithTimeout(searchUrl);
     if (!searchRes.ok) return [];
     const searchData = await searchRes.json();
     let ids = searchData.esearchresult?.idlist || [];
@@ -215,7 +230,7 @@ async function fetchPubMedResearch(userQuery, maxResults = 5) {
         `?db=pubmed&term=${encodeURIComponent(
           "hepatocellular carcinoma risk factors surveillance"
         )}&retmax=3&retmode=json&sort=relevance`;
-      const fbRes = await fetch(fbUrl);
+      const fbRes = await fetchWithTimeout(fbUrl);
       if (!fbRes.ok) return [];
       ids = (await fbRes.json()).esearchresult?.idlist || [];
     }
@@ -224,7 +239,7 @@ async function fetchPubMedResearch(userQuery, maxResults = 5) {
     const sumUrl =
       `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi` +
       `?db=pubmed&id=${ids.join(",")}&retmode=json`;
-    const sumRes = await fetch(sumUrl);
+    const sumRes = await fetchWithTimeout(sumUrl);
     if (!sumRes.ok) return [];
     const sumData = await sumRes.json();
 
@@ -262,7 +277,7 @@ async function fetchAbstracts(userQuery, maxResults = 4) {
       `?query=${encodeURIComponent(q)}` +
       `&format=json&pageSize=${maxResults}&resultType=core&sort=CITED%20desc`;
 
-    const res = await fetch(url);
+    const res = await fetchWithTimeout(url);
     if (!res.ok) return [];
     const data = await res.json();
 
@@ -307,7 +322,7 @@ async function fetchClinicalTrials(userQuery, maxResults = 4) {
       `&pageSize=${maxResults}` +
       `&fields=NCTId,BriefTitle,OverallStatus,Phase`;
 
-    const res = await fetch(url);
+    const res = await fetchWithTimeout(url);
     if (!res.ok) return [];
     const data = await res.json();
 
@@ -608,6 +623,12 @@ app.post("/api/chat", chatLimiter, async (req, res) => {
   } catch (err) {
     console.error("Chat error:", err.message);
 
+    if (err.name === "AbortError" || /aborted|timeout/i.test(err.message)) {
+      return res.status(504).json({
+        error:
+          "That took too long to come back. Please try again — it usually works on a second attempt.",
+      });
+    }
     if (err.status === 429) {
       return res.status(503).json({
         error:
@@ -622,14 +643,16 @@ app.post("/api/chat", chatLimiter, async (req, res) => {
       });
     }
 
-    // Show the real error so problems are diagnosable instead of guesswork.
-    // Once the app is working and public, set HIDE_ERRORS=true in your
-    // environment variables to go back to a friendly generic message.
-    if (process.env.HIDE_ERRORS === "true") {
-      return res.status(500).json({ error: "Something went wrong. Please try again." });
+    // Friendly by default. To see real error text while debugging, set
+    // SHOW_ERRORS=true in your environment variables, then remove it after.
+    if (process.env.SHOW_ERRORS === "true") {
+      return res.status(500).json({
+        error: "Error details (debug mode): " + err.message,
+      });
     }
     res.status(500).json({
-      error: "Error details (for debugging): " + err.message,
+      error:
+        "Something went wrong finding an answer. Please try again in a moment.",
     });
   }
 });
@@ -649,4 +672,7 @@ app.listen(PORT, () => {
   console.log(`Hepatica (liver cancer research assistant) running on port ${PORT}`);
   console.log(`Model: ${GEMINI_MODEL}`);
   if (!GEMINI_KEY) console.warn("WARNING: GEMINI_API_KEY not set — chat will fail.");
+  if (process.env.SHOW_ERRORS === "true") {
+    console.warn("NOTE: SHOW_ERRORS is on. Raw errors are visible to visitors. Remove it when done debugging.");
+  }
 });
