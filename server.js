@@ -27,6 +27,11 @@ const GEMINI_KEY = process.env.GEMINI_API_KEY;
 // check current free models at https://ai.google.dev/gemini-api/docs/models
 const GEMINI_MODEL = process.env.GEMINI_MODEL || "gemini-flash-latest";
 
+// Overridable so the pipeline can be tested against a local stub.
+// Leave unset in production.
+const GEMINI_BASE =
+  process.env.GEMINI_BASE || "https://generativelanguage.googleapis.com/v1beta/models";
+
 // ---------------------------------------------------------------------------
 // Rate limiting — Gemini free tier is ~15 requests/min and ~1500/day per
 // project, shared across ALL your visitors. These limits keep one person from
@@ -471,6 +476,45 @@ HOW TO RESPOND — FOLLOW THIS SHAPE EVERY TIME
 
 Nothing else. No extra sections. No summary at the end.
 
+VOICE — READ THE EXAMPLES, THEY MATTER MORE THAN THE RULES
+
+The failure mode to avoid is bland. Health writing tends to come out flat, hedged, and
+faintly official, like a leaflet in a waiting room. That tone is not neutral — it makes
+people feel handled rather than helped. Write like a person who knows this subject well and
+is talking to someone across a table.
+
+Concretely:
+
+FLAT: "It is important to consult with a healthcare professional regarding your symptoms,
+as they can provide appropriate guidance based on your individual circumstances."
+BETTER: "Get this looked at this week. A GP can order the blood tests that would sort out
+what's going on."
+
+FLAT: "Cirrhosis is a significant risk factor for the development of hepatocellular
+carcinoma, and surveillance protocols have been established for this population."
+BETTER: "Cirrhosis is the big one. Because the risk is high enough, guidelines say people
+with cirrhosis should get an ultrasound every six months to catch anything early — worth
+asking whether that applies to you."
+
+FLAT: "AFP is a tumour marker that may be elevated in the presence of hepatocellular
+carcinoma, though it lacks sensitivity and specificity."
+BETTER: "AFP is a protein they measure in blood. It's a rough signal, not a verdict — it
+can be high in people without cancer and normal in people who have it, which is why it's
+never used on its own."
+
+Notice what changes: shorter sentences, plain words, the useful detail kept, the padding
+cut, and a human on the other end of it.
+
+Also:
+- Answer the question that was actually asked, not the one that's easiest to answer.
+- If someone sounds frightened, say one short human thing before the information. One
+  sentence, not a paragraph, and never syrupy. "That's a scary thing to be sitting with"
+  is enough. Then be useful, because being useful is the actual comfort.
+- Never open with "It's important to note," "It's worth mentioning," or "Great question."
+  Start with the answer.
+- Don't hedge a sentence twice. "May sometimes potentially indicate" says nothing.
+- Concrete beats abstract every time. Name the test, the interval, the specialty.
+
 NEVER SCORE OR RANK THEM. Do not say "your risk is high, moderate, or low." Do not add up
 their risk factors into a total. Do not tell them they are more or less likely than average
 to have cancer. Say what the guidelines recommend for people in their category, and stop
@@ -510,7 +554,7 @@ Write for a smart adult with zero medical training, reading on a phone, possibly
 async function callGemini(systemPrompt, history, userMessage) {
   // Pass the key as a header, not ?key= — required for newer "AQ." format
   // auth keys, and works fine for older "AIza" keys too.
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`;
+  const url = `${GEMINI_BASE}/${GEMINI_MODEL}:generateContent`;
 
   // Gemini uses "model" where Anthropic/OpenAI use "assistant"
   const contents = [
@@ -525,8 +569,8 @@ async function callGemini(systemPrompt, history, userMessage) {
     system_instruction: { parts: [{ text: systemPrompt }] },
     contents,
     generationConfig: {
-      maxOutputTokens: 700,
-      temperature: 0.4,
+      maxOutputTokens: 850,
+      temperature: 0.55,
     },
     safetySettings: [
       // Medical discussion can trip default filters; these are still moderate.
@@ -574,6 +618,388 @@ async function callGemini(systemPrompt, history, userMessage) {
 // ---------------------------------------------------------------------------
 // Routes
 // ---------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
+// Caching — a small in-memory LRU with TTL.
+//
+// Two jobs: cut latency on repeat questions, and protect the free-tier quota.
+// Lives in memory only, so it empties whenever Render restarts the instance.
+// That's fine — it's an optimisation, not storage.
+// ---------------------------------------------------------------------------
+function makeCache(maxEntries, ttlMs) {
+  const map = new Map();
+  return {
+    get(key) {
+      const hit = map.get(key);
+      if (!hit) return null;
+      if (Date.now() > hit.expires) {
+        map.delete(key);
+        return null;
+      }
+      // Refresh recency: delete and re-insert moves it to the end
+      map.delete(key);
+      map.set(key, hit);
+      return hit.value;
+    },
+    set(key, value) {
+      if (map.has(key)) map.delete(key);
+      map.set(key, { value, expires: Date.now() + ttlMs });
+      while (map.size > maxEntries) map.delete(map.keys().next().value);
+    },
+    get size() {
+      return map.size;
+    },
+  };
+}
+
+// Research changes slowly — cache it for an hour.
+const researchCache = makeCache(120, 60 * 60 * 1000);
+// Rewritten search queries are deterministic enough to cache for a day.
+const queryCache = makeCache(200, 24 * 60 * 60 * 1000);
+
+function cacheKey(s) {
+  return s.toLowerCase().replace(/\s+/g, " ").trim().slice(0, 200);
+}
+
+// ---------------------------------------------------------------------------
+// Retry with exponential backoff, for transient upstream failures
+// ---------------------------------------------------------------------------
+async function withRetry(fn, { attempts = 3, baseMs = 400 } = {}) {
+  let lastErr;
+  for (let i = 0; i < attempts; i++) {
+    try {
+      return await fn();
+    } catch (err) {
+      lastErr = err;
+      // Don't retry things that won't get better: auth, bad request, filtered
+      if ([400, 401, 403, 422].includes(err.status)) throw err;
+      if (i < attempts - 1) {
+        const wait = baseMs * Math.pow(2, i) + Math.random() * 150;
+        await new Promise((r) => setTimeout(r, wait));
+      }
+    }
+  }
+  throw lastErr;
+}
+
+// ---------------------------------------------------------------------------
+// Reranking — the search APIs return their own idea of relevance, which is
+// often keyword-shaped. This rescores locally against the actual question so
+// the most useful abstracts land at the top of the model's context.
+// ---------------------------------------------------------------------------
+const STOPWORDS = new Set(
+  ("a an and are as at be but by for from has have how i if in is it its of on or " +
+   "that the this to was what when where which who will with you your my me").split(" ")
+);
+
+function keywords(text) {
+  return [...new Set(
+    text.toLowerCase()
+      .replace(/[^a-z0-9\s-]/g, " ")
+      .split(/\s+/)
+      .filter((w) => w.length > 2 && !STOPWORDS.has(w))
+  )];
+}
+
+function rerank(items, query, limit) {
+  const terms = keywords(query);
+  if (!terms.length) return items.slice(0, limit);
+
+  const scored = items.map((item) => {
+    const title = (item.title || "").toLowerCase();
+    const abstract = (item.abstract || "").toLowerCase();
+    let score = 0;
+
+    for (const t of terms) {
+      // Title matches are worth much more than body matches
+      if (title.includes(t)) score += 6;
+      const occurrences = abstract.split(t).length - 1;
+      score += Math.min(occurrences, 4) * 1.5;
+    }
+    // Prefer items that actually carry abstract text
+    if (item.abstract) score += 3;
+    // Mild recency preference
+    const year = parseInt(item.pubdate, 10);
+    if (Number.isFinite(year)) {
+      const age = new Date().getFullYear() - year;
+      if (age <= 3) score += 2.5;
+      else if (age <= 7) score += 1;
+    }
+    return { item, score };
+  });
+
+  return scored
+    .sort((a, b) => b.score - a.score)
+    .slice(0, limit)
+    .map((s) => s.item);
+}
+
+// ---------------------------------------------------------------------------
+// Query rewriting — turns a conversational follow-up into a searchable query.
+//
+// "what about screening?" is useless as a literature search on its own. With
+// the previous turn as context it becomes "hepatocellular carcinoma
+// surveillance ultrasound cirrhosis". Only runs when there IS history, so it
+// costs nothing on first questions.
+// ---------------------------------------------------------------------------
+async function rewriteQuery(message, history) {
+  if (!history.length) return message;
+
+  const key = cacheKey(
+    history.slice(-2).map((m) => m.content.slice(0, 120)).join("|") + "||" + message
+  );
+  const cached = queryCache.get(key);
+  if (cached) return cached;
+
+  try {
+    const context = history
+      .slice(-4)
+      .map((m) => (m.role === "user" ? "Person: " : "Assistant: ") + m.content.slice(0, 400))
+      .join("\n");
+
+    const prompt =
+      `Rewrite the person's latest message into a standalone search query for medical ` +
+      `literature about liver disease and liver cancer.\n\n` +
+      `Rules: output ONLY the query, 3 to 10 words, no quotes, no explanation. ` +
+      `Resolve pronouns and vague references using the conversation. ` +
+      `Use clinical terms a paper would use.\n\n` +
+      `Conversation so far:\n${context}\n\nLatest message: ${message}\n\nQuery:`;
+
+    const res = await fetchWithTimeout(
+      `${GEMINI_BASE}/${GEMINI_MODEL}:generateContent`,
+      6000,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "x-goog-api-key": GEMINI_KEY },
+        body: JSON.stringify({
+          contents: [{ role: "user", parts: [{ text: prompt }] }],
+          generationConfig: { maxOutputTokens: 40, temperature: 0 },
+        }),
+      }
+    );
+    if (!res.ok) return message;
+
+    const data = await res.json();
+    const out = data.candidates?.[0]?.content?.parts?.map((p) => p.text).join("").trim();
+
+    // Sanity check the rewrite before trusting it
+    if (!out || out.length < 4 || out.length > 160 || out.split(/\s+/).length > 14) {
+      return message;
+    }
+    queryCache.set(key, out);
+    return out;
+  } catch {
+    return message; // Rewriting is an optimisation; never let it break the request
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Retrieval orchestration — rewrite, fetch in parallel, dedupe, rerank, cache
+// ---------------------------------------------------------------------------
+async function gatherResearch(message, history) {
+  const searchQuery = await rewriteQuery(message, history);
+
+  const key = cacheKey(searchQuery);
+  const cached = researchCache.get(key);
+  if (cached) return { ...cached, searchQuery, cached: true };
+
+  const [abstracts, pubmed, trials] = await Promise.all([
+    fetchAbstracts(searchQuery, 6),
+    fetchPubMedResearch(searchQuery, 4),
+    fetchClinicalTrials(searchQuery, 3),
+  ]);
+
+  const seen = new Set();
+  const merged = [];
+  for (const p of [...abstracts, ...pubmed]) {
+    const k = (p.title || "").toLowerCase().slice(0, 60);
+    if (!k || seen.has(k)) continue;
+    seen.add(k);
+    merged.push(p);
+  }
+
+  const result = {
+    papers: rerank(merged, searchQuery, 5),
+    trials: trials.slice(0, 3),
+  };
+  researchCache.set(key, result);
+  return { ...result, searchQuery, cached: false };
+}
+
+// ---------------------------------------------------------------------------
+// Streaming chat — text arrives as it's generated instead of after a long wait.
+//
+// Protocol (server-sent events):
+//   event: sources  → the citations, sent up front so they can render early
+//   event: chunk    → a piece of answer text
+//   event: followups→ suggested next questions, parsed out of the model output
+//   event: done     → finished cleanly
+//   event: error    → something failed; payload is user-safe
+// ---------------------------------------------------------------------------
+const FOLLOWUP_MARK = "###NEXT###";
+
+app.post("/api/chat/stream", chatLimiter, async (req, res) => {
+  const send = (event, data) => {
+    res.write(`event: ${event}\n`);
+    res.write(`data: ${JSON.stringify(data)}\n\n`);
+  };
+
+  try {
+    if (!GEMINI_KEY) {
+      res.status(500).json({ error: "Server not configured: GEMINI_API_KEY is missing." });
+      return;
+    }
+
+    const { message, history = [] } = req.body;
+    if (!message || typeof message !== "string" || !message.trim()) {
+      res.status(400).json({ error: "Please enter a message." });
+      return;
+    }
+    if (message.length > 4000) {
+      res.status(400).json({ error: "That message is too long. Please shorten it." });
+      return;
+    }
+    if (!checkDailyBudget()) {
+      res.status(503).json({
+        error: "This site has reached its free daily capacity. It resets each day — please try again tomorrow.",
+      });
+      return;
+    }
+
+    res.writeHead(200, {
+      "Content-Type": "text/event-stream",
+      "Cache-Control": "no-cache, no-transform",
+      Connection: "keep-alive",
+      "X-Accel-Buffering": "no", // stop proxies buffering the stream
+    });
+
+    const trimmedHistory = Array.isArray(history) ? history.slice(-8) : [];
+    const { papers, trials } = await gatherResearch(message, trimmedHistory);
+
+    send("sources", [...papers, ...trials]);
+
+    const systemPrompt =
+      buildSystemPrompt(formatResearchContext(papers, trials)) +
+      `\n\nAFTER your answer, output the marker ${FOLLOWUP_MARK} on its own line, then ` +
+      `exactly three short follow-up questions the person might naturally ask next, one ` +
+      `per line, no numbering, no bullets. Each under 60 characters, phrased in their ` +
+      `voice ("What does that test involve?"). Nothing after the third.`;
+
+    const contents = [
+      ...trimmedHistory.map((m) => ({
+        role: m.role === "assistant" ? "model" : "user",
+        parts: [{ text: m.content }],
+      })),
+      { role: "user", parts: [{ text: message }] },
+    ];
+
+    dailyCount++;
+
+    const upstream = await withRetry(async () => {
+      const r = await fetch(
+        `${GEMINI_BASE}/${GEMINI_MODEL}:streamGenerateContent?alt=sse`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "x-goog-api-key": GEMINI_KEY },
+          body: JSON.stringify({
+            system_instruction: { parts: [{ text: systemPrompt }] },
+            contents,
+            generationConfig: { maxOutputTokens: 900, temperature: 0.4 },
+            safetySettings: [
+              { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_ONLY_HIGH" },
+              { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_ONLY_HIGH" },
+            ],
+          }),
+        }
+      );
+      if (!r.ok) {
+        const body = await r.text();
+        const e = new Error(`Gemini ${r.status}: ${body.slice(0, 300)}`);
+        e.status = r.status;
+        throw e;
+      }
+      return r;
+    });
+
+    const reader = upstream.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = "";
+    let full = "";
+    let inFollowups = false;
+    let followupText = "";
+
+    const emit = (text) => {
+      if (!text) return;
+      // Once the marker appears, everything after it is follow-up questions
+      if (inFollowups) {
+        followupText += text;
+        return;
+      }
+      const idx = (full + text).indexOf(FOLLOWUP_MARK);
+      if (idx !== -1) {
+        const before = (full + text).slice(full.length, idx);
+        if (before) send("chunk", before);
+        followupText = (full + text).slice(idx + FOLLOWUP_MARK.length);
+        inFollowups = true;
+        full += text;
+        return;
+      }
+      full += text;
+      send("chunk", text);
+    };
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      buffer += decoder.decode(value, { stream: true });
+
+      const lines = buffer.split("\n");
+      buffer = lines.pop() || ""; // keep any partial line for the next round
+
+      for (const line of lines) {
+        if (!line.startsWith("data:")) continue;
+        const payload = line.slice(5).trim();
+        if (!payload || payload === "[DONE]") continue;
+        try {
+          const parsed = JSON.parse(payload);
+          const parts = parsed.candidates?.[0]?.content?.parts || [];
+          for (const p of parts) if (p.text) emit(p.text);
+        } catch {
+          /* partial JSON across chunk boundaries — safe to skip */
+        }
+      }
+    }
+
+    const followups = followupText
+      .split("\n")
+      .map((l) => l.replace(/^[-*\d.)\s]+/, "").trim())
+      .filter((l) => l.length > 6 && l.length < 90)
+      .slice(0, 3);
+
+    if (followups.length) send("followups", followups);
+
+    if (!full.trim()) {
+      send("error", "I couldn't generate an answer to that. Try rewording your question.");
+    }
+
+    send("done", { ok: true });
+    res.end();
+  } catch (err) {
+    console.error("Stream error:", err.message);
+    if (res.headersSent) {
+      const msg =
+        err.status === 429
+          ? "The free daily quota is used up. It resets each day."
+          : err.name === "AbortError"
+          ? "That took too long. Please try again."
+          : "Something went wrong. Please try again.";
+      send("error", msg);
+      res.end();
+    } else {
+      res.status(500).json({ error: "Something went wrong. Please try again." });
+    }
+  }
+});
+
 app.post("/api/chat", chatLimiter, async (req, res) => {
   try {
     if (!GEMINI_KEY) {
@@ -601,23 +1027,12 @@ app.post("/api/chat", chatLimiter, async (req, res) => {
 
     const trimmedHistory = Array.isArray(history) ? history.slice(-8) : [];
 
-    const [abstracts, pubmed, trials] = await Promise.all([
-      fetchAbstracts(message, 4),
-      fetchPubMedResearch(message, 3),
-      fetchClinicalTrials(message, 3),
-    ]);
-
-    // Prefer papers that came with abstracts; top up with PubMed titles, skipping dupes
-    const seen = new Set(abstracts.map((p) => p.title.toLowerCase().slice(0, 60)));
-    const papers = [
-      ...abstracts,
-      ...pubmed.filter((p) => !seen.has(p.title.toLowerCase().slice(0, 60))),
-    ].slice(0, 6);
+    const { papers, trials } = await gatherResearch(message, trimmedHistory);
 
     const systemPrompt = buildSystemPrompt(formatResearchContext(papers, trials));
 
     dailyCount++;
-    const reply = await callGemini(systemPrompt, trimmedHistory, message);
+    const reply = await withRetry(() => callGemini(systemPrompt, trimmedHistory, message));
 
     res.json({ reply, sources: [...papers, ...trials] });
   } catch (err) {
@@ -664,6 +1079,8 @@ app.get("/api/health", (req, res) => {
     model: GEMINI_MODEL,
     dailyRequestsUsed: dailyCount,
     dailyCap: DAILY_CAP,
+    streaming: true,
+    cache: { research: researchCache.size, queries: queryCache.size },
   });
 });
 
