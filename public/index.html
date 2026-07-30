@@ -11,27 +11,86 @@
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary">
 <meta name="theme-color" content="#4F4593">
+<script>
+  // Apply the saved theme before the page paints, so there's no flash of the
+  // wrong colours on load. Must stay inline and in <head>.
+  (function(){
+    try{
+      var t=localStorage.getItem("hepatica.theme");
+      if(t&&t!=="auto")document.documentElement.setAttribute("data-theme",t);
+    }catch(e){}
+  })();
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,300..600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
+  /* ---- Light (default) ---- */
   :root {
     --ground:#F4F3F8; --surface:#FFF; --sunk:#EAE8F2;
-    --ink:#1C1A2E; --ink-mid:#4E4A66; --ink-soft:#7C7891;
-    --rule:#E3E1EC; --rule-2:#CBC7DC;
-    --anchor:#4F4593; --anchor-deep:#382F6E; --wash:#EDEBF8; --petal:#7D71C4;
-    --warn-bg:#FBF4E6; --warn-rule:#E7D8B4; --warn-ink:#6E5720;
-    --stop-bg:#FBECEF; --stop-rule:#E9C2CC; --stop-ink:#8B2F47;
+    --ink:#151327; --ink-mid:#3F3B57; --ink-soft:#6B6785;
+    --rule:#E3E1EC; --rule-2:#C5C0D8;
+    --anchor:#463C88; --anchor-deep:#2F2761; --wash:#EDEBF8; --petal:#7D71C4;
+    --warn-bg:#FBF4E6; --warn-rule:#E3D2A8; --warn-ink:#5E4915;
+    --stop-bg:#FBECEF; --stop-rule:#E5B9C4; --stop-ink:#7C2740;
+    --answer-bg:transparent;
     --serif:"Newsreader",Georgia,serif; --sans:"Inter",-apple-system,sans-serif;
+    color-scheme:light;
   }
-  @media (prefers-color-scheme:dark){:root{
-    --ground:#131221; --surface:#1C1A2E; --sunk:#171626;
-    --ink:#E8E6F2; --ink-mid:#ADA8C4; --ink-soft:#817CA0;
-    --rule:#2C2942; --rule-2:#3D3959;
-    --anchor:#A79DE8; --anchor-deep:#C3BCF3; --wash:#232040; --petal:#9C90DC;
-    --warn-bg:#241E10; --warn-rule:#463A22; --warn-ink:#DBC189;
-    --stop-bg:#2B1520; --stop-rule:#4C2537; --stop-ink:#E9A0B4;
-  }}
+
+  /* ---- Dark ---- */
+  [data-theme="dark"]{
+    --ground:#12111F; --surface:#1B1A2B; --sunk:#181724;
+    --ink:#F0EEF8; --ink-mid:#BDB8D2; --ink-soft:#8B86A8;
+    --rule:#2E2B44; --rule-2:#413D5C;
+    --anchor:#B4ABF0; --anchor-deep:#CFC9F7; --wash:#252142; --petal:#A99CE8;
+    --warn-bg:#26200F; --warn-rule:#4B3E22; --warn-ink:#E6CE96;
+    --stop-bg:#2E1620; --stop-rule:#52293B; --stop-ink:#F0AEBF;
+    --answer-bg:transparent;
+    color-scheme:dark;
+  }
+
+  /* ---- Auto: follow the system when no explicit choice is set ---- */
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme]){
+      --ground:#12111F; --surface:#1B1A2B; --sunk:#181724;
+      --ink:#F0EEF8; --ink-mid:#BDB8D2; --ink-soft:#8B86A8;
+      --rule:#2E2B44; --rule-2:#413D5C;
+      --anchor:#B4ABF0; --anchor-deep:#CFC9F7; --wash:#252142; --petal:#A99CE8;
+      --warn-bg:#26200F; --warn-rule:#4B3E22; --warn-ink:#E6CE96;
+      --stop-bg:#2E1620; --stop-rule:#52293B; --stop-ink:#F0AEBF;
+      color-scheme:dark;
+    }
+  }
+
+  /* ---- Sepia: warm, low-glare reading mode ---- */
+  [data-theme="sepia"]{
+    --ground:#F2E9DA; --surface:#FBF5E9; --sunk:#E8DCC7;
+    --ink:#33281D; --ink-mid:#61503E; --ink-soft:#8B7860;
+    --rule:#DFD2BB; --rule-2:#C7B597;
+    --anchor:#7A4E2E; --anchor-deep:#5C3A21; --wash:#EFE3CD; --petal:#A8794E;
+    --warn-bg:#F6EACF; --warn-rule:#DCC08A; --warn-ink:#6A5117;
+    --stop-bg:#F6E2DC; --stop-rule:#DBB3A6; --stop-ink:#7E3222;
+    --answer-bg:transparent;
+    color-scheme:light;
+  }
+
+  /* ---- High contrast: for anyone who finds the others hard to read ---- */
+  [data-theme="hc"]{
+    --ground:#FFF; --surface:#FFF; --sunk:#F0F0F0;
+    --ink:#000; --ink-mid:#1A1A1A; --ink-soft:#3A3A3A;
+    --rule:#767676; --rule-2:#000;
+    --anchor:#00308F; --anchor-deep:#001F5C; --wash:#E8EDF9; --petal:#00308F;
+    --warn-bg:#FFF8E0; --warn-rule:#000; --warn-ink:#3D2E00;
+    --stop-bg:#FFECEF; --stop-rule:#000; --stop-ink:#6B0018;
+    --answer-bg:transparent;
+    color-scheme:light;
+  }
+  [data-theme="hc"] .chip,[data-theme="hc"] .slip,
+  [data-theme="hc"] .action,[data-theme="hc"] .cbox{border-width:2px}
+  [data-theme="hc"] .answer{font-weight:400}
+  [data-theme="hc"] a{text-decoration:underline}
+
   *{box-sizing:border-box}
   body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--sans);
     font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
@@ -80,7 +139,8 @@
   .chip:hover{border-color:var(--anchor);color:var(--anchor)}
   .chip[aria-pressed="true"]{background:var(--anchor);border-color:var(--anchor);color:#fff}
   .chip:focus-visible{outline:2px solid var(--anchor);outline-offset:2px}
-  @media(prefers-color-scheme:dark){.chip[aria-pressed="true"]{color:#14121F}}
+  [data-theme="dark"] .chip[aria-pressed="true"],
+  :root:not([data-theme]) .chip[aria-pressed="true"]{color:#12111F}
 
   /* Buttons */
   .primary{width:100%;border:0;background:var(--anchor);color:#fff;font-family:var(--sans);
@@ -88,7 +148,8 @@
     transition:background .18s}
   .primary:hover{background:var(--anchor-deep)}
   .primary:focus-visible{outline:2px solid var(--anchor);outline-offset:2px}
-  @media(prefers-color-scheme:dark){.primary{color:#14121F}}
+  [data-theme="dark"] .primary,
+  :root:not([data-theme]) .primary{color:#12111F}
 
   /* Calculator */
   .calc-note{background:var(--wash);border-radius:8px;padding:11px 14px;font-size:12.5px;
@@ -130,14 +191,16 @@
   @media(prefers-reduced-motion:no-preference){.turn{animation:rise .3s ease-out both}}
   .q{font-family:var(--serif);font-size:19px;line-height:1.35;padding-left:14px;
     border-left:2px solid var(--anchor);margin:0}
-  .answer{font-family:var(--serif);font-size:17.5px;line-height:1.68}
+  .answer{font-family:var(--serif);font-size:18px;line-height:1.72;
+    letter-spacing:.002em;color:var(--ink)}
   .answer p{margin:0 0 14px}
   .answer p:last-child{margin-bottom:0}
   .answer ul,.answer ol{margin:14px 0;padding-left:21px}
   .answer li{margin-bottom:7px}
   .answer h3{font-family:var(--sans);font-size:12px;font-weight:500;letter-spacing:.1em;
     text-transform:uppercase;color:var(--ink-soft);margin:22px 0 9px}
-  .answer a{color:var(--anchor)}
+  .answer a{color:var(--anchor);text-underline-offset:2px}
+  .answer strong{font-weight:600;color:var(--ink)}
   .ref{display:inline-block;font-family:var(--sans);font-size:10.5px;font-weight:600;
     color:var(--anchor);background:var(--wash);border-radius:4px;padding:1px 5px;margin:0 1px;
     vertical-align:1px;text-decoration:none}
@@ -153,6 +216,27 @@
   .cite a:hover{color:var(--anchor)}
   .cite-m{color:var(--ink-soft);font-size:12px}
   .cite.flash{background:var(--wash)}
+
+  /* Streaming */
+  .answer.streaming::after{content:"";display:inline-block;width:2px;height:1.05em;
+    background:var(--anchor);vertical-align:-2px;margin-left:2px;animation:blink 1s steps(2) infinite}
+  @keyframes blink{0%,50%{opacity:1}51%,100%{opacity:0}}
+  @media(prefers-reduced-motion:reduce){.answer.streaming::after{animation:none}}
+
+  /* Follow-up suggestions */
+  .followups{margin-top:18px;display:flex;flex-wrap:wrap;gap:7px}
+  .fu{font-family:var(--sans);font-size:13.5px;color:var(--anchor);background:var(--wash);
+    border:1px solid transparent;border-radius:18px;padding:8px 14px;cursor:pointer;
+    text-align:left;transition:all .16s}
+  .fu:hover{border-color:var(--anchor)}
+  .fu:focus-visible{outline:2px solid var(--anchor);outline-offset:2px}
+  .fu::before{content:"\2197";margin-right:6px;opacity:.6}
+
+  .stop{flex-shrink:0;border:1px solid var(--rule-2);background:var(--surface);
+    color:var(--ink-mid);font-family:var(--sans);font-size:14px;font-weight:500;
+    padding:11px 16px;border-radius:8px;cursor:pointer}
+  .stop:hover{border-color:var(--anchor);color:var(--anchor)}
+  .stop[hidden]{display:none}
 
   .thinking{font-size:14px;color:var(--ink-soft);display:flex;align-items:center;gap:9px}
   .pulse{width:6px;height:6px;border-radius:50%;background:var(--anchor)}
@@ -178,7 +262,8 @@
     font-size:14px;font-weight:500;padding:11px 18px;border-radius:8px;cursor:pointer}
   .send:hover:not(:disabled){background:var(--anchor-deep)}
   .send:disabled{opacity:.4;cursor:default}
-  @media(prefers-color-scheme:dark){.send{color:#14121F}}
+  [data-theme="dark"] .send,
+  :root:not([data-theme]) .send{color:#12111F}
 
   .foot{margin-top:38px;padding-top:18px;border-top:1px solid var(--rule);
     font-size:12.5px;line-height:1.6;color:var(--ink-soft)}
@@ -211,6 +296,17 @@
   }
   .print-header{display:none}
 
+  /* Theme picker */
+  .themebar{display:flex;align-items:center;gap:5px;margin-left:auto}
+  .theme-btn{width:30px;height:30px;padding:0;display:grid;place-items:center;
+    background:var(--surface);border:1px solid var(--rule);border-radius:8px;
+    color:var(--ink-soft);cursor:pointer;transition:all .16s}
+  .theme-btn:hover{border-color:var(--anchor);color:var(--anchor)}
+  .theme-btn[aria-pressed="true"]{border-color:var(--anchor);color:var(--anchor);
+    background:var(--wash)}
+  .theme-btn:focus-visible{outline:2px solid var(--anchor);outline-offset:2px}
+  .theme-btn svg{width:15px;height:15px;display:block}
+
   /* Action bar */
   .actions{display:flex;gap:8px;flex-wrap:wrap;margin:-8px 0 20px}
   .action{font-family:var(--sans);font-size:12.5px;font-weight:500;color:var(--ink-mid);
@@ -230,6 +326,15 @@
   }
 </style>
 </head>
+<script>
+  // Runs before render to avoid a flash of the wrong theme
+  (function(){
+    try{
+      var t=localStorage.getItem("hepatica.theme");
+      if(t&&t!=="auto")document.documentElement.setAttribute("data-theme",t);
+    }catch(e){}
+  })();
+</script>
 <body>
 <div class="page">
 
@@ -247,6 +352,36 @@
         <circle cx="17" cy="17" r="2.4" fill="var(--anchor)"/>
       </svg>
       <h1>Hepatica</h1>
+
+      <div class="themebar" role="group" aria-label="Colour theme">
+        <button class="theme-btn" type="button" data-theme-set="auto" title="Match my device" aria-label="Match my device">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6">
+            <circle cx="10" cy="10" r="7"/><path d="M10 3v14" /><path d="M10 3a7 7 0 010 14" fill="currentColor" stroke="none"/>
+          </svg>
+        </button>
+        <button class="theme-btn" type="button" data-theme-set="light" title="Light" aria-label="Light">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6">
+            <circle cx="10" cy="10" r="4"/>
+            <path d="M10 1.5v2M10 16.5v2M18.5 10h-2M3.5 10h-2M16 4l-1.4 1.4M5.4 14.6L4 16M16 16l-1.4-1.4M5.4 5.4L4 4"/>
+          </svg>
+        </button>
+        <button class="theme-btn" type="button" data-theme-set="dark" title="Dark" aria-label="Dark">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6">
+            <path d="M16.5 12.3A7 7 0 017.7 3.5a7 7 0 108.8 8.8z"/>
+          </svg>
+        </button>
+        <button class="theme-btn" type="button" data-theme-set="sepia" title="Sepia reading mode" aria-label="Sepia reading mode">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6">
+            <path d="M4 4.5h5a2 2 0 012 2v9a1.6 1.6 0 00-1.6-1.6H4z"/>
+            <path d="M16 4.5h-5a2 2 0 00-2 2v9a1.6 1.6 0 011.6-1.6H16z"/>
+          </svg>
+        </button>
+        <button class="theme-btn" type="button" data-theme-set="hc" title="High contrast" aria-label="High contrast">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6">
+            <circle cx="10" cy="10" r="7"/><path d="M10 3a7 7 0 000 14z" fill="currentColor" stroke="none"/>
+          </svg>
+        </button>
+      </div>
     </div>
     <p class="tag">Know what to ask — and how soon</p>
   </header>
@@ -359,6 +494,7 @@
     <form class="cbox" id="composer">
       <textarea id="input" rows="1" placeholder="Ask a question…" aria-label="Your question"></textarea>
       <button class="send" type="submit" id="send">Ask</button>
+      <button class="stop" type="button" id="stop" hidden>Stop</button>
     </form>
   </div>
 
@@ -375,6 +511,36 @@
 const thread=document.getElementById("thread"),form=document.getElementById("composer"),
       input=document.getElementById("input"),sendBtn=document.getElementById("send");
 let history=[],turns=[],busy=false;
+
+/* ---------- Theme ---------- */
+const THEME_KEY="hepatica.theme";
+function applyTheme(t){
+  if(t==="auto")document.documentElement.removeAttribute("data-theme");
+  else document.documentElement.setAttribute("data-theme",t);
+  document.querySelectorAll("[data-theme-set]").forEach(b=>
+    b.setAttribute("aria-pressed",b.dataset.themeSet===t?"true":"false"));
+  const meta=document.querySelector('meta[name="theme-color"]');
+  if(meta){
+    const dark=t==="dark"||(t==="auto"&&
+      window.matchMedia("(prefers-color-scheme: dark)").matches);
+    meta.setAttribute("content",
+      t==="hc"?"#00308F":t==="sepia"?"#7A4E2E":(dark?"#12111F":"#4F4593"));
+  }
+}
+let savedTheme="auto";
+try{savedTheme=localStorage.getItem(THEME_KEY)||"auto";}catch(e){}
+applyTheme(savedTheme);
+document.querySelectorAll("[data-theme-set]").forEach(b=>{
+  b.addEventListener("click",()=>{
+    const t=b.dataset.themeSet;
+    applyTheme(t);
+    try{localStorage.setItem(THEME_KEY,t);}catch(e){}
+  });
+});
+window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",()=>{
+  let cur="auto";try{cur=localStorage.getItem(THEME_KEY)||"auto";}catch(e){}
+  if(cur==="auto")applyTheme("auto");
+});
 
 /* ---------- Mode switching ---------- */
 const MODES=[["m-situation","p-situation"],["m-bloods","p-bloods"],["m-ask","p-ask"]];
@@ -423,16 +589,134 @@ function addQ(t){const e=document.createElement("section");e.className="turn";
 function addPending(){const e=document.createElement("section");e.className="turn";
   e.innerHTML='<div class="thinking"><span class="pulse"></span><span>Searching the research…</span></div>';
   thread.appendChild(e);e.scrollIntoView({behavior:"smooth",block:"nearest"});return e;}
-function renderA(el,text,sources){
+function renderA(el,text,sources,followups){
   el.innerHTML='<div class="answer">'+renderText(text)+"</div>";
-  if(!sources||!sources.length)return;
+  if(sources&&sources.length)attachSources(el,sources);
+  if(followups&&followups.length)attachFollowups(el,followups);
+}
+function renderFail(el,msg){el.innerHTML='<div class="failed"></div>';
+  el.querySelector(".failed").textContent=msg;}
+
+/* ---------- Asking (streaming, with fallback) ---------- */
+const stopBtn=document.getElementById("stop");
+let controller=null;
+
+function setBusy(on){
+  busy=on;
+  sendBtn.disabled=on;
+  stopBtn.hidden=!on;
+}
+
+stopBtn.addEventListener("click",()=>{
+  if(controller)controller.abort();
+});
+
+async function ask(q){
+  if(busy||!q.trim())return;
+  setBusy(true);hidePanels();
+  addQ(q);input.value="";resize();
+
+  const turn=addPending();
+  controller=new AbortController();
+
+  let text="",sources=[],followups=[],streamed=false;
+
+  const paint=()=>{
+    let body=turn.querySelector(".answer");
+    if(!body){
+      turn.innerHTML='<div class="answer streaming"></div>';
+      body=turn.querySelector(".answer");
+    }
+    body.innerHTML=renderText(text);
+  };
+
+  const finish=()=>{
+    const body=turn.querySelector(".answer");
+    if(body)body.classList.remove("streaming");
+    if(sources.length)attachSources(turn,sources);
+    if(followups.length)attachFollowups(turn,followups);
+    history.push({role:"user",content:q});
+    history.push({role:"assistant",content:text});
+    if(history.length>8)history=history.slice(-8);
+    turns.push({q,a:text,sources,followups});
+    if(turns.length>30)turns=turns.slice(-30);
+    save();reflectActions();
+  };
+
+  try{
+    const res=await fetch("/api/chat/stream",{
+      method:"POST",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({message:q,history}),signal:controller.signal});
+
+    // Server refused before streaming started — read the JSON error
+    if(!res.ok||!res.headers.get("content-type")?.includes("text/event-stream")){
+      const data=await res.json().catch(()=>({error:"Something went wrong. Please try again."}));
+      throw new Error(data.error||"Something went wrong. Please try again.");
+    }
+
+    const reader=res.body.getReader(),dec=new TextDecoder();
+    let buf="",event="";
+
+    while(true){
+      const{done,value}=await reader.read();
+      if(done)break;
+      buf+=dec.decode(value,{stream:true});
+      const lines=buf.split("\n");
+      buf=lines.pop()||"";
+
+      for(const line of lines){
+        if(line.startsWith("event:")){event=line.slice(6).trim();continue;}
+        if(!line.startsWith("data:"))continue;
+        let payload;
+        try{payload=JSON.parse(line.slice(5).trim());}catch(e){continue;}
+
+        if(event==="sources"){sources=payload||[];}
+        else if(event==="chunk"){text+=payload;streamed=true;paint();}
+        else if(event==="followups"){followups=payload||[];}
+        else if(event==="error"){throw new Error(payload);}
+      }
+    }
+
+    if(!streamed)throw new Error("No answer came back. Please try again.");
+    finish();
+
+  }catch(err){
+    if(err.name==="AbortError"){
+      // User pressed Stop — keep whatever arrived
+      if(streamed)finish();
+      else turn.remove();
+    }else if(!streamed){
+      // Nothing streamed: fall back to the non-streaming endpoint once
+      try{
+        const res=await fetch("/api/chat",{method:"POST",
+          headers:{"Content-Type":"application/json"},
+          body:JSON.stringify({message:q,history})});
+        const data=await res.json();
+        if(data.error)renderFail(turn,data.error);
+        else{
+          text=data.reply;sources=data.sources||[];
+          paint();finish();
+        }
+      }catch(e2){
+        renderFail(turn,"Couldn't reach the server. Check your connection and try again.");
+      }
+    }else{
+      finish();
+    }
+  }
+
+  controller=null;setBusy(false);input.focus();
+}
+
+function attachSources(el,sources){
+  if(!sources.length)return;
   const box=document.createElement("div");box.className="cites";
   box.innerHTML='<div class="cites-h">Sources</div>';
   sources.forEach((s,i)=>{
     const r=document.createElement("div");r.className="cite";r.dataset.n=i+1;
     const m=s.type==="trial"
-      ?"Clinical trial"+(s.phase&&s.phase!=="N/A"?" · "+esc(s.phase):"")
-      :[s.journal,s.pubdate].filter(Boolean).map(esc).join(" · ");
+      ?"Clinical trial"+(s.phase&&s.phase!=="N/A"?" \u00B7 "+esc(s.phase):"")
+      :[s.journal,s.pubdate].filter(Boolean).map(esc).join(" \u00B7 ");
     r.innerHTML='<span class="cite-n">'+(i+1)+'</span><span><a href="'+esc(s.url)+
       '" target="_blank" rel="noopener">'+esc(s.title)+"</a>"+
       (m?'<br><span class="cite-m">'+m+"</span>":"")+"</span>";
@@ -440,32 +724,20 @@ function renderA(el,text,sources){
   });
   el.appendChild(box);
 }
-function renderFail(el,msg){el.innerHTML='<div class="failed"></div>';
-  el.querySelector(".failed").textContent=msg;}
 
-/* ---------- Asking ---------- */
-async function ask(q){
-  if(busy||!q.trim())return;
-  busy=true;sendBtn.disabled=true;hidePanels();
-  addQ(q);input.value="";resize();
-  const pending=addPending();
-  try{
-    const res=await fetch("/api/chat",{method:"POST",
-      headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({message:q,history})});
-    const data=await res.json();
-    if(data.error){renderFail(pending,data.error);}
-    else{
-      renderA(pending,data.reply,data.sources);
-      history.push({role:"user",content:q});
-      history.push({role:"assistant",content:data.reply});
-      if(history.length>8)history=history.slice(-8);
-      turns.push({q,a:data.reply,sources:data.sources||[]});
-      if(turns.length>30)turns=turns.slice(-30);
-      save();reflectActions();
-    }
-  }catch(e){renderFail(pending,"Couldn't reach the server. Check your connection and try again.");}
-  busy=false;sendBtn.disabled=false;input.focus();
+function attachFollowups(el,list){
+  if(!list.length)return;
+  const box=document.createElement("div");box.className="followups";
+  list.forEach(q=>{
+    const b=document.createElement("button");
+    b.className="fu";b.type="button";b.textContent=q;
+    b.addEventListener("click",()=>{
+      box.remove();
+      ask(q);
+    });
+    box.appendChild(b);
+  });
+  el.appendChild(box);
 }
 
 /* ---------- Chips ---------- */
@@ -579,7 +851,7 @@ function restore(){
   for(const t of d.turns){
     addQ(t.q);
     const e=document.createElement("section");e.className="turn";thread.appendChild(e);
-    renderA(e,t.a,t.sources||[]);
+    renderA(e,t.a,t.sources||[],t.followups||[]);
     history.push({role:"user",content:t.q});
     history.push({role:"assistant",content:t.a});
   }
