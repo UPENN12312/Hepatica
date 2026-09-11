@@ -3,20 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hepatica — Liver Questions, Answered Plainly</title>
-<meta name="description" content="Understand your liver health questions: what guidelines recommend, how soon to be seen, and what to ask.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 34 34'%3E%3Cg fill='none' stroke='%237D71C4' stroke-width='1.6'%3E%3Cellipse cx='17' cy='8.6' rx='3.5' ry='6'/%3E%3Cellipse cx='17' cy='25.4' rx='3.5' ry='6'/%3E%3Cellipse cx='8.6' cy='17' rx='6' ry='3.5'/%3E%3Cellipse cx='25.4' cy='17' rx='6' ry='3.5'/%3E%3C/g%3E%3Ccircle cx='17' cy='17' r='2.6' fill='%234F4593'/%3E%3C/svg%3E">
-<meta property="og:title" content="Hepatica — liver questions, answered plainly">
+<title>Anteroom — Health Questions, Answered Plainly</title>
+<meta name="description" content="What guidelines recommend for your situation, how soon to be seen, and what to ask. Educational, not diagnostic.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 34 34'%3E%3Cg fill='none' stroke='%233E8B7E' stroke-width='1.7' stroke-linecap='round'%3E%3Cpath d='M5 29V15a12 12 0 0 1 24 0v14'/%3E%3Cpath d='M11 29V16a6 6 0 0 1 12 0v13'/%3E%3C/g%3E%3Ccircle cx='17' cy='17' r='2.4' fill='%231D5B52'/%3E%3C/svg%3E">
+<meta property="og:title" content="Anteroom — health questions, answered plainly">
 <meta property="og:description" content="What guidelines recommend for your situation, how soon to be seen, and what to ask. Educational, not diagnostic.">
 <meta property="og:type" content="website">
-<meta name="twitter:card" content="summary">
-<meta name="theme-color" content="#4F4593">
+<meta name="theme-color" content="#1D5B52">
 <script>
   // Apply the saved theme before the page paints, so there's no flash of the
   // wrong colours on load. Must stay inline and in <head>.
   (function(){
     try{
-      var t=localStorage.getItem("hepatica.theme");
+      var t=localStorage.getItem("anteroom.theme");
       if(t&&t!=="auto")document.documentElement.setAttribute("data-theme",t);
     }catch(e){}
   })();
@@ -26,39 +25,40 @@
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,300..600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   /* ---- Light (default) ---- */
-  :root {
-    --ground:#F4F3F8; --surface:#FFF; --sunk:#EAE8F2;
-    --ink:#151327; --ink-mid:#3F3B57; --ink-soft:#6B6785;
-    --rule:#E3E1EC; --rule-2:#C5C0D8;
-    --anchor:#463C88; --anchor-deep:#2F2761; --wash:#EDEBF8; --petal:#7D71C4;
-    --warn-bg:#FBF4E6; --warn-rule:#E3D2A8; --warn-ink:#5E4915;
-    --stop-bg:#FBECEF; --stop-rule:#E5B9C4; --stop-ink:#7C2740;
-    --answer-bg:transparent;
+  :root{
+    --ground:#F5F4F1; --surface:#FFF; --sunk:#EAE8E3;
+    --ink:#141816; --ink-mid:#3C4441; --ink-soft:#6B7370;
+    --rule:#E2E0DA; --rule-2:#C4C1B8;
+    --anchor:#1D5B52; --anchor-deep:#123B35; --wash:#E6EFEC; --petal:#3E8B7E;
+    --on-anchor:#FFF;
+    --warn-bg:#FBF3E2; --warn-rule:#E0CB9E; --warn-ink:#5C4611;
+    --stop-bg:#FBEBEB; --stop-rule:#E4B4B4; --stop-ink:#7E2626;
     --serif:"Newsreader",Georgia,serif; --sans:"Inter",-apple-system,sans-serif;
     color-scheme:light;
   }
 
   /* ---- Dark ---- */
   [data-theme="dark"]{
-    --ground:#12111F; --surface:#1B1A2B; --sunk:#181724;
-    --ink:#F0EEF8; --ink-mid:#BDB8D2; --ink-soft:#8B86A8;
-    --rule:#2E2B44; --rule-2:#413D5C;
-    --anchor:#B4ABF0; --anchor-deep:#CFC9F7; --wash:#252142; --petal:#A99CE8;
-    --warn-bg:#26200F; --warn-rule:#4B3E22; --warn-ink:#E6CE96;
-    --stop-bg:#2E1620; --stop-rule:#52293B; --stop-ink:#F0AEBF;
-    --answer-bg:transparent;
+    --ground:#101413; --surface:#191E1D; --sunk:#161A19;
+    --ink:#EEF2F0; --ink-mid:#B6C0BC; --ink-soft:#848E8A;
+    --rule:#2A312F; --rule-2:#3B4442;
+    --anchor:#6FC7B6; --anchor-deep:#95DACB; --wash:#1E2C29; --petal:#6FC7B6;
+    --on-anchor:#101413;
+    --warn-bg:#241E10; --warn-rule:#463A20; --warn-ink:#E4CB94;
+    --stop-bg:#2B1616; --stop-rule:#4E2A2A; --stop-ink:#F0AFAF;
     color-scheme:dark;
   }
 
   /* ---- Auto: follow the system when no explicit choice is set ---- */
   @media (prefers-color-scheme:dark){
     :root:not([data-theme]){
-      --ground:#12111F; --surface:#1B1A2B; --sunk:#181724;
-      --ink:#F0EEF8; --ink-mid:#BDB8D2; --ink-soft:#8B86A8;
-      --rule:#2E2B44; --rule-2:#413D5C;
-      --anchor:#B4ABF0; --anchor-deep:#CFC9F7; --wash:#252142; --petal:#A99CE8;
-      --warn-bg:#26200F; --warn-rule:#4B3E22; --warn-ink:#E6CE96;
-      --stop-bg:#2E1620; --stop-rule:#52293B; --stop-ink:#F0AEBF;
+      --ground:#101413; --surface:#191E1D; --sunk:#161A19;
+      --ink:#EEF2F0; --ink-mid:#B6C0BC; --ink-soft:#848E8A;
+      --rule:#2A312F; --rule-2:#3B4442;
+      --anchor:#6FC7B6; --anchor-deep:#95DACB; --wash:#1E2C29; --petal:#6FC7B6;
+      --on-anchor:#101413;
+      --warn-bg:#241E10; --warn-rule:#463A20; --warn-ink:#E4CB94;
+      --stop-bg:#2B1616; --stop-rule:#4E2A2A; --stop-ink:#F0AFAF;
       color-scheme:dark;
     }
   }
@@ -69,9 +69,9 @@
     --ink:#33281D; --ink-mid:#61503E; --ink-soft:#8B7860;
     --rule:#DFD2BB; --rule-2:#C7B597;
     --anchor:#7A4E2E; --anchor-deep:#5C3A21; --wash:#EFE3CD; --petal:#A8794E;
+    --on-anchor:#FBF5E9;
     --warn-bg:#F6EACF; --warn-rule:#DCC08A; --warn-ink:#6A5117;
     --stop-bg:#F6E2DC; --stop-rule:#DBB3A6; --stop-ink:#7E3222;
-    --answer-bg:transparent;
     color-scheme:light;
   }
 
@@ -81,32 +81,32 @@
     --ink:#000; --ink-mid:#1A1A1A; --ink-soft:#3A3A3A;
     --rule:#767676; --rule-2:#000;
     --anchor:#00308F; --anchor-deep:#001F5C; --wash:#E8EDF9; --petal:#00308F;
+    --on-anchor:#FFF;
     --warn-bg:#FFF8E0; --warn-rule:#000; --warn-ink:#3D2E00;
     --stop-bg:#FFECEF; --stop-rule:#000; --stop-ink:#6B0018;
-    --answer-bg:transparent;
     color-scheme:light;
   }
   [data-theme="hc"] .chip,[data-theme="hc"] .slip,
-  [data-theme="hc"] .action,[data-theme="hc"] .cbox{border-width:2px}
-  [data-theme="hc"] .answer{font-weight:400}
+  [data-theme="hc"] .action,[data-theme="hc"] .cbox,
+  [data-theme="hc"] .area{border-width:2px}
   [data-theme="hc"] a{text-decoration:underline}
 
   *{box-sizing:border-box}
   body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--sans);
     font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
-  .page{max-width:660px;margin:0 auto;padding:0 22px 90px}
+  .page{max-width:680px;margin:0 auto;padding:0 22px 90px}
 
   /* Masthead */
-  .top{padding:48px 0 22px}
+  .top{padding:46px 0 20px}
   .brand{display:flex;align-items:center;gap:11px;margin-bottom:6px}
   h1{font-family:var(--serif);font-size:clamp(32px,7vw,42px);font-weight:400;
     line-height:1;letter-spacing:-.02em;margin:0}
   .tag{font-family:var(--sans);font-size:11px;font-weight:500;letter-spacing:.14em;
     text-transform:uppercase;color:var(--anchor);margin:0 0 0 45px}
 
-  /* Single compact notice */
+  /* Standing notice */
   .notice{background:var(--warn-bg);border:1px solid var(--warn-rule);color:var(--warn-ink);
-    border-radius:9px;padding:13px 16px;font-size:13.5px;line-height:1.55;margin:22px 0 26px}
+    border-radius:9px;padding:13px 16px;font-size:13.5px;line-height:1.55;margin:22px 0 24px}
   .notice b{font-weight:600}
   .notice details{margin-top:7px}
   .notice summary{cursor:pointer;font-size:12.5px;opacity:.85}
@@ -128,6 +128,24 @@
   .lede{font-family:var(--serif);font-size:17px;color:var(--ink-mid);
     margin:0 0 18px;line-height:1.5}
 
+  /* Area grid — step one of the situation builder */
+  .areas{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:7px;
+    margin-bottom:18px}
+  .area{display:flex;align-items:center;gap:9px;text-align:left;background:var(--surface);
+    border:1px solid var(--rule);border-radius:9px;padding:11px 12px;cursor:pointer;
+    font-family:var(--sans);font-size:13.5px;font-weight:500;color:var(--ink-mid);
+    transition:all .16s}
+  .area:hover{border-color:var(--anchor);color:var(--anchor)}
+  .area[aria-pressed="true"]{border-color:var(--anchor);background:var(--wash);
+    color:var(--anchor)}
+  .area:focus-visible{outline:2px solid var(--anchor);outline-offset:2px}
+  .area svg{width:17px;height:17px;flex-shrink:0;stroke:currentColor;fill:none;
+    stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+
+  #detail[hidden]{display:none}
+  @keyframes unfold{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+  @media(prefers-reduced-motion:no-preference){#detail{animation:unfold .22s ease-out both}}
+
   /* Chips */
   .grp{margin-bottom:16px}
   .grp-label{display:block;font-size:12.5px;font-weight:500;color:var(--ink-soft);
@@ -137,31 +155,43 @@
     border:1px solid var(--rule-2);border-radius:20px;padding:7px 14px;cursor:pointer;
     transition:all .16s}
   .chip:hover{border-color:var(--anchor);color:var(--anchor)}
-  .chip[aria-pressed="true"]{background:var(--anchor);border-color:var(--anchor);color:#fff}
+  .chip[aria-pressed="true"]{background:var(--anchor);border-color:var(--anchor);
+    color:var(--on-anchor)}
   .chip:focus-visible{outline:2px solid var(--anchor);outline-offset:2px}
-  [data-theme="dark"] .chip[aria-pressed="true"],
-  :root:not([data-theme]) .chip[aria-pressed="true"]{color:#12111F}
+
+  .about{border-top:1px solid var(--rule);padding-top:15px;margin-bottom:18px}
+  .about .grp{margin-bottom:12px}
+  .about-note{font-size:12px;color:var(--ink-soft);margin:2px 0 0}
 
   /* Buttons */
-  .primary{width:100%;border:0;background:var(--anchor);color:#fff;font-family:var(--sans);
-    font-size:15px;font-weight:500;padding:13px;border-radius:9px;cursor:pointer;
-    transition:background .18s}
+  .primary{width:100%;border:0;background:var(--anchor);color:var(--on-anchor);
+    font-family:var(--sans);font-size:15px;font-weight:500;padding:13px;border-radius:9px;
+    cursor:pointer;transition:background .18s}
   .primary:hover{background:var(--anchor-deep)}
+  .primary:disabled{opacity:.45;cursor:default}
   .primary:focus-visible{outline:2px solid var(--anchor);outline-offset:2px}
-  [data-theme="dark"] .primary,
-  :root:not([data-theme]) .primary{color:#12111F}
 
-  /* Calculator */
+  /* Calculator sub-tabs */
+  .calcs{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap}
+  .calctab{font-family:var(--sans);font-size:13px;font-weight:500;color:var(--ink-mid);
+    background:var(--surface);border:1px solid var(--rule-2);border-radius:8px;
+    padding:8px 13px;cursor:pointer;transition:all .16s}
+  .calctab:hover{border-color:var(--anchor);color:var(--anchor)}
+  .calctab[aria-selected="true"]{background:var(--anchor);border-color:var(--anchor);
+    color:var(--on-anchor)}
+  .calctab:focus-visible{outline:2px solid var(--anchor);outline-offset:2px}
+  .calc[hidden]{display:none}
+
   .calc-note{background:var(--wash);border-radius:8px;padding:11px 14px;font-size:12.5px;
-    line-height:1.55;color:var(--ink-mid);margin-bottom:18px}
+    line-height:1.55;color:var(--ink-mid);margin-bottom:16px}
   .inputs{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:16px}
   .inp label{display:block;font-size:12.5px;font-weight:500;color:var(--ink-soft);
     margin-bottom:5px}
   .inp .unit{font-weight:400;opacity:.75}
-  .inp input{width:100%;font-family:var(--sans);font-size:16px;color:var(--ink);
+  .inp input,.inp select{width:100%;font-family:var(--sans);font-size:16px;color:var(--ink);
     background:var(--surface);border:1px solid var(--rule-2);border-radius:8px;
     padding:11px 12px}
-  .inp input:focus{outline:none;border-color:var(--anchor)}
+  .inp input:focus,.inp select:focus{outline:none;border-color:var(--anchor)}
 
   .result{margin-top:18px;border-radius:10px;padding:16px 18px;display:none}
   .result.show{display:block}
@@ -190,7 +220,30 @@
   @keyframes rise{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
   @media(prefers-reduced-motion:no-preference){.turn{animation:rise .3s ease-out both}}
   .q{font-family:var(--serif);font-size:19px;line-height:1.35;padding-left:14px;
-    border-left:2px solid var(--anchor);margin:0}
+    border-left:2px solid var(--anchor);margin:0 0 16px}
+
+  /* Triage banner — driven by the server's own rules, not by the model */
+  .alert{border-radius:9px;padding:13px 16px;margin:0 0 16px;font-size:14.5px;
+    line-height:1.55}
+  .alert-emergency{background:var(--stop-bg);border:1px solid var(--stop-rule);
+    color:var(--stop-ink)}
+  .alert-soon{background:var(--warn-bg);border:1px solid var(--warn-rule);
+    color:var(--warn-ink)}
+  .alert-h{font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:.12em;
+    text-transform:uppercase;margin-bottom:6px;opacity:.85}
+  .alert p{margin:0 0 6px}
+  .alert p:last-child{margin-bottom:0}
+
+  /* Helpline block */
+  .support{background:var(--wash);border:1px solid var(--rule-2);border-radius:9px;
+    padding:13px 16px;margin:0 0 16px}
+  .support-h{font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--anchor);margin-bottom:9px}
+  .support-item{font-size:14px;margin-bottom:7px;line-height:1.45}
+  .support-item:last-child{margin-bottom:0}
+  .support-item a{color:var(--anchor);font-weight:500;text-underline-offset:2px}
+  .support-item span{display:block;font-size:12.5px;color:var(--ink-soft)}
+
   .answer{font-family:var(--serif);font-size:18px;line-height:1.72;
     letter-spacing:.002em;color:var(--ink)}
   .answer p{margin:0 0 14px}
@@ -204,7 +257,7 @@
   .ref{display:inline-block;font-family:var(--sans);font-size:10.5px;font-weight:600;
     color:var(--anchor);background:var(--wash);border-radius:4px;padding:1px 5px;margin:0 1px;
     vertical-align:1px;text-decoration:none}
-  .ref:hover{background:var(--anchor);color:var(--surface)}
+  .ref:hover{background:var(--anchor);color:var(--on-anchor)}
 
   .cites{margin-top:20px;padding-top:14px;border-top:1px solid var(--rule)}
   .cites-h{font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;
@@ -217,9 +270,10 @@
   .cite-m{color:var(--ink-soft);font-size:12px}
   .cite.flash{background:var(--wash)}
 
-  /* Streaming */
+  /* Streaming caret */
   .answer.streaming::after{content:"";display:inline-block;width:2px;height:1.05em;
-    background:var(--anchor);vertical-align:-2px;margin-left:2px;animation:blink 1s steps(2) infinite}
+    background:var(--anchor);vertical-align:-2px;margin-left:2px;
+    animation:blink 1s steps(2) infinite}
   @keyframes blink{0%,50%{opacity:1}51%,100%{opacity:0}}
   @media(prefers-reduced-motion:reduce){.answer.streaming::after{animation:none}}
 
@@ -258,43 +312,15 @@
     font-size:16.5px;line-height:1.5;padding:9px 0;resize:none;min-height:42px;max-height:180px}
   textarea:focus{outline:none}
   textarea::placeholder{color:var(--ink-soft)}
-  .send{flex-shrink:0;border:0;background:var(--anchor);color:#fff;font-family:var(--sans);
-    font-size:14px;font-weight:500;padding:11px 18px;border-radius:8px;cursor:pointer}
+  .send{flex-shrink:0;border:0;background:var(--anchor);color:var(--on-anchor);
+    font-family:var(--sans);font-size:14px;font-weight:500;padding:11px 18px;
+    border-radius:8px;cursor:pointer}
   .send:hover:not(:disabled){background:var(--anchor-deep)}
   .send:disabled{opacity:.4;cursor:default}
-  [data-theme="dark"] .send,
-  :root:not([data-theme]) .send{color:#12111F}
 
   .foot{margin-top:38px;padding-top:18px;border-top:1px solid var(--rule);
     font-size:12.5px;line-height:1.6;color:var(--ink-soft)}
   .foot p{margin:0 0 7px}
-  .foot button{background:none;border:0;color:var(--ink-soft);font-family:var(--sans);
-    font-size:12.5px;text-decoration:underline;cursor:pointer;padding:0}
-  .foot button:hover{color:var(--anchor)}
-
-  /* Print: strip the interface, keep the conversation */
-  @media print{
-    @page{margin:18mm}
-    body{background:#fff;color:#000;font-size:11pt}
-    .page{max-width:none;padding:0}
-    .modes,.panel,.composer,.notice details,.foot button,.actions{display:none!important}
-    .top{padding:0 0 12pt;border-bottom:1px solid #999}
-    .brand svg{width:26px;height:26px}
-    h1{font-size:20pt}
-    .tag{margin-left:37px;color:#444}
-    .notice{border:1px solid #999;background:#fff;color:#000;font-size:9.5pt;
-      page-break-inside:avoid}
-    .turn{page-break-inside:avoid;margin-bottom:16pt}
-    .q{font-size:13pt;border-left:2px solid #000}
-    .answer{font-size:11pt;line-height:1.5}
-    .ref{background:none;color:#000;padding:0}
-    .cites{border-top:1px solid #ccc}
-    .cite a{color:#000;border:0}
-    .cite a::after{content:" (" attr(href) ")";font-size:8pt;color:#555;word-break:break-all}
-    .foot{font-size:8.5pt;color:#444}
-    .print-header{display:block!important}
-  }
-  .print-header{display:none}
 
   /* Theme picker */
   .themebar{display:flex;align-items:center;gap:5px;margin-left:auto}
@@ -308,7 +334,7 @@
   .theme-btn svg{width:15px;height:15px;display:block}
 
   /* Action bar */
-  .actions{display:flex;gap:8px;flex-wrap:wrap;margin:-8px 0 20px}
+  .actions{display:flex;gap:8px;flex-wrap:wrap;margin:-6px 0 20px}
   .action{font-family:var(--sans);font-size:12.5px;font-weight:500;color:var(--ink-mid);
     background:var(--surface);border:1px solid var(--rule);border-radius:7px;
     padding:7px 12px;cursor:pointer;transition:all .16s}
@@ -316,47 +342,63 @@
   .action:focus-visible{outline:2px solid var(--anchor);outline-offset:2px}
   .actions[hidden]{display:none}
 
+  /* Print: strip the interface, keep the conversation */
+  @media print{
+    @page{margin:18mm}
+    body{background:#fff;color:#000;font-size:11pt}
+    .page{max-width:none;padding:0}
+    .modes,.panel,.composer,.notice details,.actions,.themebar,.followups
+      {display:none!important}
+    .top{padding:0 0 12pt;border-bottom:1px solid #999}
+    .brand svg{width:26px;height:26px}
+    h1{font-size:20pt}
+    .tag{margin-left:37px;color:#444}
+    .notice{border:1px solid #999;background:#fff;color:#000;font-size:9.5pt;
+      page-break-inside:avoid}
+    .turn{page-break-inside:avoid;margin-bottom:16pt}
+    .q{font-size:13pt;border-left:2px solid #000}
+    .alert,.support{border:1px solid #000;background:#fff;color:#000;
+      page-break-inside:avoid}
+    .answer{font-size:11pt;line-height:1.5}
+    .ref{background:none;color:#000;padding:0}
+    .cites{border-top:1px solid #ccc}
+    .cite a{color:#000;border:0}
+    .cite a::after{content:" (" attr(href) ")";font-size:8pt;color:#555;word-break:break-all}
+    .foot{font-size:8.5pt;color:#444}
+    .print-header{display:block!important}
+  }
+  .print-header{display:none}
+
   @media(max-width:560px){
     .page{padding:0 16px 76px}
-    .top{padding-top:34px}
+    .top{padding-top:32px}
     .tag{margin-left:0}
     .inputs{grid-template-columns:1fr}
+    .areas{grid-template-columns:1fr 1fr}
+    .area{font-size:12.5px;padding:10px}
     .q{font-size:18px}.answer{font-size:16.5px}
     .mode{font-size:12.5px;padding:9px 4px}
   }
 </style>
 </head>
-<script>
-  // Runs before render to avoid a flash of the wrong theme
-  (function(){
-    try{
-      var t=localStorage.getItem("hepatica.theme");
-      if(t&&t!=="auto")document.documentElement.setAttribute("data-theme",t);
-    }catch(e){}
-  })();
-</script>
 <body>
 <div class="page">
 
   <header class="top">
     <div class="brand">
       <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true">
-        <g fill="none" stroke="var(--petal)" stroke-width="1.3">
-          <ellipse cx="17" cy="8.6" rx="3.5" ry="6"/><ellipse cx="17" cy="25.4" rx="3.5" ry="6"/>
-          <ellipse cx="8.6" cy="17" rx="6" ry="3.5"/><ellipse cx="25.4" cy="17" rx="6" ry="3.5"/>
-          <ellipse cx="11.1" cy="11.1" rx="3.5" ry="6" transform="rotate(45 11.1 11.1)"/>
-          <ellipse cx="22.9" cy="22.9" rx="3.5" ry="6" transform="rotate(45 22.9 22.9)"/>
-          <ellipse cx="22.9" cy="11.1" rx="3.5" ry="6" transform="rotate(-45 22.9 11.1)"/>
-          <ellipse cx="11.1" cy="22.9" rx="3.5" ry="6" transform="rotate(-45 11.1 22.9)"/>
+        <g fill="none" stroke="var(--petal)" stroke-width="1.5" stroke-linecap="round">
+          <path d="M5 29V15a12 12 0 0 1 24 0v14"/>
+          <path d="M11 29V16a6 6 0 0 1 12 0v13"/>
         </g>
-        <circle cx="17" cy="17" r="2.4" fill="var(--anchor)"/>
+        <circle cx="17" cy="17" r="2.3" fill="var(--anchor)"/>
       </svg>
-      <h1>Hepatica</h1>
+      <h1>Anteroom</h1>
 
       <div class="themebar" role="group" aria-label="Colour theme">
         <button class="theme-btn" type="button" data-theme-set="auto" title="Match my device" aria-label="Match my device">
           <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6">
-            <circle cx="10" cy="10" r="7"/><path d="M10 3v14" /><path d="M10 3a7 7 0 010 14" fill="currentColor" stroke="none"/>
+            <circle cx="10" cy="10" r="7"/><path d="M10 3a7 7 0 010 14" fill="currentColor" stroke="none"/>
           </svg>
         </button>
         <button class="theme-btn" type="button" data-theme-set="light" title="Light" aria-label="Light">
@@ -387,92 +429,152 @@
   </header>
 
   <div class="notice">
-    <b>Hepatica cannot tell you whether you have cancer.</b> Nothing can, without an exam,
-    scans, and lab work. It explains what guidelines recommend for people in your situation
-    and what to ask. If you have yellowing skin or eyes, are vomiting blood, have black
-    stools, are confused, or have severe belly pain — get care today.
+    <b>Anteroom cannot tell you what you have.</b> Nothing can, without an examination,
+    scans and lab work. It explains what published guidelines recommend for people in your
+    situation and what to ask. If you have chest pain, stroke signs, are struggling to
+    breathe, are vomiting blood, have a rash that doesn't fade under pressure, or a baby
+    under three months with a fever — stop reading and get emergency care now.
     <details>
       <summary>About your privacy</summary>
-      <p>Questions you type go to Google's free AI tier, which may use them to improve their
-      models — so leave out your name and contact details. The blood-test calculator is
-      different: it runs entirely in your browser and those numbers are never sent anywhere.</p>
+      <p>Questions you type are sent to Google's free AI tier, which may use them to
+      improve their models — so leave out your name and contact details. The calculators
+      are different: they run entirely in your browser, and those numbers are never sent
+      anywhere.</p>
     </details>
   </div>
 
   <div class="modes" role="tablist">
     <button class="mode" role="tab" id="m-situation" aria-selected="true">My situation</button>
-    <button class="mode" role="tab" id="m-bloods" aria-selected="false">My blood test</button>
+    <button class="mode" role="tab" id="m-numbers" aria-selected="false">My numbers</button>
     <button class="mode" role="tab" id="m-ask" aria-selected="false">Ask anything</button>
   </div>
 
-  <!-- Situation -->
+  <!-- ===================== SITUATION ===================== -->
   <section class="panel" id="p-situation">
-    <p class="lede">Tap whatever applies. Hepatica will tell you what guidelines recommend
-    for people in your situation, how soon to be seen, and what to ask.</p>
+    <p class="lede">Start with the part of the body you're worried about. Anteroom will
+    tell you what guidelines recommend for people in your situation, how soon to be seen,
+    and what to ask.</p>
 
-    <div class="grp">
-      <span class="grp-label">Diagnosed with</span>
-      <div class="chips" data-group="history">
-        <button class="chip" type="button" data-v="chronic hepatitis B">Hepatitis B</button>
-        <button class="chip" type="button" data-v="chronic hepatitis C">Hepatitis C</button>
-        <button class="chip" type="button" data-v="cirrhosis">Cirrhosis</button>
-        <button class="chip" type="button" data-v="fatty liver disease">Fatty liver</button>
-        <button class="chip" type="button" data-v="type 2 diabetes">Diabetes</button>
-        <button class="chip" type="button" data-v="a family history of liver cancer">Family history</button>
-        <button class="chip" type="button" data-v="a history of heavy alcohol use">Heavy drinking</button>
+    <div class="areas" id="areas" role="group" aria-label="Area of concern"></div>
+
+    <div id="detail" hidden>
+      <div class="grp">
+        <span class="grp-label" id="lbl-conditions">Diagnosed with</span>
+        <div class="chips" data-group="history" aria-labelledby="lbl-conditions"></div>
       </div>
-    </div>
 
-    <div class="grp">
-      <span class="grp-label">Noticing</span>
-      <div class="chips" data-group="symptoms">
-        <button class="chip" type="button" data-v="yellowing of my eyes or skin">Yellow eyes/skin</button>
-        <button class="chip" type="button" data-v="pain in my upper right abdomen">Right-side pain</button>
-        <button class="chip" type="button" data-v="unexplained weight loss">Weight loss</button>
-        <button class="chip" type="button" data-v="swelling in my abdomen">Belly swelling</button>
-        <button class="chip" type="button" data-v="unusual tiredness">Tiredness</button>
-        <button class="chip" type="button" data-v="no symptoms at all">Nothing</button>
+      <div class="grp">
+        <span class="grp-label" id="lbl-symptoms">Noticing</span>
+        <div class="chips" data-group="symptoms" aria-labelledby="lbl-symptoms"></div>
       </div>
-    </div>
 
-    <button class="primary" type="button" id="go-situation">What should I do next?</button>
+      <div class="about">
+        <div class="grp">
+          <span class="grp-label" id="lbl-age">Age</span>
+          <div class="chips" data-group="age" data-single="1" aria-labelledby="lbl-age">
+            <button class="chip" type="button" data-v="under 18">Under 18</button>
+            <button class="chip" type="button" data-v="18-39">18–39</button>
+            <button class="chip" type="button" data-v="40-49">40–49</button>
+            <button class="chip" type="button" data-v="50-64">50–64</button>
+            <button class="chip" type="button" data-v="65+">65+</button>
+          </div>
+        </div>
+        <div class="grp">
+          <span class="grp-label" id="lbl-sex">Sex at birth</span>
+          <div class="chips" data-group="sex" data-single="1" aria-labelledby="lbl-sex">
+            <button class="chip" type="button" data-v="female">Female</button>
+            <button class="chip" type="button" data-v="male">Male</button>
+          </div>
+        </div>
+        <p class="about-note">Optional, but screening guidelines are largely gated on age
+        and sex — mammography, colonoscopy, aneurysm scans, bone density. Without these
+        the answer stays general.</p>
+      </div>
+
+      <button class="primary" type="button" id="go-situation">What should I do next?</button>
+    </div>
   </section>
 
-  <!-- Bloods / FIB-4 -->
-  <section class="panel" id="p-bloods" hidden>
-    <p class="lede">FIB-4 is a calculator doctors use to estimate liver scarring from four
-    numbers on a routine blood test. It does not look for cancer — it estimates scarring,
-    which is what decides whether someone qualifies for cancer screening.</p>
+  <!-- ===================== NUMBERS ===================== -->
+  <section class="panel" id="p-numbers" hidden>
+    <p class="lede">Three calculators clinicians actually use. Each one turns routine
+    numbers into the guideline category that decides what happens next.</p>
 
     <div class="calc-note">
-      These numbers stay in your browser and are never sent anywhere — not to this site,
-      not to Google. Find them on a comprehensive metabolic panel and complete blood count.
+      Everything here runs in your browser. These numbers are never sent to this site, to
+      Google, or anywhere else. None of these is a diagnosis — they sort people into
+      categories that guidelines act on.
     </div>
 
-    <div class="inputs">
-      <div class="inp"><label for="f-age">Age <span class="unit">years</span></label>
-        <input id="f-age" type="number" inputmode="numeric" min="18" max="110" placeholder="e.g. 54"></div>
-      <div class="inp"><label for="f-plt">Platelets <span class="unit">×10⁹/L</span></label>
-        <input id="f-plt" type="number" inputmode="decimal" min="10" max="900" placeholder="e.g. 180"></div>
-      <div class="inp"><label for="f-ast">AST <span class="unit">U/L</span></label>
-        <input id="f-ast" type="number" inputmode="decimal" min="1" max="1000" placeholder="e.g. 42"></div>
-      <div class="inp"><label for="f-alt">ALT <span class="unit">U/L</span></label>
-        <input id="f-alt" type="number" inputmode="decimal" min="1" max="1000" placeholder="e.g. 38"></div>
+    <div class="calcs" role="tablist">
+      <button class="calctab" role="tab" id="c-fib4" aria-selected="true">Liver scarring (FIB-4)</button>
+      <button class="calctab" role="tab" id="c-egfr" aria-selected="false">Kidney function (eGFR)</button>
+      <button class="calctab" role="tab" id="c-bp" aria-selected="false">Blood pressure</button>
     </div>
 
-    <button class="primary" type="button" id="go-fib4">Calculate FIB-4</button>
-    <div class="result" id="fib-result" role="status" aria-live="polite"></div>
+    <!-- FIB-4 -->
+    <div class="calc" id="calc-fib4">
+      <p class="lede" style="font-size:15px">FIB-4 estimates liver scarring from four
+      numbers on routine bloods. It doesn't look for cancer — it estimates scarring, which
+      is what decides who qualifies for liver cancer surveillance.</p>
+      <div class="inputs">
+        <div class="inp"><label for="f-age">Age <span class="unit">years</span></label>
+          <input id="f-age" type="number" inputmode="numeric" min="18" max="110" placeholder="e.g. 54"></div>
+        <div class="inp"><label for="f-plt">Platelets <span class="unit">×10⁹/L</span></label>
+          <input id="f-plt" type="number" inputmode="decimal" min="10" max="900" placeholder="e.g. 180"></div>
+        <div class="inp"><label for="f-ast">AST <span class="unit">U/L</span></label>
+          <input id="f-ast" type="number" inputmode="decimal" min="1" max="1000" placeholder="e.g. 42"></div>
+        <div class="inp"><label for="f-alt">ALT <span class="unit">U/L</span></label>
+          <input id="f-alt" type="number" inputmode="decimal" min="1" max="1000" placeholder="e.g. 38"></div>
+      </div>
+      <button class="primary" type="button" id="go-fib4">Calculate FIB-4</button>
+      <div class="result" id="res-fib4" role="status" aria-live="polite"></div>
+    </div>
+
+    <!-- eGFR -->
+    <div class="calc" id="calc-egfr" hidden>
+      <p class="lede" style="font-size:15px">eGFR estimates how well the kidneys filter,
+      using the 2021 CKD-EPI equation — the version with the race coefficient removed.</p>
+      <div class="inputs">
+        <div class="inp"><label for="e-age">Age <span class="unit">years</span></label>
+          <input id="e-age" type="number" inputmode="numeric" min="18" max="110" placeholder="e.g. 62"></div>
+        <div class="inp"><label for="e-sex">Sex at birth</label>
+          <select id="e-sex"><option value="">Choose…</option><option value="female">Female</option><option value="male">Male</option></select></div>
+        <div class="inp"><label for="e-cr">Creatinine <span class="unit">mg/dL</span></label>
+          <input id="e-cr" type="number" inputmode="decimal" step="0.01" min="0.1" max="20" placeholder="e.g. 1.10"></div>
+        <div class="inp"><label for="e-unit">Units</label>
+          <select id="e-unit"><option value="mgdl">mg/dL</option><option value="umol">µmol/L</option></select></div>
+      </div>
+      <button class="primary" type="button" id="go-egfr">Calculate eGFR</button>
+      <div class="result" id="res-egfr" role="status" aria-live="polite"></div>
+    </div>
+
+    <!-- Blood pressure -->
+    <div class="calc" id="calc-bp" hidden>
+      <p class="lede" style="font-size:15px">Where a reading falls in the ACC/AHA
+      categories. One reading is not a diagnosis — hypertension is diagnosed from repeated
+      readings, usually at home.</p>
+      <div class="inputs">
+        <div class="inp"><label for="b-sys">Systolic <span class="unit">top number</span></label>
+          <input id="b-sys" type="number" inputmode="numeric" min="60" max="300" placeholder="e.g. 134"></div>
+        <div class="inp"><label for="b-dia">Diastolic <span class="unit">bottom number</span></label>
+          <input id="b-dia" type="number" inputmode="numeric" min="30" max="200" placeholder="e.g. 86"></div>
+      </div>
+      <button class="primary" type="button" id="go-bp">Check category</button>
+      <div class="result" id="res-bp" role="status" aria-live="polite"></div>
+    </div>
   </section>
 
-  <!-- Ask -->
+  <!-- ===================== ASK ===================== -->
   <section class="panel" id="p-ask" hidden>
-    <p class="lede">Ask anything about liver cancer — risk, screening, test results,
-    words you've read on a report.</p>
+    <p class="lede">Ask anything about health — screening, risk, test results, words
+    you've read on a report.</p>
     <div class="slips">
-      <button class="slip" type="button">Who should be screened, and how often?</button>
-      <button class="slip" type="button">What does an AFP blood test measure?</button>
-      <button class="slip" type="button">My report says LI-RADS — what does that mean?</button>
+      <button class="slip" type="button">Which screening tests should I be having at my age?</button>
+      <button class="slip" type="button">What do the numbers on a standard blood panel mean?</button>
+      <button class="slip" type="button">My family has a history of cancer — what changes for me?</button>
       <button class="slip" type="button">Help me explain a report I don't understand</button>
+      <button class="slip" type="button">What should I actually ask at a ten-minute appointment?</button>
     </div>
   </section>
 
@@ -484,7 +586,7 @@
 
   <div class="print-header">
     <p style="font-size:9.5pt;color:#444;margin:0 0 10pt">
-      Printed from Hepatica. Educational information only — not a diagnosis.
+      Printed from Anteroom. Educational information only — not a diagnosis.
       Bring this to your appointment.</p>
   </div>
 
@@ -499,21 +601,25 @@
   </div>
 
   <footer class="foot">
-    <p>Answers are written by AI from research pulled live from PubMed, Europe PMC and
+    <p>Answers are written by AI from research pulled live from Europe PMC, PubMed and
     ClinicalTrials.gov. They can be wrong — check anything important with a clinician.</p>
+    <p>Urgency warnings are generated by this site's own rules, not by the AI, so they
+    appear whether or not the AI mentions them.</p>
     <p>Your conversation is saved only in this browser, on this device.</p>
-    <p>FIB-4 thresholds follow AASLD guidance. Statistics come from the NCI SEER Program.</p>
+    <p>Calculator thresholds follow AASLD (FIB-4), KDIGO and CKD-EPI 2021 (eGFR), and
+    ACC/AHA 2017 (blood pressure).</p>
   </footer>
 
 </div>
 
 <script>
 const thread=document.getElementById("thread"),form=document.getElementById("composer"),
-      input=document.getElementById("input"),sendBtn=document.getElementById("send");
-let history=[],turns=[],busy=false;
+      input=document.getElementById("input"),sendBtn=document.getElementById("send"),
+      stopBtn=document.getElementById("stop");
+let history=[],turns=[],busy=false,controller=null;
 
-/* ---------- Theme ---------- */
-const THEME_KEY="hepatica.theme";
+/* ============================ THEME ============================ */
+const THEME_KEY="anteroom.theme";
 function applyTheme(t){
   if(t==="auto")document.documentElement.removeAttribute("data-theme");
   else document.documentElement.setAttribute("data-theme",t);
@@ -524,7 +630,7 @@ function applyTheme(t){
     const dark=t==="dark"||(t==="auto"&&
       window.matchMedia("(prefers-color-scheme: dark)").matches);
     meta.setAttribute("content",
-      t==="hc"?"#00308F":t==="sepia"?"#7A4E2E":(dark?"#12111F":"#4F4593"));
+      t==="hc"?"#00308F":t==="sepia"?"#7A4E2E":(dark?"#101413":"#1D5B52"));
   }
 }
 let savedTheme="auto";
@@ -532,9 +638,8 @@ try{savedTheme=localStorage.getItem(THEME_KEY)||"auto";}catch(e){}
 applyTheme(savedTheme);
 document.querySelectorAll("[data-theme-set]").forEach(b=>{
   b.addEventListener("click",()=>{
-    const t=b.dataset.themeSet;
-    applyTheme(t);
-    try{localStorage.setItem(THEME_KEY,t);}catch(e){}
+    applyTheme(b.dataset.themeSet);
+    try{localStorage.setItem(THEME_KEY,b.dataset.themeSet);}catch(e){}
   });
 });
 window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",()=>{
@@ -542,23 +647,272 @@ window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",()=>
   if(cur==="auto")applyTheme("auto");
 });
 
-/* ---------- Mode switching ---------- */
-const MODES=[["m-situation","p-situation"],["m-bloods","p-bloods"],["m-ask","p-ask"]];
+/* ======================= AREA DEFINITIONS =======================
+   Each area supplies its own condition and symptom chips, so the
+   builder narrows to what's actually relevant instead of showing
+   one giant undifferentiated list.
+   ================================================================ */
+const ICONS={
+  heart:'<path d="M8.5 2.5 3 7l5.5 5.5L14 7z"/><path d="M3 11l5.5 5.5L14 11"/>',
+  lungs:'<path d="M8.5 2v6"/><path d="M8.5 6c-1 2-4 2.5-4 5.5 0 2 .5 3.5 2 3.5s2.5-1.5 2.5-4"/><path d="M8.5 6c1 2 4 2.5 4 5.5 0 2-.5 3.5-2 3.5s-2.5-1.5-2.5-4"/>',
+  liver:'<path d="M2.5 6.5c3-2 8-2.5 12 0 1 3-1 7-5 8-3.5.8-6.5-1-7-4z"/><path d="M8 9.5c1.5.5 2.5 1.5 3 3"/>',
+  kidney:'<path d="M6.5 2.5C4 2.5 2.5 5 2.5 8.5s1.5 6 4 6c2 0 2-2 2-3.5s0-3.5 2-3.5"/><path d="M10.5 2.5c2.5 0 4 2.5 4 6s-1.5 6-4 6"/>',
+  gut:'<path d="M4 2.5v4a2.5 2.5 0 005 0v-1a2.5 2.5 0 015 0v3a3 3 0 01-3 3H6a2.5 2.5 0 000 5h7"/>',
+  neuro:'<circle cx="8.5" cy="7" r="5"/><path d="M8.5 12v3.5"/><path d="M6 7h5M8.5 4.5v5"/>',
+  metabolic:'<path d="M8.5 2s4 4.5 4 8a4 4 0 01-8 0c0-3.5 4-8 4-8z"/>',
+  msk:'<path d="M4 4a2 2 0 113 1.7v5.6A2 2 0 114 13"/><path d="M13 4a2 2 0 10-3 1.7v5.6A2 2 0 1013 13"/><path d="M7 8.5h3"/>',
+  skin:'<path d="M3 8.5c0-3 2.5-5.5 5.5-5.5S14 5.5 14 8.5 11.5 14 8.5 14 3 11.5 3 8.5z"/><path d="M6.5 7.5h.01M10 9.5h.01M8 11h.01"/>',
+  mental:'<path d="M8.5 14s-5.5-3-5.5-7a3 3 0 015.5-1.7A3 3 0 0114 7c0 4-5.5 7-5.5 7z"/>',
+  cancer:'<circle cx="8.5" cy="8.5" r="6"/><circle cx="8.5" cy="8.5" r="2.2"/>',
+  womens:'<circle cx="8.5" cy="6" r="4"/><path d="M8.5 10v5M6 13h5"/>'
+};
+
+const AREAS={
+  heart:{label:"Heart & circulation",
+    conditions:[["High blood pressure","high blood pressure"],["High cholesterol","high cholesterol"],
+      ["Atrial fibrillation","atrial fibrillation"],["Heart failure","heart failure"],
+      ["Previous heart attack","a previous heart attack"],["Type 2 diabetes","type 2 diabetes"],
+      ["Family history","a family history of early heart disease"],["Smoked, ever","a history of smoking"]],
+    symptoms:[["Chest pain or pressure","chest pain or pressure"],["Breathless on exertion","breathlessness when I exert myself"],
+      ["Palpitations","palpitations"],["Swollen ankles","swelling in my ankles"],
+      ["Dizzy or fainting","dizziness or fainting"],["Nothing","no symptoms at all"]]},
+
+  lungs:{label:"Lungs & breathing",
+    conditions:[["Asthma","asthma"],["COPD","COPD"],["Sleep apnoea","sleep apnoea"],
+      ["20+ pack-years","a smoking history of 20 pack-years or more"],
+      ["Previous pneumonia","previous pneumonia"],["Dust or asbestos at work","occupational dust or asbestos exposure"]],
+    symptoms:[["Cough over 3 weeks","a cough lasting more than three weeks"],["Coughing up blood","coughing up blood"],
+      ["Breathlessness","breathlessness"],["Wheezing","wheezing"],
+      ["Chest tightness","chest tightness"],["Nothing","no symptoms at all"]]},
+
+  liver:{label:"Liver",
+    conditions:[["Hepatitis B","chronic hepatitis B"],["Hepatitis C","chronic hepatitis C"],
+      ["Cirrhosis","cirrhosis"],["Fatty liver","fatty liver disease"],["Type 2 diabetes","type 2 diabetes"],
+      ["Heavy drinking","a history of heavy alcohol use"],["Family history","a family history of liver cancer"]],
+    symptoms:[["Yellow eyes or skin","yellowing of my eyes or skin"],["Right-side pain","pain in my upper right abdomen"],
+      ["Belly swelling","swelling in my abdomen"],["Weight loss","unexplained weight loss"],
+      ["Tiredness","unusual tiredness"],["Nothing","no symptoms at all"]]},
+
+  kidney:{label:"Kidneys & urinary",
+    conditions:[["Chronic kidney disease","chronic kidney disease"],["Type 2 diabetes","type 2 diabetes"],
+      ["High blood pressure","high blood pressure"],["Kidney stones","kidney stones"],
+      ["Polycystic kidneys","polycystic kidney disease"],["Family history","a family history of kidney failure"]],
+    symptoms:[["Blood in urine","blood in my urine"],["Foamy urine","foamy urine"],
+      ["Swelling in legs or face","swelling in my legs or face"],["Passing much less urine","passing much less urine than usual"],
+      ["Flank pain","pain in my flank"],["Nothing","no symptoms at all"]]},
+
+  gut:{label:"Digestion & gut",
+    conditions:[["Acid reflux","acid reflux"],["IBS","IBS"],["Crohn's or colitis","Crohn's disease or ulcerative colitis"],
+      ["Coeliac disease","coeliac disease"],["Family history of bowel cancer","a family history of bowel cancer"],
+      ["Previous polyps","previous bowel polyps"],["Never screened","never had bowel cancer screening"]],
+    symptoms:[["Blood in stool","blood in my stool"],["Black tarry stools","black tarry stools"],
+      ["Bowel habit changed","a change in my bowel habit"],["Trouble swallowing","difficulty swallowing"],
+      ["Weight loss","unexplained weight loss"],["Persistent bloating","persistent bloating"],["Nothing","no symptoms at all"]]},
+
+  neuro:{label:"Brain & nerves",
+    conditions:[["Migraine","migraine"],["Epilepsy","epilepsy"],["Previous stroke or TIA","a previous stroke or TIA"],
+      ["Multiple sclerosis","multiple sclerosis"],["Family history of aneurysm","a family history of brain aneurysm"]],
+    symptoms:[["Sudden severe headache","a sudden severe headache"],["Weakness on one side","weakness on one side"],
+      ["Numbness or tingling","numbness or tingling"],["Vision changes","changes in my vision"],
+      ["Memory problems","memory problems"],["Dizziness","dizziness"],["Nothing","no symptoms at all"]]},
+
+  metabolic:{label:"Diabetes & hormones",
+    conditions:[["Type 2 diabetes","type 2 diabetes"],["Type 1 diabetes","type 1 diabetes"],
+      ["Prediabetes","prediabetes"],["Underactive thyroid","an underactive thyroid"],
+      ["Overactive thyroid","an overactive thyroid"],["PCOS","PCOS"],["Family history","a family history of diabetes"]],
+    symptoms:[["Very thirsty","excessive thirst"],["Urinating often","passing urine very often"],
+      ["Weight change","an unexplained change in my weight"],["Always cold or hot","feeling always cold or always hot"],
+      ["Hair thinning","hair thinning"],["Tiredness","unusual tiredness"],["Nothing","no symptoms at all"]]},
+
+  msk:{label:"Bones & joints",
+    conditions:[["Osteoarthritis","osteoarthritis"],["Rheumatoid arthritis","rheumatoid arthritis"],
+      ["Osteoporosis","osteoporosis"],["Broke a bone in a minor fall","a fracture after a minor fall"],
+      ["Gout","gout"],["Long-term steroids","long-term steroid use"]],
+    symptoms:[["Back pain","back pain"],["Hot swollen joint","a hot swollen joint"],
+      ["Morning stiffness over an hour","morning stiffness lasting over an hour"],
+      ["Joint pain","joint pain"],["Lost height","loss of height"],["Nothing","no symptoms at all"]]},
+
+  skin:{label:"Skin",
+    conditions:[["Eczema","eczema"],["Psoriasis","psoriasis"],["Previous skin cancer","previous skin cancer"],
+      ["Many moles","a large number of moles"],["Lots of sun or sunbeds","heavy sun or sunbed exposure"],
+      ["Family history of melanoma","a family history of melanoma"]],
+    symptoms:[["A mole has changed","a mole that has changed"],["Sore that won't heal","a sore that won't heal"],
+      ["A new lump","a new lump on my skin"],["Rash that won't clear","a rash that won't clear"],
+      ["Itching, no rash","itching without a rash"],["Nothing","no symptoms at all"]]},
+
+  mental:{label:"Mental health",
+    conditions:[["Depression","depression"],["Anxiety","anxiety"],["Bipolar disorder","bipolar disorder"],
+      ["ADHD","ADHD"],["PTSD","PTSD"],["Been in therapy before","previous experience of therapy"]],
+    symptoms:[["Low mood most days","low mood most days"],["Lost interest in things","losing interest in things I used to enjoy"],
+      ["Sleeping badly","sleeping badly"],["Panic attacks","panic attacks"],
+      ["Can't concentrate","difficulty concentrating"],["Nothing","no symptoms at all"]]},
+
+  cancer:{label:"Cancer & screening",
+    conditions:[["Family history of cancer","a family history of cancer"],
+      ["Known genetic risk","a known genetic risk such as BRCA or Lynch syndrome"],
+      ["Previous cancer","a previous cancer diagnosis"],["Smoked, ever","a history of smoking"],
+      ["Never been screened","never had any cancer screening"]],
+    symptoms:[["Weight loss","unexplained weight loss"],["A lump","a lump"],["Night sweats","night sweats"],
+      ["Unexplained bleeding","unexplained bleeding"],["Persistent pain","persistent pain"],["Nothing","no symptoms at all"]]},
+
+  womens:{label:"Pregnancy & women's health",
+    conditions:[["Currently pregnant","currently pregnant"],["Recently gave birth","recently gave birth"],
+      ["Menopause","going through menopause"],["Endometriosis","endometriosis"],["PCOS","PCOS"],
+      ["Family history of breast cancer","a family history of breast cancer"],
+      ["Never had cervical screening","never had cervical screening"]],
+    symptoms:[["Heavy periods","heavy periods"],["Bleeding after menopause","bleeding after menopause"],
+      ["Pelvic pain","pelvic pain"],["Breast lump","a breast lump"],
+      ["Reduced baby movements","reduced baby movements"],["Nothing","no symptoms at all"]]}
+};
+
+let activeArea=null;
+
+const areasEl=document.getElementById("areas");
+Object.entries(AREAS).forEach(([key,a])=>{
+  const b=document.createElement("button");
+  b.className="area";b.type="button";b.dataset.area=key;
+  b.setAttribute("aria-pressed","false");
+  b.innerHTML='<svg viewBox="0 0 17 17" aria-hidden="true">'+(ICONS[key]||"")+"</svg>";
+  b.appendChild(document.createTextNode(a.label));
+  b.addEventListener("click",()=>selectArea(key));
+  areasEl.appendChild(b);
+});
+
+function selectArea(key){
+  activeArea=key;
+  document.querySelectorAll(".area").forEach(b=>
+    b.setAttribute("aria-pressed",b.dataset.area===key?"true":"false"));
+
+  const a=AREAS[key];
+  fillChips(document.querySelector('.chips[data-group="history"]'),a.conditions);
+  fillChips(document.querySelector('.chips[data-group="symptoms"]'),a.symptoms);
+
+  const detail=document.getElementById("detail");
+  detail.hidden=false;
+  detail.scrollIntoView({behavior:"smooth",block:"nearest"});
+}
+
+function fillChips(box,items){
+  box.innerHTML="";
+  items.forEach(([label,value])=>{
+    const c=document.createElement("button");
+    c.className="chip";c.type="button";c.dataset.v=value;
+    c.setAttribute("aria-pressed","false");
+    c.textContent=label;
+    box.appendChild(c);
+  });
+}
+
+// One delegated handler covers chips that get built at runtime as well as
+// the fixed age and sex rows
+document.addEventListener("click",e=>{
+  const c=e.target.closest(".chip");if(!c)return;
+  const box=c.closest(".chips");if(!box)return;
+  const on=c.getAttribute("aria-pressed")==="true";
+
+  if(box.dataset.single){
+    box.querySelectorAll(".chip").forEach(o=>o.setAttribute("aria-pressed","false"));
+    c.setAttribute("aria-pressed",on?"false":"true");
+    saveProfile();
+    return;
+  }
+
+  c.setAttribute("aria-pressed",on?"false":"true");
+
+  // "Nothing" is exclusive with the other symptoms, in both directions
+  if(!on&&c.dataset.v==="no symptoms at all"){
+    box.querySelectorAll(".chip").forEach(o=>{
+      if(o!==c)o.setAttribute("aria-pressed","false");});
+  }else if(!on&&box.dataset.group==="symptoms"){
+    const none=box.querySelector('[data-v="no symptoms at all"]');
+    if(none)none.setAttribute("aria-pressed","false");
+  }
+});
+
+function picked(g){
+  return[...document.querySelectorAll(
+    '.chips[data-group="'+g+'"] .chip[aria-pressed="true"]')].map(c=>c.dataset.v);
+}
+function joinList(a){
+  if(a.length===1)return a[0];
+  if(a.length===2)return a[0]+" and "+a[1];
+  return a.slice(0,-1).join(", ")+", and "+a[a.length-1];
+}
+
+/* Profile persists — nobody wants to re-enter their age band every visit */
+const PROFILE_KEY="anteroom.profile";
+function currentProfile(){
+  return{age:picked("age")[0]||null,sex:picked("sex")[0]||null};
+}
+function saveProfile(){
+  try{localStorage.setItem(PROFILE_KEY,JSON.stringify(currentProfile()));}catch(e){}
+}
+function restoreProfile(){
+  let p=null;
+  try{p=JSON.parse(localStorage.getItem(PROFILE_KEY)||"null");}catch(e){}
+  if(!p)return;
+  ["age","sex"].forEach(g=>{
+    if(!p[g])return;
+    const c=document.querySelector('.chips[data-group="'+g+'"] .chip[data-v="'+p[g]+'"]');
+    if(c)c.setAttribute("aria-pressed","true");
+  });
+}
+restoreProfile();
+
+document.getElementById("go-situation").addEventListener("click",()=>{
+  const h=picked("history"),s=picked("symptoms"),p=currentProfile();
+  if(!h.length&&!s.length){input.focus();return;}
+
+  let q="Here is my situation. ";
+  const who=[];
+  if(p.age)who.push(p.age==="65+"?"aged 65 or over":"aged "+p.age);
+  if(p.sex)who.push(p.sex);
+  if(who.length)q+="I am "+who.join(", ")+". ";
+  if(activeArea)q+="My concern is "+AREAS[activeArea].label.toLowerCase()+". ";
+  if(h.length)q+="I have "+joinList(h)+". ";
+  if(s.length)q+=s.includes("no symptoms at all")
+    ?"I have no symptoms right now. ":"I am noticing "+joinList(s)+". ";
+  q+="What do published guidelines recommend for someone in my situation, how soon "+
+     "should I be seen, and what exactly should I ask my doctor?";
+  ask(q);
+});
+
+/* ======================= MODE SWITCHING ======================= */
+const MODES=[["m-situation","p-situation"],["m-numbers","p-numbers"],["m-ask","p-ask"]];
 function setMode(id){
   MODES.forEach(([m,p])=>{
-    const on=m===id;
-    const tab=document.getElementById(m);
+    const on=m===id,tab=document.getElementById(m);
     tab.setAttribute("aria-selected",on?"true":"false");
     tab.setAttribute("tabindex",on?"0":"-1");
     document.getElementById(p).hidden=!on;
   });
 }
 MODES.forEach(([m])=>document.getElementById(m).addEventListener("click",()=>setMode(m)));
-function hidePanels(){MODES.forEach(([,p])=>document.getElementById(p).hidden=true);
-  document.querySelector(".modes").style.display="none";}
-function showPanels(){document.querySelector(".modes").style.display="";setMode("m-situation");}
+function hidePanels(){
+  MODES.forEach(([,p])=>document.getElementById(p).hidden=true);
+  document.querySelector(".modes").style.display="none";
+}
+function showPanels(){
+  document.querySelector(".modes").style.display="";setMode("m-situation");
+}
 
-/* ---------- Rendering ---------- */
+const tabIds=MODES.map(([m])=>m);
+tabIds.forEach((id,i)=>{
+  const el=document.getElementById(id);
+  el.setAttribute("tabindex",el.getAttribute("aria-selected")==="true"?"0":"-1");
+  el.addEventListener("keydown",e=>{
+    let next=null;
+    if(e.key==="ArrowRight")next=(i+1)%tabIds.length;
+    else if(e.key==="ArrowLeft")next=(i-1+tabIds.length)%tabIds.length;
+    else if(e.key==="Home")next=0;
+    else if(e.key==="End")next=tabIds.length-1;
+    if(next===null)return;
+    e.preventDefault();setMode(tabIds[next]);
+    document.getElementById(tabIds[next]).focus();
+  });
+});
+
+/* ======================= RENDERING ======================= */
 function esc(s){return String(s??"").replace(/&/g,"&amp;").replace(/</g,"&lt;")
   .replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
 
@@ -566,7 +920,7 @@ function renderText(t){
   const lines=esc(t).split("\n");let html="",lt=null;
   const close=()=>{if(lt){html+=lt==="ol"?"</ol>":"</ul>";lt=null;}};
   for(const line of lines){
-    const s=line.trim(); if(!s)continue;
+    const s=line.trim();if(!s)continue;
     const b=s.match(/^[-*•]\s+(.*)$/),n=s.match(/^\d+[.)]\s+(.*)$/),h=s.match(/^#{1,6}\s+(.*)$/);
     if(b){if(lt!=="ul"){close();html+="<ul>";lt="ul";}html+="<li>"+inline(b[1])+"</li>";}
     else if(n){if(lt!=="ol"){close();html+="<ol>";lt="ol";}html+="<li>"+inline(n[1])+"</li>";}
@@ -578,38 +932,105 @@ function renderText(t){
 function inline(s){
   return s.replace(/\*\*([^*]+)\*\*/g,"<strong>$1</strong>")
     .replace(/__([^_]+)__/g,"<strong>$1</strong>")
-    .replace(/`([^`]+)`/g,"<code>$1</code>")
     .replace(/(https?:\/\/[^\s)<]+)/g,'<a href="$1" target="_blank" rel="noopener">$1</a>')
     .replace(/\[(\d{1,2})\]/g,'<a class="ref" href="#" data-ref="$1">$1</a>')
     .replace(/\*/g,"");
 }
-function addQ(t){const e=document.createElement("section");e.className="turn";
+function addQ(t){
+  const e=document.createElement("section");e.className="turn";
   e.innerHTML='<p class="q"></p>';e.querySelector(".q").textContent=t;
-  thread.appendChild(e);return e;}
-function addPending(){const e=document.createElement("section");e.className="turn";
-  e.innerHTML='<div class="thinking"><span class="pulse"></span><span>Searching the research…</span></div>';
-  thread.appendChild(e);e.scrollIntoView({behavior:"smooth",block:"nearest"});return e;}
-function renderA(el,text,sources,followups){
-  el.innerHTML='<div class="answer">'+renderText(text)+"</div>";
-  if(sources&&sources.length)attachSources(el,sources);
-  if(followups&&followups.length)attachFollowups(el,followups);
+  thread.appendChild(e);return e;
 }
-function renderFail(el,msg){el.innerHTML='<div class="failed"></div>';
-  el.querySelector(".failed").textContent=msg;}
-
-/* ---------- Asking (streaming, with fallback) ---------- */
-const stopBtn=document.getElementById("stop");
-let controller=null;
-
-function setBusy(on){
-  busy=on;
-  sendBtn.disabled=on;
-  stopBtn.hidden=!on;
+function addPending(){
+  const e=document.createElement("section");e.className="turn";
+  e.innerHTML='<div class="thinking"><span class="pulse"></span><span>Checking the guidelines…</span></div>';
+  thread.appendChild(e);e.scrollIntoView({behavior:"smooth",block:"nearest"});return e;
 }
 
-stopBtn.addEventListener("click",()=>{
-  if(controller)controller.abort();
-});
+/* Triage banner. Comes from the server's rules, not the model, so it renders
+   before a single word of the answer arrives. */
+function attachAlert(el,alert){
+  if(!alert||!alert.lines||!alert.lines.length)return;
+  if(el.querySelector(".alert"))return;
+  const box=document.createElement("div");
+  box.className="alert alert-"+(alert.level==="emergency"?"emergency":"soon");
+  const h=document.createElement("div");
+  h.className="alert-h";
+  h.textContent=alert.level==="emergency"?"Get help now":"See someone soon";
+  box.appendChild(h);
+  alert.lines.forEach(line=>{
+    const p=document.createElement("p");p.textContent=line;box.appendChild(p);
+  });
+  const first=el.querySelector(".support")||el.firstChild;
+  el.insertBefore(box,first||null);
+}
+
+function attachSupport(el,support){
+  if(!support||!support.items||!support.items.length)return;
+  const box=document.createElement("div");box.className="support";
+  const h=document.createElement("div");
+  h.className="support-h";h.textContent=support.title||"Support";
+  box.appendChild(h);
+  support.items.forEach(it=>{
+    const d=document.createElement("div");d.className="support-item";
+    const a=document.createElement("a");
+    a.href=it.href;a.target="_blank";a.rel="noopener";a.textContent=it.name;
+    d.appendChild(a);
+    if(it.detail){
+      const s=document.createElement("span");s.textContent=it.detail;d.appendChild(s);
+    }
+    box.appendChild(d);
+  });
+  el.insertBefore(box,el.firstChild||null);
+}
+
+function attachSources(el,sources){
+  if(!sources||!sources.length)return;
+  const box=document.createElement("div");box.className="cites";
+  box.innerHTML='<div class="cites-h">Sources</div>';
+  sources.forEach((s,i)=>{
+    const r=document.createElement("div");r.className="cite";r.dataset.n=i+1;
+    const m=s.type==="trial"
+      ?"Clinical trial"+(s.phase&&s.phase!=="N/A"?" \u00B7 "+esc(s.phase):"")
+      :[s.journal,s.pubdate].filter(Boolean).map(esc).join(" \u00B7 ");
+    r.innerHTML='<span class="cite-n">'+(i+1)+'</span><span><a href="'+esc(s.url)+
+      '" target="_blank" rel="noopener">'+esc(s.title)+"</a>"+
+      (m?'<br><span class="cite-m">'+m+"</span>":"")+"</span>";
+    box.appendChild(r);
+  });
+  el.appendChild(box);
+}
+
+function attachFollowups(el,list){
+  if(!list||!list.length)return;
+  const box=document.createElement("div");box.className="followups";
+  list.forEach(q=>{
+    const b=document.createElement("button");
+    b.className="fu";b.type="button";b.textContent=q;
+    b.addEventListener("click",()=>{box.remove();ask(q);});
+    box.appendChild(b);
+  });
+  el.appendChild(box);
+}
+
+function renderTurn(el,t){
+  el.innerHTML="";
+  const body=document.createElement("div");
+  body.className="answer";body.innerHTML=renderText(t.a);
+  el.appendChild(body);
+  attachSupport(el,t.support);
+  attachAlert(el,t.alert);
+  attachSources(el,t.sources||[]);
+  attachFollowups(el,t.followups||[]);
+}
+function renderFail(el,msg){
+  el.innerHTML='<div class="failed"></div>';
+  el.querySelector(".failed").textContent=msg;
+}
+
+/* ======================= ASKING ======================= */
+function setBusy(on){busy=on;sendBtn.disabled=on;stopBtn.hidden=!on;}
+stopBtn.addEventListener("click",()=>{if(controller)controller.abort();});
 
 async function ask(q){
   if(busy||!q.trim())return;
@@ -618,27 +1039,30 @@ async function ask(q){
 
   const turn=addPending();
   controller=new AbortController();
+  const profile=currentProfile();
 
-  let text="",sources=[],followups=[],streamed=false;
+  let text="",sources=[],followups=[],alert=null,support=null,streamed=false;
 
   const paint=()=>{
     let body=turn.querySelector(".answer");
     if(!body){
-      turn.innerHTML='<div class="answer streaming"></div>';
-      body=turn.querySelector(".answer");
+      // First chunk: clear the spinner, keep any banner already rendered
+      turn.querySelector(".thinking")?.remove();
+      body=document.createElement("div");
+      body.className="answer streaming";
+      turn.appendChild(body);
     }
     body.innerHTML=renderText(text);
   };
 
   const finish=()=>{
-    const body=turn.querySelector(".answer");
-    if(body)body.classList.remove("streaming");
-    if(sources.length)attachSources(turn,sources);
-    if(followups.length)attachFollowups(turn,followups);
+    turn.querySelector(".answer")?.classList.remove("streaming");
+    attachSources(turn,sources);
+    attachFollowups(turn,followups);
     history.push({role:"user",content:q});
     history.push({role:"assistant",content:text});
     if(history.length>8)history=history.slice(-8);
-    turns.push({q,a:text,sources,followups});
+    turns.push({q,a:text,sources,followups,alert,support});
     if(turns.length>30)turns=turns.slice(-30);
     save();reflectActions();
   };
@@ -646,7 +1070,7 @@ async function ask(q){
   try{
     const res=await fetch("/api/chat/stream",{
       method:"POST",headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({message:q,history}),signal:controller.signal});
+      body:JSON.stringify({message:q,history,profile}),signal:controller.signal});
 
     // Server refused before streaming started — read the JSON error
     if(!res.ok||!res.headers.get("content-type")?.includes("text/event-stream")){
@@ -670,7 +1094,9 @@ async function ask(q){
         let payload;
         try{payload=JSON.parse(line.slice(5).trim());}catch(e){continue;}
 
-        if(event==="sources"){sources=payload||[];}
+        if(event==="alert"){alert=payload;attachAlert(turn,alert);}
+        else if(event==="support"){support=payload;attachSupport(turn,support);}
+        else if(event==="sources"){sources=payload||[];}
         else if(event==="chunk"){text+=payload;streamed=true;paint();}
         else if(event==="followups"){followups=payload||[];}
         else if(event==="error"){throw new Error(payload);}
@@ -682,165 +1108,225 @@ async function ask(q){
 
   }catch(err){
     if(err.name==="AbortError"){
-      // User pressed Stop — keep whatever arrived
-      if(streamed)finish();
-      else turn.remove();
+      if(streamed)finish();else turn.remove();
     }else if(!streamed){
       // Nothing streamed: fall back to the non-streaming endpoint once
       try{
         const res=await fetch("/api/chat",{method:"POST",
           headers:{"Content-Type":"application/json"},
-          body:JSON.stringify({message:q,history})});
+          body:JSON.stringify({message:q,history,profile})});
         const data=await res.json();
         if(data.error)renderFail(turn,data.error);
         else{
           text=data.reply;sources=data.sources||[];
-          paint();finish();
+          alert=data.alert||null;
+          support=data.support?{title:"Support",items:data.support}:null;
+          paint();
+          attachSupport(turn,support);attachAlert(turn,alert);
+          finish();
         }
       }catch(e2){
         renderFail(turn,"Couldn't reach the server. Check your connection and try again.");
       }
-    }else{
-      finish();
-    }
+    }else finish();
   }
 
   controller=null;setBusy(false);input.focus();
 }
 
-function attachSources(el,sources){
-  if(!sources.length)return;
-  const box=document.createElement("div");box.className="cites";
-  box.innerHTML='<div class="cites-h">Sources</div>';
-  sources.forEach((s,i)=>{
-    const r=document.createElement("div");r.className="cite";r.dataset.n=i+1;
-    const m=s.type==="trial"
-      ?"Clinical trial"+(s.phase&&s.phase!=="N/A"?" \u00B7 "+esc(s.phase):"")
-      :[s.journal,s.pubdate].filter(Boolean).map(esc).join(" \u00B7 ");
-    r.innerHTML='<span class="cite-n">'+(i+1)+'</span><span><a href="'+esc(s.url)+
-      '" target="_blank" rel="noopener">'+esc(s.title)+"</a>"+
-      (m?'<br><span class="cite-m">'+m+"</span>":"")+"</span>";
-    box.appendChild(r);
+/* ======================= CALCULATORS =======================
+   All three run entirely here. Nothing is transmitted.
+   ========================================================== */
+const CALCS=[["c-fib4","calc-fib4"],["c-egfr","calc-egfr"],["c-bp","calc-bp"]];
+CALCS.forEach(([t])=>document.getElementById(t).addEventListener("click",()=>{
+  CALCS.forEach(([tab,pane])=>{
+    const on=tab===t;
+    document.getElementById(tab).setAttribute("aria-selected",on?"true":"false");
+    document.getElementById(pane).hidden=!on;
   });
-  el.appendChild(box);
-}
+}));
 
-function attachFollowups(el,list){
-  if(!list.length)return;
-  const box=document.createElement("div");box.className="followups";
-  list.forEach(q=>{
-    const b=document.createElement("button");
-    b.className="fu";b.type="button";b.textContent=q;
-    b.addEventListener("click",()=>{
-      box.remove();
-      ask(q);
-    });
-    box.appendChild(b);
-  });
-  el.appendChild(box);
-}
-
-/* ---------- Chips ---------- */
-document.querySelectorAll(".chip").forEach(c=>{
-  c.setAttribute("aria-pressed","false");
-  c.addEventListener("click",()=>{
-    const on=c.getAttribute("aria-pressed")==="true";
-    c.setAttribute("aria-pressed",on?"false":"true");
-    const box=c.closest(".chips");
-    if(!on&&c.dataset.v==="no symptoms at all"){
-      box.querySelectorAll(".chip").forEach(o=>{if(o!==c)o.setAttribute("aria-pressed","false");});
-    }else if(!on&&box.dataset.group==="symptoms"){
-      const none=box.querySelector('[data-v="no symptoms at all"]');
-      if(none)none.setAttribute("aria-pressed","false");
-    }
-  });
-});
-function picked(g){return[...document.querySelectorAll(
-  '.chips[data-group="'+g+'"] .chip[aria-pressed="true"]')].map(c=>c.dataset.v);}
-function joinList(a){
-  if(a.length===1)return a[0];
-  if(a.length===2)return a[0]+" and "+a[1];
-  return a.slice(0,-1).join(", ")+", and "+a[a.length-1];
-}
-document.getElementById("go-situation").addEventListener("click",()=>{
-  const h=picked("history"),s=picked("symptoms");
-  if(!h.length&&!s.length){input.focus();return;}
-  let q="Here is my situation. ";
-  if(h.length)q+="I have been diagnosed with "+joinList(h)+". ";
-  if(s.length)q+=s.includes("no symptoms at all")?"I have no symptoms right now. "
-    :"I am noticing "+joinList(s)+". ";
-  q+="What do published guidelines recommend for someone in my situation, how soon should "+
-     "I be seen, and what exactly should I ask my doctor?";
-  ask(q);
-});
-
-/* ---------- FIB-4 (runs entirely in this browser) ---------- */
+/* ---- FIB-4 (AASLD thresholds) ---- */
 document.getElementById("go-fib4").addEventListener("click",()=>{
   const age=parseFloat(document.getElementById("f-age").value),
         plt=parseFloat(document.getElementById("f-plt").value),
         ast=parseFloat(document.getElementById("f-ast").value),
-        alt=parseFloat(document.getElementById("f-alt").value);
-  const box=document.getElementById("fib-result");
+        alt=parseFloat(document.getElementById("f-alt").value),
+        box=document.getElementById("res-fib4");
 
   if(![age,plt,ast,alt].every(v=>Number.isFinite(v)&&v>0)){
     box.className="result show r-na";
     box.innerHTML="<p>Please fill in all four numbers.</p>";return;
   }
 
-  const score=(age*ast)/(plt*Math.sqrt(alt));
-  const v=score.toFixed(2);
+  const score=(age*ast)/(plt*Math.sqrt(alt)),v=score.toFixed(2);
 
   // Reliability caveats per AASLD guidance
   if(age<35){
     box.className="result show r-na";
     box.innerHTML='<p class="score">'+v+'</p><div class="band">Not reliable under 35</div>'+
-      "<p>FIB-4 is not accurate below age 35, so this number should not be used. A different "+
-      "test, such as elastography (a FibroScan), is the right next step if there is concern.</p>"+
-      '<p class="ask-about">Ask your doctor: “Given my age, should I have elastography rather '+
-      'than relying on FIB-4?”</p>';
-    return;
+      "<p>FIB-4 is not accurate below age 35, so this number shouldn't be used. "+
+      "Elastography (a FibroScan) is the right next step if there's concern.</p>"+
+      '<p class="ask-about">Ask your doctor: “Given my age, should I have elastography '+
+      'rather than relying on FIB-4?”</p>';return;
   }
   if(ast>300||alt>300||plt<50||plt>500){
     box.className="result show r-na";
     box.innerHTML='<p class="score">'+v+'</p><div class="band">May not be reliable</div>'+
-      "<p>One of your values is outside the range where FIB-4 performs well, so this score "+
-      "can be misleading. It also should not be used during an acute illness.</p>"+
-      '<p class="ask-about">Ask your doctor: “Are my liver numbers reliable enough right now '+
-      'to interpret a FIB-4 score?”</p>';
-    return;
+      "<p>One of these values sits outside the range where FIB-4 performs well, so the "+
+      "score can mislead. It also shouldn't be used during an acute illness.</p>"+
+      '<p class="ask-about">Ask your doctor: “Are my liver numbers stable enough right now '+
+      'to interpret a FIB-4 score?”</p>';return;
   }
 
   const lowCut=age>=65?2.0:1.3;
   let cls,band,body;
   if(score<lowCut){
     cls="r-low";band="Advanced scarring unlikely";
-    body="Scores below "+lowCut.toFixed(1)+" make advanced liver scarring unlikely. This does "+
-      "not rule out liver disease and says nothing about cancer — it means this particular "+
-      "screening test did not flag scarring.";
+    body="Scores below "+lowCut.toFixed(1)+" make advanced liver scarring unlikely. That "+
+      "doesn't rule out liver disease and says nothing about cancer — it means this "+
+      "particular screening test didn't flag scarring.";
   }else if(score<=2.67){
     cls="r-mid";band="Indeterminate — needs a second test";
-    body="Scores between "+lowCut.toFixed(1)+" and 2.67 fall in a grey zone that FIB-4 alone "+
-      "cannot settle. Guidelines recommend a follow-up test, usually elastography (FibroScan).";
+    body="Scores between "+lowCut.toFixed(1)+" and 2.67 sit in a grey zone FIB-4 alone "+
+      "can't settle. Guidelines recommend a follow-up test, usually elastography.";
   }else{
     cls="r-high";band="Advanced scarring possible";
-    body="Scores above 2.67 mean advanced scarring is possible and guidelines recommend "+
-      "referral to a liver specialist for confirmation. This is not a cancer result, and it "+
-      "is not a diagnosis — FIB-4 flags people who need a closer look, and many who screen "+
-      "high turn out not to have advanced scarring.";
+    body="Scores above 2.67 mean advanced scarring is possible, and guidelines recommend "+
+      "referral to a liver specialist to confirm. This is not a cancer result and not a "+
+      "diagnosis — FIB-4 flags people who need a closer look, and many who screen high "+
+      "turn out not to have advanced scarring.";
   }
 
   box.className="result show "+cls;
   box.innerHTML='<p class="score">'+v+'</p><div class="band">'+band+"</div><p>"+body+"</p>"+
-    "<p>This matters for cancer because people with advanced scarring or cirrhosis are the "+
-    "group guidelines recommend for twice-yearly liver cancer screening.</p>"+
-    '<p class="ask-about">Ask your doctor: “My FIB-4 is '+v+'. Should I have further fibrosis '+
-    'testing, and do I qualify for liver cancer surveillance?”</p>';
-
+    "<p>This matters because people with advanced scarring or cirrhosis are the group "+
+    "guidelines recommend for twice-yearly liver cancer surveillance.</p>"+
+    '<p class="ask-about">Ask your doctor: “My FIB-4 is '+v+'. Should I have further '+
+    'fibrosis testing, and do I qualify for liver cancer surveillance?”</p>';
   box.scrollIntoView({behavior:"smooth",block:"nearest"});
 });
 
-/* ---------- Saving ---------- */
-const KEY="hepatica.v2";
+/* ---- eGFR (CKD-EPI 2021, race-free) ---- */
+document.getElementById("go-egfr").addEventListener("click",()=>{
+  const age=parseFloat(document.getElementById("e-age").value),
+        sex=document.getElementById("e-sex").value,
+        unit=document.getElementById("e-unit").value,
+        box=document.getElementById("res-egfr");
+  let cr=parseFloat(document.getElementById("e-cr").value);
+
+  if(!Number.isFinite(age)||!Number.isFinite(cr)||cr<=0||!sex){
+    box.className="result show r-na";
+    box.innerHTML="<p>Please fill in age, sex and creatinine.</p>";return;
+  }
+  if(unit==="umol")cr=cr/88.4; // µmol/L → mg/dL
+
+  const female=sex==="female",
+        k=female?0.7:0.9,
+        a=female?-0.241:-0.302,
+        ratio=cr/k,
+        egfr=142*Math.pow(Math.min(ratio,1),a)*Math.pow(Math.max(ratio,1),-1.200)*
+             Math.pow(0.9938,age)*(female?1.012:1),
+        v=Math.round(egfr);
+
+  let cls,band,body;
+  if(egfr>=90){cls="r-low";band="G1 — normal or high";
+    body="An eGFR of 90 or above is in the normal range. On its own it doesn't rule out "+
+      "kidney disease, because damage can show in the urine while filtration still looks fine.";}
+  else if(egfr>=60){cls="r-low";band="G2 — mildly reduced";
+    body="Between 60 and 89 is mildly reduced. This alone isn't chronic kidney disease — "+
+      "that needs either an eGFR under 60 or protein in the urine, persisting past three months.";}
+  else if(egfr>=45){cls="r-mid";band="G3a — mild to moderate reduction";
+    body="Between 45 and 59. If this persists beyond three months it meets the definition "+
+      "of chronic kidney disease, which is managed rather than cured — usually in primary care at this stage.";}
+  else if(egfr>=30){cls="r-mid";band="G3b — moderate to severe reduction";
+    body="Between 30 and 44. Guidelines generally suggest kidney specialist input around "+
+      "this point, along with review of any medications cleared by the kidneys.";}
+  else if(egfr>=15){cls="r-high";band="G4 — severely reduced";
+    body="Between 15 and 29. Guidelines recommend nephrology referral at this level.";}
+  else{cls="r-high";band="G5 — kidney failure range";
+    body="Below 15. This level needs specialist kidney care.";}
+
+  box.className="result show "+cls;
+  box.innerHTML='<p class="score">'+v+' <span style="font-size:14px;opacity:.7">mL/min/1.73m²</span></p>'+
+    '<div class="band">'+band+"</div><p>"+body+"</p>"+
+    "<p>One reading isn't a diagnosis. eGFR is also unreliable during an acute illness, "+
+    "at very high or very low muscle mass, in pregnancy, and with creatine supplements.</p>"+
+    "<p><strong>The half that gets skipped:</strong> eGFR measures filtering. A urine "+
+    "albumin-to-creatinine ratio measures leaking, and damage often shows there first. "+
+    "Guidelines say people with diabetes or high blood pressure should have both, yearly. "+
+    "The urine test is the one most often missed.</p>"+
+    '<p class="ask-about">Ask your doctor: “My eGFR is '+v+'. Have I ever had a urine '+
+    'albumin-to-creatinine ratio, and should this be repeated to see whether it\u2019s persistent?”</p>';
+  box.scrollIntoView({behavior:"smooth",block:"nearest"});
+});
+
+/* ---- Blood pressure (ACC/AHA 2017) ---- */
+document.getElementById("go-bp").addEventListener("click",()=>{
+  const s=parseFloat(document.getElementById("b-sys").value),
+        d=parseFloat(document.getElementById("b-dia").value),
+        box=document.getElementById("res-bp");
+
+  if(!Number.isFinite(s)||!Number.isFinite(d)||s<=0||d<=0){
+    box.className="result show r-na";
+    box.innerHTML="<p>Please enter both numbers.</p>";return;
+  }
+  if(d>=s){
+    box.className="result show r-na";
+    box.innerHTML="<p>The top number should be higher than the bottom one — worth "+
+      "double-checking which is which.</p>";return;
+  }
+
+  const reading=Math.round(s)+"/"+Math.round(d);
+  let cls,band,body,ask;
+
+  if(s>180||d>120){
+    cls="r-high";band="Very high — act now";
+    body="A reading above 180 systolic or above 120 diastolic is what guidelines call a "+
+      "hypertensive crisis. Rest five minutes and measure again. If it stays this high, "+
+      "get medical attention today — and if you also have chest pain, breathlessness, "+
+      "weakness, vision change or a severe headache, call emergency services now.";
+    ask="Say at the appointment: “My blood pressure read "+reading+" at home and stayed "+
+      "high on repeat.”";
+  }else if(s>=140||d>=90){
+    cls="r-mid";band="Stage 2 hypertension range";
+    body="140 or above systolic, or 90 or above diastolic, falls in the stage 2 range. "+
+      "One reading doesn't diagnose anything — diagnosis normally needs a series, usually "+
+      "measured at home over a week or so.";
+    ask="Ask your doctor: “My readings are around "+reading+". Should I be doing home "+
+      "monitoring so we can see the real pattern?”";
+  }else if(s>=130||d>=80){
+    cls="r-mid";band="Stage 1 hypertension range";
+    body="130-139 systolic or 80-89 diastolic is the stage 1 range. What happens next "+
+      "depends heavily on overall cardiovascular risk, which is a conversation rather "+
+      "than a number.";
+    ask="Ask your doctor: “My readings are around "+reading+". Given my other risk "+
+      "factors, what should we do about it?”";
+  }else if(s>=120){
+    cls="r-low";band="Elevated";
+    body="120-129 systolic with a diastolic under 80 is classed as elevated rather than "+
+      "high. Guidelines treat this as a point to keep an eye on it.";
+    ask="Ask your doctor: “My readings are around "+reading+". How often should I be "+
+      "rechecking?”";
+  }else{
+    cls="r-low";band="Normal range";
+    body="Under 120 and under 80 is the normal range. Guidelines still recommend all "+
+      "adults have their blood pressure checked periodically, since it drifts silently.";
+    ask="Ask your doctor: “How often should someone my age be getting blood pressure "+
+      "checked?”";
+  }
+
+  box.className="result show "+cls;
+  box.innerHTML='<p class="score">'+reading+'</p><div class="band">'+band+"</div>"+
+    "<p>"+body+"</p>"+
+    "<p>Readings shift with a full bladder, caffeine, talking during measurement, crossed "+
+    "legs, and cuff size. An arm cuff that's too small reads high.</p>"+
+    '<p class="ask-about">'+ask+"</p>";
+  box.scrollIntoView({behavior:"smooth",block:"nearest"});
+});
+
+/* ======================= SAVING ======================= */
+const KEY="anteroom.v1";
 function save(){try{localStorage.setItem(KEY,JSON.stringify({turns}));}catch(e){}}
 function restore(){
   let raw;try{raw=localStorage.getItem(KEY);}catch(e){return;}
@@ -851,7 +1337,7 @@ function restore(){
   for(const t of d.turns){
     addQ(t.q);
     const e=document.createElement("section");e.className="turn";thread.appendChild(e);
-    renderA(e,t.a,t.sources||[],t.followups||[]);
+    renderTurn(e,t);
     history.push({role:"user",content:t.q});
     history.push({role:"assistant",content:t.a});
   }
@@ -859,7 +1345,8 @@ function restore(){
   if(history.length>8)history=history.slice(-8);
   reflectActions();
 }
-/* ---------- Action bar ---------- */
+
+/* ======================= ACTION BAR ======================= */
 const actions=document.getElementById("actions");
 function reflectActions(){actions.hidden=turns.length===0;}
 
@@ -875,14 +1362,17 @@ document.getElementById("act-print").addEventListener("click",()=>window.print()
 document.getElementById("act-copy").addEventListener("click",async e=>{
   const btn=e.currentTarget,original=btn.textContent;
   const text=turns.map(t=>{
-    let block="Q: "+t.q+"\n\n"+t.a;
+    let block="Q: "+t.q+"\n\n";
+    if(t.alert&&t.alert.lines)block+="["+(t.alert.level==="emergency"
+      ?"GET HELP NOW":"SEE SOMEONE SOON")+"] "+t.alert.lines.join(" ")+"\n\n";
+    block+=t.a;
     if(t.sources&&t.sources.length){
       block+="\n\nSources:\n"+t.sources
         .map((s,i)=>"  ["+(i+1)+"] "+s.title+" — "+s.url).join("\n");
     }
     return block;
   }).join("\n\n———\n\n")+
-  "\n\n———\nFrom Hepatica. Educational information only, not a diagnosis.";
+  "\n\n———\nFrom Anteroom. Educational information only, not a diagnosis.";
 
   try{
     await navigator.clipboard.writeText(text);
@@ -900,25 +1390,7 @@ document.getElementById("act-copy").addEventListener("click",async e=>{
   setTimeout(()=>{btn.textContent=original;},1800);
 });
 
-/* ---------- Tab keyboard navigation ---------- */
-const tabIds=MODES.map(([m])=>m);
-tabIds.forEach((id,i)=>{
-  const el=document.getElementById(id);
-  el.setAttribute("tabindex", el.getAttribute("aria-selected")==="true"?"0":"-1");
-  el.addEventListener("keydown",e=>{
-    let next=null;
-    if(e.key==="ArrowRight")next=(i+1)%tabIds.length;
-    else if(e.key==="ArrowLeft")next=(i-1+tabIds.length)%tabIds.length;
-    else if(e.key==="Home")next=0;
-    else if(e.key==="End")next=tabIds.length-1;
-    if(next===null)return;
-    e.preventDefault();
-    setMode(tabIds[next]);
-    document.getElementById(tabIds[next]).focus();
-  });
-});
-
-/* ---------- Citation jumps ---------- */
+/* ======================= CITATION JUMPS ======================= */
 thread.addEventListener("click",e=>{
   const ref=e.target.closest(".ref");if(!ref)return;
   e.preventDefault();
@@ -929,21 +1401,23 @@ thread.addEventListener("click",e=>{
   t.classList.add("flash");setTimeout(()=>t.classList.remove("flash"),1400);
 });
 
-/* ---------- Composer ---------- */
+/* ======================= COMPOSER ======================= */
 form.addEventListener("submit",e=>{e.preventDefault();ask(input.value.trim());});
 document.querySelectorAll(".slip").forEach(s=>{
   s.addEventListener("click",()=>{
     if(s.textContent.includes("explain a report")){
       setMode("m-ask");
-      input.value="I have a report I don't understand. Please explain what these terms mean, "+
-        "without telling me what my results mean for me:\n\n";
+      input.value="I have a report I don't understand. Please explain what these terms "+
+        "mean, without telling me what my results mean for me:\n\n";
       input.focus();input.setSelectionRange(input.value.length,input.value.length);
       resize();input.scrollIntoView({behavior:"smooth",block:"center"});
     }else ask(s.textContent.trim());
   });
 });
-function resize(){input.style.height="auto";
-  input.style.height=Math.min(input.scrollHeight,180)+"px";}
+function resize(){
+  input.style.height="auto";
+  input.style.height=Math.min(input.scrollHeight,180)+"px";
+}
 input.addEventListener("input",resize);
 input.addEventListener("keydown",e=>{
   if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();form.requestSubmit();}});
