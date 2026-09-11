@@ -1,10 +1,33 @@
 services:
   - type: web
-    name: liver-cancer-assistant
+    name: anteroom
     runtime: node
     plan: free
     buildCommand: npm install
     startCommand: npm start
+
+    # Render pings this to know the instance is alive. Without it, Render only
+    # checks that the port is open, so a half-broken app can look healthy.
+    healthCheckPath: /api/health
+
     envVars:
+      # sync: false means Render prompts you for the value instead of storing
+      # it in this file. Never commit an API key.
       - key: GEMINI_API_KEY
         sync: false
+
+      # Pinned so a future Node default on Render can't silently change
+      # runtime behaviour under you.
+      - key: NODE_VERSION
+        value: "20"
+
+      # Optional. Only set this if Google retires the default model name.
+      # Current free-tier models: https://ai.google.dev/gemini-api/docs/models
+      - key: GEMINI_MODEL
+        value: gemini-flash-latest
+
+      # Leave this OFF in production. Setting it to "true" exposes raw error
+      # text to visitors — useful for ten minutes of debugging, bad forever
+      # after that.
+      - key: SHOW_ERRORS
+        value: "false"
