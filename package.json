@@ -1,7 +1,7 @@
 {
-  "name": "liver-cancer-research-assistant-free",
-  "version": "1.0.0",
-  "description": "Educational liver cancer research assistant running entirely on free tiers: Google Gemini, PubMed, ClinicalTrials.gov, Render.",
+  "name": "anteroom",
+  "version": "2.0.0",
+  "description": "Anteroom — an educational health assistant that explains what guidelines recommend for your situation, how soon to be seen, and what to ask. Runs entirely on free tiers: Google Gemini, Europe PMC, PubMed, ClinicalTrials.gov, Render.",
   "type": "module",
   "main": "server.js",
   "scripts": {
@@ -9,10 +9,10 @@
     "dev": "node --watch server.js"
   },
   "dependencies": {
-    "express": "^4.19.2",
-    "express-rate-limit": "^7.4.0",
-    "helmet": "^7.1.0",
-    "compression": "^1.7.4"
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.5.0",
+    "helmet": "^8.0.0",
+    "compression": "^1.7.5"
   },
   "engines": {
     "node": ">=18.0.0"
